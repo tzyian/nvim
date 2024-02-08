@@ -1,4 +1,4 @@
 return {
-	-- to configure
-	"ThePrimeagen/harpoon",
+  -- to configure
+  "ThePrimeagen/harpoon",
 }
