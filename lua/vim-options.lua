@@ -46,15 +46,19 @@ vim.keymap.set("t", "<C-w>j", "<C-\\><C-n><C-w>j", { silent = true })
 vim.keymap.set("t", "<C-w>k", "<C-\\><C-n><C-w>k", { silent = true })
 vim.keymap.set("t", "<C-w>l", "<C-\\><C-n><C-w>l", { silent = true })
 
+-- Comment remaps
+vim.keymap.set("n", "<C-/>", "gcc", { desc = "Comment line", silent = true })
+vim.keymap.set("v", "<C-/>", "gc", { desc = "Comment line", silent = true })
+
 -- Open terminal
 vim.keymap.set("n", "<leader>t", ":vsplit<CR>:term<CR>a", { silent = true, desc = "Open [t]erminal" })
 
--- Etc
+-- Highlight yanked text
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	pattern = "*",
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = "*",
 })
