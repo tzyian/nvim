@@ -50,6 +50,7 @@ return {
         dotfiles = true,
         git_ignored = false,
       },
+<<<<<<< HEAD
       view = {
         number = true,
       },
@@ -58,6 +59,8 @@ return {
           enable = true,
         },
       },
+=======
+>>>>>>> e806877fa14ade07c7f51eb592f7ccbb015abded
     })
   end,
 }
