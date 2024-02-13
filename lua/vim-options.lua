@@ -28,12 +28,8 @@ vim.keymap.set("n", "<Esc><Esc>", ":nohlsearch<CR>", { silent = true })
 vim.keymap.set("n", "x", '"_x', { noremap = true })
 vim.keymap.set("n", "<Del>", '"_x', { noremap = true })
 
--- Switch tabs quickly
--- vim.keymap.set("n", "<C-H>", ":tabprevious<CR>", { silent = true })
--- vim.keymap.set("n", "<C-L>", ":tabnext<CR>", { silent = true })
---
 -- Switch buffers quickly
-vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", { silent = true })
+vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", { desc = "Buffer [d]elete", silent = true })
 vim.keymap.set("n", "[d", ":bp<CR>", { silent = true })
 vim.keymap.set("n", "]d", ":bn<CR>", { silent = true })
 

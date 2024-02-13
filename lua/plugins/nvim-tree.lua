@@ -1,4 +1,3 @@
--- return {
 -- 	"nvim-neo-tree/neo-tree.nvim",
 -- 	branch = "v3.x",
 -- 	dependencies = {
@@ -47,22 +46,26 @@ return {
 		require("nvim-tree").setup({
 			on_attach = on_attach_change,
 			-- update_focused_file = {
-			--  enable = true,
-			--  update_root = true,
+			-- 	enable = true,
+			-- 	update_root = true,
 			-- },
 			filters = {
 				dotfiles = true,
 				git_ignored = false,
 			},
 			view = {
-				number = true,
+				-- number = true,
+				relativenumber = true,
 			},
 			renderer = {
 				indent_markers = {
 					enable = true,
 				},
-				highlight_git = "name",
-				highlight_diagnostics = "icon",
+				highlight_git = "all",
+			},
+			diagnostics = {
+				enable = true,
+				show_on_dirs = true,
 			},
 		})
 	end,
