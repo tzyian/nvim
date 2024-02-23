@@ -30,17 +30,20 @@ vim.keymap.set("n", "<Del>", '"_x', { noremap = true })
 
 -- Switch buffers quickly
 vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", { desc = "Buffer [d]elete", silent = true })
-vim.keymap.set("n", "[d", ":bp<CR>", { silent = true })
-vim.keymap.set("n", "]d", ":bn<CR>", { silent = true })
+vim.keymap.set("n", "[b", ":bp<CR>", { silent = true, desc = "Previous [b]uffer" })
+vim.keymap.set("n", "]b", ":bn<CR>", { silent = true, desc = "Next [b]uffer" })
+vim.keymap.set("n", "<leader>bp", ":bp<CR>", { silent = true, desc = "Previous [b]uffer" })
+vim.keymap.set("n", "<leader>bn", ":bp<CR>", { silent = true, desc = "Next [b]uffer" })
 
 -- Completion
 vim.o.completeopt = "menuone,noselect,noinsert"
 
 -- Diagnostics
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>qq", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set("n", "<leader>ql", vim.diagnostic.setloclist, { desc = "Open diagnostics [l]ist" })
 vim.keymap.set("n", "<leader>qh", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "<leader>ql", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })

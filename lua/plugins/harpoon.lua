@@ -1,4 +1,4 @@
 return {
-  -- to configure
-  "ThePrimeagen/harpoon",
+	-- TODO: to configure
+	"ThePrimeagen/harpoon",
 }

@@ -1,4 +1,4 @@
 return {
-  -- to configure
-  "mbbill/undotree",
+	-- TODO: to configure
+	"mbbill/undotree",
 }
