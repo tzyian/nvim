@@ -9,11 +9,11 @@ return {
 			["<leader>d"] = { name = "[D]ebug", _ = "which_key_ignore" },
 			["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
 			["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
-			["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
 			["<leader>t"] = { name = "Vsplit [T]erminal", _ = "which_key_ignore" },
 			["<leader>T"] = { name = "Split [T]erminal", _ = "which_key_ignore" },
 			["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
 			["<leader>q"] = { name = "Diagnostics", _ = "which_key_ignore" },
+			["<leader>s"] = { name = "[S]ession", _ = "which_key_ignore" },
 		})
 
 		-- register which-key VISUAL mode

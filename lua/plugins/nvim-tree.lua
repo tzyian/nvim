@@ -19,6 +19,7 @@
 return {
 	"nvim-tree/nvim-tree.lua",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
+	lazy = false,
 	config = function()
 		local function on_attach_change(bufnr)
 			local api = require("nvim-tree.api")
@@ -45,10 +46,10 @@ return {
 
 		require("nvim-tree").setup({
 			on_attach = on_attach_change,
-			-- update_focused_file = {
-			-- 	enable = true,
-			-- 	update_root = true,
-			-- },
+			update_focused_file = {
+				enable = true,
+				update_root = true,
+			},
 			filters = {
 				dotfiles = true,
 				git_ignored = false,

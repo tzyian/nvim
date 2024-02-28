@@ -18,8 +18,9 @@ vim.o.clipboard = "unnamedplus"
 -- Line numbers
 vim.o.number = true
 vim.o.rnu = true
-vim.o.statuscolumn = "%s %l %r "
-vim.wo.signcolumn = "yes"
+-- vim.o.statuscolumn = "%s %l %r "
+vim.wo.signcolumn = "auto:1"
+vim.wo.foldcolumn = "auto:1"
 
 -- Remove highlights after searching
 vim.keymap.set("n", "<Esc><Esc>", ":nohlsearch<CR>", { silent = true })
@@ -49,6 +50,10 @@ vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnos
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
+-- Open terminal
+vim.keymap.set("n", "<leader>t", ":vsplit<CR>:term<CR>a", { silent = true, desc = "Open [t]erminal" })
+vim.keymap.set("n", "<leader>T", ":sp<CR>:term<CR>a", { silent = true, desc = "Open [T]erminal" })
+
 -- Escape terminal mode
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true })
 vim.keymap.set("t", "<C-w>h", "<C-\\><C-n><C-w>h", { silent = true })
@@ -60,10 +65,6 @@ vim.keymap.set("t", "<C-w>q", "<C-\\><C-n><C-w>q", { silent = true })
 -- Comment remaps (not working)
 -- vim.keymap.set("n", "<c-_>", "gcc", { desc = "Comment line", silent = true })
 -- vim.keymap.set("v", "<c-_>", "gc", { desc = "Comment line", silent = true })
-
--- Open terminal
-vim.keymap.set("n", "<leader>t", ":vsplit<CR>:term<CR>a", { silent = true, desc = "Open [t]erminal" })
-vim.keymap.set("n", "<leader>T", ":sp<CR>:term<CR>a", { silent = true, desc = "Open [T]erminal" })
 
 -- Highlight yanked text
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })

@@ -1,32 +1,60 @@
-return {
-  "nvimtools/none-ls.nvim",
-  config = function()
-    local null_ls = require("null-ls")
-    local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-    null_ls.setup({
-      sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.diagnostics.erb_lint,
-        null_ls.builtins.diagnostics.eslint_d,
-      },
-
-      on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/formatting") then
-          vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-              -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-              -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
-              vim.lsp.buf.format({ async = false })
-            end,
-          })
-        end
-      end,
-    })
-
-    vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "[C]ode [F]ormat" })
-  end,
-}
+return {}
+-- return {
+-- 	"nvimtools/none-ls.nvim",
+-- 	config = function()
+-- 		local null_ls = require("null-ls")
+--
+-- 		-- Switch for controlling whether you want autoformatting.
+-- 		local format_is_enabled = true
+-- 		vim.api.nvim_create_user_command("FormatToggle", function()
+-- 			format_is_enabled = not format_is_enabled
+-- 			print("Setting autoformatting to: " .. tostring(format_is_enabled))
+-- 		end, {})
+-- 		vim.keymap.set({ "n", "v" }, "<leader>ct", ":FormatToggle<CR>", { desc = "Toggle Format" })
+--
+-- 		-- Create an augroup that is used for managing our formatting autocmds.
+-- 		--      We need one augroup per client to make sure that multiple clients
+-- 		--      can attach to the same buffer without interfering with each other.
+-- 		local _augroups = {}
+-- 		local get_augroup = function(client)
+-- 			if not _augroups[client.id] then
+-- 				local group_name = "kickstart-lsp-format-" .. client.name
+-- 				local id = vim.api.nvim_create_augroup(group_name, { clear = true })
+-- 				_augroups[client.id] = id
+-- 			end
+--
+-- 			return _augroups[client.id]
+-- 		end
+--
+-- 		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+-- 		null_ls.setup({
+-- 			sources = {
+-- 				null_ls.builtins.formatting.stylua,
+-- 				null_ls.builtins.formatting.prettier,
+-- 				null_ls.builtins.diagnostics.erb_lint,
+-- 				null_ls.builtins.diagnostics.shellcheck,
+-- 				null_ls.builtins.diagnostics.markdownlint,
+-- 				null_ls.builtins.formatting.black,
+-- 				null_ls.builtins.formatting.isort,
+-- 				-- null_ls.builtins.diagnostics.eslint_d,
+-- 			},
+--
+-- 			on_attach = function(client, bufnr)
+-- 				if format_is_enabled and client.supports_method("textDocument/formatting") then
+-- 					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+-- 					vim.api.nvim_create_autocmd("BufWritePre", {
+-- 						group = augroup,
+-- 						buffer = bufnr,
+-- 						callback = function()
+-- 							-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+-- 							-- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
+-- 							vim.lsp.buf.format({ async = false })
+-- 						end,
+-- 					})
+-- 				end
+-- 			end,
+-- 		})
+--
+-- 		vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "[C]ode [F]ormat" })
+-- 	end,
+-- }
