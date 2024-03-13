@@ -1,5 +1,6 @@
 return {
 	"chentoast/marks.nvim",
+	event = "VeryLazy",
 	opts = {
 		-- whether to map keybinds or not. default true
 		default_mappings = true,

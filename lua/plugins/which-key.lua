@@ -1,5 +1,6 @@
 return {
 	"folke/which-key.nvim",
+	event = "VeryLazy",
 	opts = function()
 		-- document existing key chains
 		require("which-key").register({
@@ -14,6 +15,12 @@ return {
 			["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
 			["<leader>q"] = { name = "Diagnostics", _ = "which_key_ignore" },
 			["<leader>s"] = { name = "[S]ession", _ = "which_key_ignore" },
+			["<leader>r"] = { name = "Snip[R]un", _ = "which_key_ignore" },
+			["<leader>m"] = { name = "[M]isc Config", _ = "which_key_ignore" },
+
+			-- Prefixes
+			["<leader>ct"] = { name = "Toggle format", _ = "which_key_ignore" },
+			["<leader>ht"] = { name = "Toggle", _ = "which_key_ignore" },
 		})
 
 		-- register which-key VISUAL mode

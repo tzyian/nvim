@@ -1,7 +1,8 @@
 return {
 	{
 		"williamboman/mason.nvim",
-		lazy = false,
+		-- lazy = false,
+		event = "VeryLazy",
 		config = function()
 			require("mason").setup()
 		end,
@@ -9,7 +10,8 @@ return {
 
 	{
 		"williamboman/mason-lspconfig.nvim",
-		lazy = false,
+		-- lazy = false,
+		event = "VeryLazy",
 		opts = {
 			auto_install = true,
 		},
@@ -17,7 +19,8 @@ return {
 
 	{
 		"neovim/nvim-lspconfig",
-		lazy = false,
+		-- lazy = false,
+		event = "VeryLazy",
 		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
 			{ "williamboman/mason.nvim", config = true },
@@ -82,6 +85,9 @@ return {
 				end,
 			})
 
+			-- Using KickStart format here to avoid needing to add none-ls formatters
+			-- until I need more finegrained control.
+			--
 			-- Switch for controlling whether you want autoformatting.
 			--  Use :KickstartFormatToggle to toggle autoformatting on or off
 			local format_is_enabled = true
@@ -89,7 +95,17 @@ return {
 				format_is_enabled = not format_is_enabled
 				print("Setting autoformatting to: " .. tostring(format_is_enabled))
 			end, {})
-			vim.keymap.set({ "n", "v" }, "<leader>ct", ":KickstartFormatToggle<CR>", { desc = "Toggle Format" })
+			vim.api.nvim_create_user_command("KickstartFormatEnable", function()
+				format_is_enabled = true
+				print("Setting autoformatting to: " .. tostring(format_is_enabled))
+			end, {})
+			vim.api.nvim_create_user_command("KickstartFormatDisable", function()
+				format_is_enabled = false
+				print("Setting autoformatting to: " .. tostring(format_is_enabled))
+			end, {})
+			vim.keymap.set("n", "<leader>ctt", ":KickstartFormatToggle<CR>", { desc = "Toggle Format" })
+			vim.keymap.set("n", "<leader>cte", ":KickstartFormatEnable<CR>", { desc = "Enable Format" })
+			vim.keymap.set("n", "<leader>ctd", ":KickstartFormatDisable<CR>", { desc = "Disable Format" })
 
 			-- Create an augroup that is used for managing our formatting autocmds.
 			--      We need one augroup per client to make sure that multiple clients
@@ -126,6 +142,20 @@ return {
 					if client.name == "tsserver" then
 						return
 					end
+
+
+					-- local client = vim.lsp.get_client_by_id(event.data.client_id)
+					-- if client and client.server_capabilities.documentHighlightProvider then
+					-- 	vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+					-- 		buffer = event.buf,
+					-- 		callback = vim.lsp.buf.document_highlight,
+					-- 	})
+					--
+					-- 	vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+					-- 		buffer = event.buf,
+					-- 		callback = vim.lsp.buf.clear_references,
+					-- 	})
+					-- end
 
 					-- Create an autocmd that will run *before* we save the buffer.
 					--  Run the formatting command for the LSP that has just attached.

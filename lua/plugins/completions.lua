@@ -1,9 +1,11 @@
 return {
   {
     "hrsh7th/cmp-nvim-lsp",
+    event = "VeryLazy",
   },
   {
     "L3MON4D3/LuaSnip",
+    event = "VeryLazy",
     dependencies = {
       "saadparwaiz1/cmp_luasnip",
       "rafamadriz/friendly-snippets",
@@ -11,6 +13,7 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
+    event = "VeryLazy",
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")

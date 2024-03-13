@@ -1,5 +1,6 @@
 return {
 	"mrjones2014/smart-splits.nvim",
+	event = "VeryLazy",
 	config = function()
 		local builtin = require("smart-splits")
 		-- resizing splits

@@ -1,5 +1,6 @@
 return {
 	"michaelb/sniprun",
+	event = "VeryLazy",
 	branch = "master",
 
 	build = "sh install.sh",
@@ -11,10 +12,10 @@ return {
 			-- your options
 		})
 
-		vim.keymap.set({ "n", "v" }, "<leader>rr", ":SnipRun<CR>", { silent = true, desc = "Run SnipRun" })
+		vim.keymap.set({ "n", "v" }, "<leader>rl", ":SnipRun<CR>", { silent = true, desc = "Run SnipRun" })
 
 		vim.keymap.set({ "n", "v" }, "<leader>rc", ":SnipClose<CR>", { silent = true, desc = "Close SnipRun" })
 
-		vim.keymap.set({ "n", "v" }, "<leader>rf", ":%SnipRun<CR>", { silent = true, desc = "SnipRun whole file" })
+		vim.keymap.set({ "n", "v" }, "<leader>rr", ":%SnipRun<CR>", { silent = true, desc = "SnipRun whole file" })
 	end,
 }

@@ -36,12 +36,15 @@ return {
 
 			api.config.mappings.default_on_attach(bufnr)
 
-			vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>", { silent = true, desc = "Ope[n] file tree" })
+			vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>",
+				{ silent = true, desc = "Ope[n] file tree" })
 			vim.keymap.set("n", ".", api.tree.change_root_to_node, opts("CD"))
 			vim.keymap.set("n", "<BS>", api.tree.change_root_to_parent, opts("Up"))
 			vim.keymap.set("n", ",", api.node.run.cmd, opts("Run Command"))
 			vim.keymap.set("n", "<C-s>", api.node.open.vertical, opts("Open: Vertical Split"))
 			vim.keymap.set("n", "<C-x>", api.node.open.horizontal, opts("Open: Horizontal Split"))
+			vim.keymap.del("n", "<C-v>", { buffer = bufnr })
+			vim.keymap.del("n", "<c-e>", { buffer = bufnr })
 		end
 
 		require("nvim-tree").setup({
