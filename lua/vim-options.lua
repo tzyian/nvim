@@ -47,7 +47,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Preview substitutions live, as you type!
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 
 -- Gutter
 -- vim.o.statuscolumn = "%s %l %r "
@@ -101,8 +101,12 @@ vim.keymap.set("t", "<C-w>q", "<C-\\><C-n><C-w>q", { silent = true })
 vim.keymap.set("n", "<leader>ml", ":Lazy<CR>", { desc = ":Lazy" })
 vim.keymap.set("n", "<leader>mm", ":Mason<CR>", { desc = ":Mason" })
 vim.keymap.set("n", "<leader>mi", ":LspInfo<CR>", { desc = "LspInfo" })
-vim.keymap.set("n", "<leader>mc", ":tabnew<CR>:cd ~/.config/nvim<CR>:NvimTreeOpen<CR>",
-	{ noremap = true, desc = "Edit config" })
+vim.keymap.set(
+	"n",
+	"<leader>mc",
+	":tabnew ~/.config/nvim/<CR>:cd ~/.config/nvim<CR>",
+	{ noremap = true, desc = "Edit config" }
+)
 
 -- Highlight yanked text
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })

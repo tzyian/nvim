@@ -1,44 +1,16 @@
 return {
-  {
-    "catppuccin/nvim",
-    lazy = false,
-    name = "catppuccin",
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme("catppuccin")
+	"catppuccin/nvim",
+	-- lazy = false,
+	event = "BufWinEnter",
+	name = "catppuccin",
+	priority = 1000,
+	config = function()
+		vim.cmd.colorscheme("catppuccin")
 
-      -- require("catppuccin").setup({
-      --   custom_highlights = function(colors)
-      --     return {
-      --       FlashLabel = { bg = "#ffffff", fg = "#333333" },
-      --       -- FlashLabel = { fg = colors.black, bg = colors.red, style = { "bold" } },
-      --     }
-      --   end,
-      --   highlight_overrides = {
-      --     all = function(colors)
-      --       return {
-      --         FlashLabel = { bg = "#ffffff", fg = "#333333" },
-      --         -- FlashLabel = { fg = colors.black, bg = colors.red, style = { "bold" } },
-      --       }
-      --     end,
-      --     mocha = function(colors)
-      --       return {
-      --         FlashLabel = { bg = "#ffffff", fg = "#333333" },
-      --         -- FlashLabel = { fg = colors.black, bg = colors.red, style = { "bold" } },
-      --       }
-      --     end,
-      --   },
-      --   integrations = {
-      --     flash = false
-      --   }
-      -- })
-
-
-      vim.cmd([[
+		vim.cmd([[
         hi! FlashLabel guifg=black guibg=orange
       ]])
-    end
-  }
+	end,
 }
 --[[
   {

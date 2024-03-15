@@ -1,69 +1,91 @@
-return {}
---   "nvimtools/none-ls.nvim",
---   config = function()
---     local null_ls = require("null-ls")
---
---     -- Switch for controlling whether you want autoformatting.
---     local format_is_enabled = true
---     vim.api.nvim_create_user_command("KickstartFormatToggle", function()
---       format_is_enabled = not format_is_enabled
---       print("Setting autoformatting to: " .. tostring(format_is_enabled))
---     end, {})
---     vim.api.nvim_create_user_command("KickstartFormatEnable", function()
---       format_is_enabled = true
---       print("Setting autoformatting to: " .. tostring(format_is_enabled))
---     end, {})
---     vim.api.nvim_create_user_command("KickstartFormatDisable", function()
---       format_is_enabled = false
---       print("Setting autoformatting to: " .. tostring(format_is_enabled))
---     end, {})
---     vim.keymap.set("n", "<leader>ctt", ":KickstartFormatToggle<CR>", { desc = "Toggle Format" })
---     vim.keymap.set("n", "<leader>cte", ":KickstartFormatEnable<CR>", { desc = "Enable Format" })
---     vim.keymap.set("n", "<leader>ctd", ":KickstartFormatDisable<CR>", { desc = "Disable Format" })
---
---     -- Create an augroup that is used for managing our formatting autocmds.
---     --      We need one augroup per client to make sure that multiple clients
---     --      can attach to the same buffer without interfering with each other.
---     local _augroups = {}
---     local get_augroup = function(client)
---       if not _augroups[client.id] then
---         local group_name = "kickstart-lsp-format-" .. client.name
---         local id = vim.api.nvim_create_augroup(group_name, { clear = true })
---         _augroups[client.id] = id
---       end
---
---       return _augroups[client.id]
---     end
---
---     local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
---     null_ls.setup({
---       sources = {
---         null_ls.builtins.formatting.stylua,
---         null_ls.builtins.formatting.prettier,
---         null_ls.builtins.diagnostics.erb_lint,
---         null_ls.builtins.diagnostics.shellcheck,
---         null_ls.builtins.diagnostics.markdownlint,
---         null_ls.builtins.formatting.black,
---         null_ls.builtins.formatting.isort,
---         -- null_ls.builtins.diagnostics.eslint_d,
---       },
---
---       on_attach = function(client, bufnr)
---         if format_is_enabled and client.supports_method("textDocument/formatting") then
---           vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
---           vim.api.nvim_create_autocmd("BufWritePre", {
---             group = augroup,
---             buffer = bufnr,
---             callback = function()
---               -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
---               -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
---               vim.lsp.buf.format({ async = false })
---             end,
---           })
---         end
---       end,
---     })
---
---     vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "[C]ode [F]ormat" })
---   end,
--- }
+-- return {}
+return {
+	"nvimtools/none-ls.nvim",
+	event = "VeryLazy",
+	config = function()
+		local null_ls = require("null-ls")
+
+		vim.api.nvim_create_user_command("FormatDisable", function(args)
+			if args.bang then
+				-- FormatDisable! will disable formatting just for this buffer
+				vim.b.disable_autoformat = true
+			else
+				vim.g.disable_autoformat = true
+			end
+		end, {
+			desc = "Disable autoformat-on-save",
+			bang = true,
+		})
+		vim.api.nvim_create_user_command("FormatEnable", function()
+			vim.b.disable_autoformat = false
+			vim.g.disable_autoformat = false
+		end, {
+			desc = "Re-enable autoformat-on-save",
+		})
+
+		vim.keymap.set("n", "<leader>ctg", ":FormatDisable!<CR>", { desc = "Disable format on save (buffer)" })
+		vim.keymap.set("n", "<leader>ctG", ":FormatDisable<CR>", { desc = "Disable format on save globally" })
+		vim.keymap.set("n", "<leader>cte", ":FormatEnable!<CR>", { desc = "Enable format on save (buffer)" })
+		vim.keymap.set("n", "<leader>ctE", ":FormatEnable<CR>", { desc = "Enable format on save globally" })
+
+		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+		null_ls.setup({
+			sources = {
+				null_ls.builtins.formatting.stylua,
+
+				null_ls.builtins.formatting.prettier,
+				-- null_ls.builtins.formatting.rustywind,
+				-- null_ls.builtins.diagnostics.eslint_d,
+
+				-- null_ls.builtins.diagnostics.erb_lint,
+
+				-- null_ls.builtins.diagnostics.shellcheck,
+				null_ls.builtins.formatting.shfmt,
+				null_ls.builtins.formatting.shellharden,
+
+				-- null_ls.builtins.diagnostics.markdownlint,
+
+				null_ls.builtins.formatting.black,
+				null_ls.builtins.formatting.isort,
+
+				null_ls.builtins.formatting.yamlfmt,
+				null_ls.builtins.diagnostics.yamllint,
+				--
+				null_ls.builtins.formatting.ocamlformat,
+
+				null_ls.builtins.formatting.goimports,
+				null_ls.builtins.formatting.gofmt,
+				null_ls.builtins.diagnostics.golangci_lint,
+
+				null_ls.builtins.formatting.clang_format,
+				null_ls.builtins.diagnostics.cppcheck,
+
+				-- null_ls.builtins.diagnostics.codespell,
+			},
+
+			on_attach = function(client, bufnr)
+				if vim.b[bufnr].disable_autoformat or vim.g.disable_autoformat then
+					return
+				end
+
+				if client.supports_method("textDocument/formatting") then
+					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						group = augroup,
+						buffer = bufnr,
+						callback = function()
+							-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+							-- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
+							if vim.b[bufnr].disable_autoformat or vim.g.disable_autoformat then
+								return
+							end
+							vim.lsp.buf.format({ async = false })
+						end,
+					})
+				end
+			end,
+		})
+
+		vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "[C]ode [F]ormat" })
+	end,
+}
