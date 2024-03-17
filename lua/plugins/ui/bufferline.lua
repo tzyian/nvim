@@ -1,0 +1,24 @@
+return {}
+-- return {
+--   "akinsho/bufferline.nvim",
+--   version = "*",
+--   dependencies = "nvim-tree/nvim-web-devicons",
+--   config = function()
+--     vim.opt.termguicolors = true
+--     require("bufferline").setup({
+--       options = {
+--         style = "underline",
+--         diagnostics = "nvim_lsp",
+--         offsets = {
+--           {
+--             filetype = "NvimTree",
+--             text = "File Explorer",
+--             text_align = "left",
+--             separator = true,
+--           },
+--         },
+--       },
+--     })
+--     vim.keymap.set("n", "<leader>bp", ":BufferLinePick<CR>", { silent = true, desc = "Buffer [p]ick" })
+--   end,
+-- }

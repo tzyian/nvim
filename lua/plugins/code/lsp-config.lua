@@ -33,12 +33,28 @@ return {
 			-- Additional lua configuration, makes nvim stuff amazing!
 			"folke/neodev.nvim",
 		},
+		opts = {
+			servers = {
+				clangd = {
+					capabilities = {
+						offsetEncoding = { "utf-16" },
+					},
+					cmd = {
+						"clangd",
+						"--offset-encoding=utf-16",
+					},
+				},
+			},
+		},
 		config = function()
 			local servers = {
 				-- jdtls = {
 				-- 	filetypes = { "java" },
 				-- },
 				clangd = {
+					capabilities = {
+						offsetEncoding = { "utf-16" },
+					},
 					cmd = {
 						"clangd",
 						"--offset-encoding=utf-16",
@@ -65,26 +81,38 @@ return {
 
 			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 			-- Ensure the servers above are installed
 			local mason_lspconfig = require("mason-lspconfig")
 
 			mason_lspconfig.setup({
-				ensure_installed = vim.tbl_keys(servers),
+				ensure_installed = vim.tbl_keys(servers or {}),
 			})
 
-			mason_lspconfig.setup_handlers({
-				function(server_name)
-					require("lspconfig")[server_name].setup({
-						capabilities = capabilities,
-						-- on_attach = on_attach,
-						settings = servers[server_name],
-						filetypes = (servers[server_name] or {}).filetypes,
-					})
-				end,
-			})
+			-- mason_lspconfig.setup_handlers({
+			-- 	function(server_name)
+			-- 		require("lspconfig")[server_name].setup({
+			-- 			capabilities = capabilities,
+			-- 			-- on_attach = on_attach,
+			-- 			settings = servers[server_name],
+			-- 			filetypes = (servers[server_name] or {}).filetypes,
+			-- 		})
+			-- 	end,
+			-- })
 
+			mason_lspconfig.setup({
+				handlers = {
+					function(server_name)
+						local server = servers[server_name] or {}
+						-- This handles overriding only values explicitly passed
+						-- by the server configuration above. Useful when disabling
+						-- certain features of an LSP (for example, turning off formatting for tsserver)
+						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+						require("lspconfig")[server_name].setup(server)
+					end,
+				},
+			})
 
 			vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "[R]ename" })
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show [K]ind" })

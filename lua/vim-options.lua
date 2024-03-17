@@ -65,8 +65,8 @@ vim.keymap.set("n", "<Del>", '"_x', { noremap = true })
 vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", { desc = "Buffer [d]elete", silent = true })
 vim.keymap.set("n", "[b", ":bp<CR>", { silent = true, desc = "Previous [b]uffer" })
 vim.keymap.set("n", "]b", ":bn<CR>", { silent = true, desc = "Next [b]uffer" })
-vim.keymap.set("n", "<leader>bp", ":bp<CR>", { silent = true, desc = "Previous [b]uffer" })
-vim.keymap.set("n", "<leader>bn", ":bp<CR>", { silent = true, desc = "Next [b]uffer" })
+vim.keymap.set("n", "<leader>b[", ":bp<CR>", { silent = true, desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>b]", ":bp<CR>", { silent = true, desc = "Next buffer" })
 
 -- Completion
 vim.o.completeopt = "menuone,noselect,noinsert"

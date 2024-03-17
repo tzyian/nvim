@@ -21,6 +21,7 @@ return {
 			-- Prefixes
 			["<leader>ct"] = { name = "Toggle format", _ = "which_key_ignore" },
 			["<leader>ht"] = { name = "Toggle", _ = "which_key_ignore" },
+			["<leader>l"] = { name = "Lspsaga", _ = "which_key_ignore" },
 		})
 
 		-- register which-key VISUAL mode

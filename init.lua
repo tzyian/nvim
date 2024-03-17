@@ -15,9 +15,18 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("vim-options")
-require("lazy").setup("plugins", {
+require("lazy").setup({
+	spec = {
+		-- { import = "plugins" },
+		{ import = "plugins.actions" },
+		{ import = "plugins.code" },
+		{ import = "plugins.lang" },
+		{ import = "plugins.navi" },
+		{ import = "plugins.term" },
+		{ import = "plugins.ui" },
+	},
 	defaults = {
-		lazy = true,
+		-- lazy = true,
 	},
 	performance = {
 		rtp = {
@@ -28,5 +37,3 @@ require("lazy").setup("plugins", {
 		},
 	},
 })
-
-vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>", { silent = true, desc = "Ope[n] file tree" })

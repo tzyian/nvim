@@ -72,5 +72,7 @@ return {
 				show_on_dirs = true,
 			},
 		})
+
+		vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>", { silent = true, desc = "Ope[n] file tree" })
 	end,
 }

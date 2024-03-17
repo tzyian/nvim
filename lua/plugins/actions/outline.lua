@@ -7,5 +7,10 @@ return {
 	},
 	opts = {
 		-- Your setup opts here
+		keymaps = {
+			show_help = "g?",
+			peek_location = "<Tab>",
+			fold_toggle = "t",
+		},
 	},
 }
