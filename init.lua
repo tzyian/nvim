@@ -23,6 +23,7 @@ require("lazy").setup({
 		{ import = "plugins.lang" },
 		{ import = "plugins.navi" },
 		{ import = "plugins.term" },
+		{ import = "plugins.git" },
 		{ import = "plugins.ui" },
 	},
 	defaults = {
