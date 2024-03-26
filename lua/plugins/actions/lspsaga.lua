@@ -31,17 +31,17 @@ return {
 			vim.keymap.set("n", "<leader>" .. keymap, "<cmd>Lspsaga " .. cmd .. "<CR>", { silent = true, desc = desc })
 		end
 
-		map("li", "incoming_calls", "Peek Incoming Calls")
-		map("lo", "outgoing_calls", "Peek Outgoing Calls")
-		map("la", "code_action", "Code action")
-		map("ld", "peek_definition", "Peek Definition")
-		map("lt", "peek_type_definition", "Peek Type Definition")
-		map("lf", "finder ref+def+imp", "Finder")
-		map("ln", "diagnostic_jump_next", "Next diagnostic")
-		map("lb", "diagnostic_jump_prev", "Prev diagnostic")
-		map("lh", "hover", "Hover")
-		map("lO", "outline", "outline")
-		map("lr", "rename", "Rename")
+		map("li", "incoming_calls<CR>", "Peek Incoming Calls")
+		map("lo", "outgoing_calls<CR>", "Peek Outgoing Calls")
+		map("la", "code_action<CR>", "Code action")
+		map("ld", "peek_definition<CR>", "Peek Definition")
+		map("lt", "peek_type_definition<CR>", "Peek Type Definition")
+		map("lf", "finder ref+def+imp<CR>", "Finder")
+		map("ln", "diagnostic_jump_next<CR>", "Next diagnostic")
+		map("lb", "diagnostic_jump_prev<CR>", "Prev diagnostic")
+		map("lh", "hover<CR>", "Hover")
+		map("lO", "outline<CR>", "outline")
+		map("lr", "rename<CR>", "Rename")
 
 		vim.keymap.set({ "n", "t" }, "<A-d>", "<cmd>Lspsaga term_toggle")
 	end,
