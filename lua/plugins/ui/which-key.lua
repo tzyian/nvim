@@ -12,11 +12,11 @@ return {
 			["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
 			["<leader>t"] = { name = "Vsplit [T]erminal", _ = "which_key_ignore" },
 			["<leader>T"] = { name = "Split [T]erminal", _ = "which_key_ignore" },
-			["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
 			["<leader>q"] = { name = "Diagnostics", _ = "which_key_ignore" },
 			["<leader>s"] = { name = "[S]ession", _ = "which_key_ignore" },
 			["<leader>r"] = { name = "Snip[R]un", _ = "which_key_ignore" },
 			["<leader>m"] = { name = "[M]isc Config", _ = "which_key_ignore" },
+			["<leader>p"] = { name = "Preview", _ = "which_key_ignore" },
 
 			-- Prefixes
 			["<leader>ct"] = { name = "Toggle format", _ = "which_key_ignore" },

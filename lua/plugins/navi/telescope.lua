@@ -100,7 +100,7 @@ return {
 			vim.keymap.set("n", "<leader>fG", ":LiveGrepGitRoot<cr>", { desc = "[F]ind by [G]rep on Git Root" })
 			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
 			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "[F]ind [R]esume" })
-			vim.keymap.set("n", "<leader>ws", builtin.lsp_dynamic_workspace_symbols, { desc = "[W]orkspace [S]ymbols" })
+			vim.keymap.set("n", "<leader>fS", builtin.lsp_dynamic_workspace_symbols, { desc = "Workspace [S]ymbols" })
 			vim.keymap.set("n", "<leader>bb", builtin.buffers, { desc = "Buffers [b]rowse" })
 			vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "[O]ld Files" })
 		end,

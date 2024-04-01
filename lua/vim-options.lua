@@ -97,6 +97,8 @@ vim.keymap.set("t", "<C-w>q", "<C-\\><C-n><C-w>q", { silent = true })
 -- vim.keymap.set("n", "<c-_>", "gcc", { desc = "Comment line", silent = true })
 -- vim.keymap.set("v", "<c-_>", "gc", { desc = "Comment line", silent = true })
 
+vim.keymap.set("n", "<leader>w", "<Cmd>w<CR>", { desc = "Save" })
+
 -- Misc Config
 vim.keymap.set("n", "<leader>ml", ":Lazy<CR>", { desc = ":Lazy" })
 vim.keymap.set("n", "<leader>mm", ":Mason<CR>", { desc = ":Mason" })
