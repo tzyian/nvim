@@ -110,6 +110,9 @@ vim.keymap.set(
 	{ noremap = true, desc = "Edit config" }
 )
 
+-- For nvim python provider
+vim.g.python3_host_prog = "/home/ian/.pyenv/versions/pynvim/bin/python"
+
 -- Highlight yanked text
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {

@@ -14,18 +14,25 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local function get_spec()
+	if not vim.g.vscode then
+		return {
+			{ import = "plugins.actions" },
+			{ import = "plugins.code" },
+			{ import = "plugins.lang" },
+			{ import = "plugins.navi" },
+			{ import = "plugins.term" },
+			{ import = "plugins.git" },
+			{ import = "plugins.ui" },
+		}
+	else
+		return { import = "plugins.vscode" }
+	end
+end
+
 require("vim-options")
 require("lazy").setup({
-	spec = {
-		-- { import = "plugins" },
-		{ import = "plugins.actions" },
-		{ import = "plugins.code" },
-		{ import = "plugins.lang" },
-		{ import = "plugins.navi" },
-		{ import = "plugins.term" },
-		{ import = "plugins.git" },
-		{ import = "plugins.ui" },
-	},
+	spec = { get_spec() },
 	defaults = {
 		-- lazy = true,
 	},

@@ -13,7 +13,7 @@ return {
 		-- lazy = false,
 		event = "VeryLazy",
 		opts = {
-			auto_install = true,
+			-- auto_install = true,
 		},
 	},
 
@@ -28,7 +28,7 @@ return {
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ "j-hui/fidget.nvim", opts = {} },
+			{ "j-hui/fidget.nvim",       opts = {} },
 
 			-- Additional lua configuration, makes nvim stuff amazing!
 			"folke/neodev.nvim",
@@ -65,6 +65,13 @@ return {
 				-- rust_analyzer = {},
 				-- tsserver = {},
 				-- html = { filetypes = { 'html', 'twig', 'hbs'} },
+
+				texlab = {
+					chktex = {
+						onOpenAndSave = true,
+						onEdit = true,
+					},
+				},
 
 				lua_ls = {
 					Lua = {
@@ -104,6 +111,10 @@ return {
 			mason_lspconfig.setup({
 				handlers = {
 					function(server_name)
+						if server_name == "rust_analyzer" then
+							return
+						end
+
 						local server = servers[server_name] or {}
 						-- This handles overriding only values explicitly passed
 						-- by the server configuration above. Useful when disabling

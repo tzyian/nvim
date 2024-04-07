@@ -18,6 +18,7 @@ return {
 			["<leader>m"] = { name = "[M]isc Config", _ = "which_key_ignore" },
 			["<leader>p"] = { name = "Preview", _ = "which_key_ignore" },
 			["<leader>a"] = { name = "Copilot Chat", _ = "which_key_ignore" },
+			["<leader>l"] = { name = "VimTex", _ = "which_key_ignore" },
 
 			-- Prefixes
 			["<leader>ct"] = { name = "Toggle format", _ = "which_key_ignore" },
