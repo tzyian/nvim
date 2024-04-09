@@ -59,6 +59,14 @@ return {
 						"clangd",
 						"--offset-encoding=utf-16",
 					},
+					on_attach = function(client, bufnr)
+						vim.keymap.set(
+							"n",
+							"<leader>ch",
+							"<cmd>ClangdSwitchSourceHeader<CR>",
+							{ desc = "ClangdSwitchSourceHeader" }
+						)
+					end,
 				},
 				-- gopls = {},
 				-- pyright = {},
