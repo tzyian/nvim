@@ -1,9 +1,7 @@
 return {
 	"NMAC427/guess-indent.nvim",
-	event = "VeryLazy",
+	event = "BufReadPost",
 	config = function()
-		require("guess-indent").setup({
-			enable = true,
-		})
+		require("guess-indent").setup({})
 	end,
 }

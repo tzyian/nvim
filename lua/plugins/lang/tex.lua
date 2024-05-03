@@ -10,6 +10,6 @@ return {
 		vim.g.vim_text_compiler_latexmk = {
 			aux_dir = "build",
 		}
-		vim.o.conceallevel = 1
+		-- vim.o.conceallevel = 1
 	end,
 }

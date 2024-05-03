@@ -10,6 +10,20 @@ return {
 				},
 			})
 		end,
+		keys = {
+			{
+				"<M-c>",
+				mode = { "n", "i" },
+				"<cmd>Copilot panel<CR>",
+				desc = "Open Copilot panel",
+			},
+		},
+	},
+	{
+		"zbirenbaum/copilot-cmp",
+		config = function()
+			require("copilot_cmp").setup()
+		end,
 	},
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
@@ -108,6 +122,7 @@ return {
 			{ "<leader>al", "<cmd>CopilotChatReset<cr>",         desc = "CopilotChat - Clear buffer and chat history" },
 			-- Toggle Copilot Chat Vsplit
 			{ "<leader>av", "<cmd>CopilotChatToggle<cr>",        desc = "CopilotChat - Toggle" },
+			{ "<leader>aa", "<cmd>CopilotChatToggle<cr>",        desc = "CopilotChat - Toggle" },
 		},
 	},
 }

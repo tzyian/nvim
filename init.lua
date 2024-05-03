@@ -30,7 +30,12 @@ local function get_spec()
 	end
 end
 
-require("vim-options")
+if not vim.g.vscode then
+	require("vim-options")
+else
+	require("vscode-options")
+end
+
 require("lazy").setup({
 	spec = { get_spec() },
 	defaults = {
