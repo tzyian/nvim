@@ -28,7 +28,7 @@ return {
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ "j-hui/fidget.nvim", opts = {} },
+			{ "j-hui/fidget.nvim",       opts = {} },
 
 			-- Additional lua configuration, makes nvim stuff amazing!
 			"folke/neodev.nvim",
@@ -88,7 +88,7 @@ return {
 						-- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
 						diagnostics = {
 							globals = { "vim" },
-							-- disable = { "missing-fields" }
+							disable = { "missing-fields" },
 						},
 					},
 				},
