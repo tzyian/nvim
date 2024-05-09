@@ -1,6 +1,7 @@
 return {
 	"kawre/leetcode.nvim",
 	build = ":TSUpdate html",
+	lazy = true,
 	dependencies = {
 		"nvim-telescope/telescope.nvim",
 		"nvim-lua/plenary.nvim", -- required by telescope
@@ -16,11 +17,10 @@ return {
 		lang = "python3",
 	},
 	keys = {
-		{ "<leader>zz", "<cmd>Leet<CR>",               desc = "Leet" },
-		{ "<leader>zd", "<cmd>Leet<CR>Leet daily<CR>", desc = "Leet daily" },
-		{ "<leader>zt", "<cmd>Leet test<CR>",          desc = "Leet test" },
-		{ "<leader>zS", "<cmd>Leet submit<CR>",        desc = "Leet submit" },
-		{ "<leader>zl", "<cmd>Leet lang<CR>",          desc = "Leet lang" },
-		{ "<leader>zD", "<cmd>Leet desc<CR>",          desc = "Leet desc" },
+		{ "<leader>zz", "<cmd>Leet<CR>", desc = "Leet" },
+		{ "<leader>zt", "<cmd>Leet test<CR>", desc = "Leet test" },
+		{ "<leader>zS", "<cmd>Leet submit<CR>", desc = "Leet submit" },
+		{ "<leader>zl", "<cmd>Leet lang<CR>", desc = "Leet lang" },
+		{ "<leader>zD", "<cmd>Leet desc<CR>", desc = "Leet desc" },
 	},
 }
