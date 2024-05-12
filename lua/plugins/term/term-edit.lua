@@ -1,7 +1,7 @@
 return {
   "chomosuke/term-edit.nvim",
-  event = "VeryLazy",
-  lazy = true, -- or ft = 'toggleterm' if you use toggleterm.nvim
+  lazy = true,
+  ft = { "fterm_lazygit", "FTerm" },
   version = "1.*",
   opts = {
     -- Mandatory option:

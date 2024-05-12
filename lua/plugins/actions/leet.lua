@@ -21,6 +21,6 @@ return {
 		{ "<leader>zt", "<cmd>Leet test<CR>", desc = "Leet test" },
 		{ "<leader>zS", "<cmd>Leet submit<CR>", desc = "Leet submit" },
 		{ "<leader>zl", "<cmd>Leet lang<CR>", desc = "Leet lang" },
-		{ "<leader>zD", "<cmd>Leet desc<CR>", desc = "Leet desc" },
+		{ "<leader>zd", "<cmd>Leet desc<CR>", desc = "Leet desc" },
 	},
 }

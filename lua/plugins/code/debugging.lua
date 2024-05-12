@@ -1,6 +1,6 @@
 return {
 	"mfussenegger/nvim-dap",
-	event = "VeryLazy",
+	lazy = true,
 	dependencies = {
 		-- Creates a beautiful debugger UI
 		"rcarriga/nvim-dap-ui",
@@ -12,6 +12,26 @@ return {
 
 		-- Add your own debuggers here
 		"leoluz/nvim-dap-go",
+	},
+	keys = {
+		{ "<F5>",       "<cmd>lua require('dap').continue()<CR>",          desc = "Debug: Start/Continue" },
+		{ "<Leader>dd", "<cmd>lua require('dap').continue()<CR>",          desc = "Debug: Start/Continue" },
+		{ "<F1>",       "<cmd>lua require('dap').step_into()<CR>",         desc = "Debug: Step Into" },
+		{ "<Leader>di", "<cmd>lua require('dap').step_into()<CR>",         desc = "Debug: Step Into" },
+		{ "<F2>",       "<cmd>lua require('dap').step_over()<CR>",         desc = "Debug: Step Over" },
+		{ "<Leader>do", "<cmd>lua require('dap').step_over()<CR>",         desc = "Debug: Step Over" },
+		{ "<F3>",       "<cmd>lua require('dap').step_out()<CR>",          desc = "Debug: Step Out" },
+		{ "<Leader>du", "<cmd>lua require('dap').step_out()<CR>",          desc = "Debug: Step Out" },
+		{ "<F9>",       "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint" },
+		{ "<Leader>dt", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint" },
+		{
+			"<Leader>dB",
+			"<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
+			desc = "Debug: Set Breakpoint",
+		},
+		-- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
+		{ "<F7>",       "<cmd>lua require('dapui').toggle()<CR>", desc = "Debug: See last session result." },
+		{ "<Leader>dl", "<cmd>lua require('dapui').toggle()<CR>", desc = "Debug: See last session result." },
 	},
 	config = function()
 		local dap = require("dap")
@@ -35,23 +55,23 @@ return {
 		})
 
 		-- Basic debugging keymaps, feel free to change to your liking!
-		vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
-		vim.keymap.set("n", "<leader>dd", dap.continue, { desc = "Debug: Start/Continue (F5)" })
-
-		vim.keymap.set("n", "<F1>", dap.step_into, { desc = "Debug: Step Into" })
-		vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Debug: Step Into (F1)" })
-
-		vim.keymap.set("n", "<F2>", dap.step_over, { desc = "Debug: Step Over" })
-		vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Debug: Step Over (F2)" })
-
-		vim.keymap.set("n", "<F3>", dap.step_out, { desc = "Debug: Step Out" })
-		vim.keymap.set("n", "<leader>du", dap.step_out, { desc = "Debug: Step Out (F3)" })
-
-		vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint (F9)" })
-		vim.keymap.set("n", "<F9>", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
-		vim.keymap.set("n", "<leader>dB", function()
-			dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-		end, { desc = "Debug: Set Breakpoint" })
+		-- vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Start/Continue" })
+		-- vim.keymap.set("n", "<leader>dd", dap.continue, { desc = "Debug: Start/Continue (F5)" })
+		--
+		-- vim.keymap.set("n", "<F1>", dap.step_into, { desc = "Debug: Step Into" })
+		-- vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Debug: Step Into (F1)" })
+		--
+		-- vim.keymap.set("n", "<F2>", dap.step_over, { desc = "Debug: Step Over" })
+		-- vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Debug: Step Over (F2)" })
+		--
+		-- vim.keymap.set("n", "<F3>", dap.step_out, { desc = "Debug: Step Out" })
+		-- vim.keymap.set("n", "<leader>du", dap.step_out, { desc = "Debug: Step Out (F3)" })
+		--
+		-- vim.keymap.set("n", "<leader>dt", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint (F9)" })
+		-- vim.keymap.set("n", "<F9>", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
+		-- vim.keymap.set("n", "<leader>dB", function()
+		-- 	dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+		-- end, { desc = "Debug: Set Breakpoint" })
 
 		-- Dap UI setup
 		-- For more information, see |:help nvim-dap-ui|
@@ -76,14 +96,14 @@ return {
 		})
 
 		-- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-		vim.keymap.set("n", "<F7>", dapui.toggle, { desc = "Debug: See last session result." })
-		vim.keymap.set("n", "<leader>dl", dapui.toggle, { desc = "Debug: See last session result." })
+		-- vim.keymap.set("n", "<F7>", dapui.toggle, { desc = "Debug: See last session result." })
+		-- vim.keymap.set("n", "<leader>dl", dapui.toggle, { desc = "Debug: See last session result." })
 
 		dap.listeners.after.event_initialized["dapui_config"] = dapui.open
 		dap.listeners.before.event_terminated["dapui_config"] = dapui.close
 		dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
 		-- Install golang specific config
-		require("dap-go").setup()
+		-- require("dap-go").setup()
 	end,
 }

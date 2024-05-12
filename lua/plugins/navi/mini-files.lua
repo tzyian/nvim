@@ -1,7 +1,10 @@
 return {
 	"echasnovski/mini.files",
 	version = false,
-	event = "VeryLazy",
+	lazy = true,
+	keys = {
+		{ "<leader>N", "<cmd>lua require('mini.files').toggle()<CR>", desc = "Toggle mini.files" },
+	},
 	config = function()
 		local MiniFiles = require("mini.files")
 

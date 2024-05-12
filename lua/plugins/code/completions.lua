@@ -11,7 +11,7 @@ return {
 		"L3MON4D3/LuaSnip",
 		"onsails/lspkind.nvim",
 	},
-	event = "InsertEnter",
+	event = { "InsertEnter", "CmdlineEnter" },
 	config = function()
 		local cmp = require("cmp")
 		local luasnip = require("luasnip")
@@ -43,7 +43,7 @@ return {
 		cmp.setup({
 			formatting = {
 				format = lspkind.cmp_format({
-					maxwidth = 50,    -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+					maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
 					-- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
 					ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 				}),
@@ -97,12 +97,9 @@ return {
 				end, { "i", "s" }),
 			}),
 			sources = cmp.config.sources({
-				{ name = "copilot" },
 				{ name = "nvim_lsp" },
+				{ name = "copilot" },
 				{ name = "luasnip" }, -- For luasnip users.
-				{ name = "buffer" },
-				{ name = "path" },
-				-- { name = "nvim_lsp_signature_help" },
 			}),
 		})
 	end,

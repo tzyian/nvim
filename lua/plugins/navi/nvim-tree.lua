@@ -58,14 +58,14 @@ return {
 				git_ignored = false,
 			},
 			view = {
-				-- number = true,
+				number = true,
 				relativenumber = true,
 			},
 			renderer = {
 				indent_markers = {
 					enable = true,
 				},
-				highlight_git = "all",
+				highlight_git = "name",
 			},
 			diagnostics = {
 				enable = true,

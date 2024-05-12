@@ -17,6 +17,11 @@ return {
 				"<cmd>Copilot panel<CR>",
 				desc = "Open Copilot panel",
 			},
+			{
+				"<leader>cp",
+				"<cmd>lua require('copilot.suggestion').toggle_auto_trigger()<CR>",
+				desc = "Toggle Copilot auto trigger",
+			},
 		},
 	},
 	{
