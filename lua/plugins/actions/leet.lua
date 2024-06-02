@@ -14,7 +14,7 @@ return {
 	},
 	opts = {
 		-- configuration goes here
-		lang = "python3",
+		lang = "cpp",
 	},
 	keys = {
 		{ "<leader>zz", "<cmd>Leet<CR>", desc = "Leet" },
@@ -22,5 +22,10 @@ return {
 		{ "<leader>zS", "<cmd>Leet submit<CR>", desc = "Leet submit" },
 		{ "<leader>zl", "<cmd>Leet lang<CR>", desc = "Leet lang" },
 		{ "<leader>zd", "<cmd>Leet desc<CR>", desc = "Leet desc" },
+		{ "<leader>zc", "<cmd>Leet console<CR>", desc = "Leet console" },
+		{ "<leader>zy", "<cmd>Leet yank<CR>", desc = "Leet yank" },
+		{ "<leader>zr", "<cmd>Leet restore<CR>", desc = "Leet restore" },
+		{ "<leader>zr", "<cmd>Leet reset<CR>", desc = "Leet reset" },
+		{ "<leader>zo", "<cmd>Leet open<CR>", desc = "Leet open" },
 	},
 }

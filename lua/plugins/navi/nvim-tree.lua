@@ -37,7 +37,7 @@ return {
 
 			api.config.mappings.default_on_attach(bufnr)
 
-			vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>", { silent = true, desc = "Ope[n] file tree" })
+			vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<CR>", { silent = true, desc = "Ope[n] file tree" })
 			vim.keymap.set("n", ".", api.tree.change_root_to_node, opts("CD"))
 			vim.keymap.set("n", "<BS>", api.tree.change_root_to_parent, opts("Up"))
 			vim.keymap.set("n", ",", api.node.run.cmd, opts("Run Command"))

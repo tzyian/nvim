@@ -68,18 +68,18 @@ vim.wo.signcolumn = "auto:1"
 vim.wo.foldcolumn = "auto:1"
 
 -- Remove highlights after searching
-vim.keymap.set("n", "<Esc>", ":nohlsearch<CR>", { silent = true })
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { silent = true })
 
 -- Disable yank on delete
 vim.keymap.set("n", "x", '"_x', { noremap = true })
 vim.keymap.set("n", "<Del>", '"_x', { noremap = true })
 
 -- Switch buffers quickly
-vim.keymap.set("n", "<leader>bd", ":bdelete<CR>", { desc = "Buffer [d]elete", silent = true })
-vim.keymap.set("n", "[b", ":bp<CR>", { silent = true, desc = "Previous [b]uffer" })
-vim.keymap.set("n", "]b", ":bn<CR>", { silent = true, desc = "Next [b]uffer" })
-vim.keymap.set("n", "<leader>b[", ":bp<CR>", { silent = true, desc = "Previous buffer" })
-vim.keymap.set("n", "<leader>b]", ":bp<CR>", { silent = true, desc = "Next buffer" })
+vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Buffer [d]elete", silent = true })
+vim.keymap.set("n", "[b", "<cmd>bp<CR>", { silent = true, desc = "Previous [b]uffer" })
+vim.keymap.set("n", "]b", "<cmd>bn<CR>", { silent = true, desc = "Next [b]uffer" })
+vim.keymap.set("n", "<leader>b[", "<cmd>bp<CR>", { silent = true, desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>b]", "<cmd>bp<CR>", { silent = true, desc = "Next buffer" })
 
 -- Completion
 vim.o.completeopt = "menuone,noselect,noinsert"
@@ -95,8 +95,8 @@ vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Open terminal
-vim.keymap.set("n", "<leader>t", ":vsplit<CR>:term<CR>a", { silent = true, desc = "Open [t]erminal" })
-vim.keymap.set("n", "<leader>T", ":sp<CR>:term<CR>a", { silent = true, desc = "Open [T]erminal" })
+vim.keymap.set("n", "<leader>t", "<cmd>vsplit<CR><cmd>term<CR>a", { silent = true, desc = "Open [t]erminal" })
+vim.keymap.set("n", "<leader>T", "<cmd>sp<CR><cmd>term<CR>a", { silent = true, desc = "Open [T]erminal" })
 
 -- Escape terminal mode
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true })
@@ -114,18 +114,18 @@ vim.keymap.set("t", "<C-w>q", "<C-\\><C-n><C-w>q", { silent = true })
 vim.keymap.set("n", "<leader>w", "<Cmd>w<CR>", { desc = "Save" })
 
 -- Misc Config
-vim.keymap.set("n", "<leader>ml", ":Lazy<CR>", { desc = ":Lazy" })
-vim.keymap.set("n", "<leader>mm", ":Mason<CR>", { desc = ":Mason" })
-vim.keymap.set("n", "<leader>mi", ":LspInfo<CR>", { desc = "LspInfo" })
+vim.keymap.set("n", "<leader>ml", "<cmd>Lazy<CR>", { desc = "Lazy" })
+vim.keymap.set("n", "<leader>mm", "<cmd>Mason<CR>", { desc = "Mason" })
+vim.keymap.set("n", "<leader>mi", "<cmd>LspInfo<CR>", { desc = "LspInfo" })
 vim.keymap.set(
 	"n",
 	"<leader>mc",
-	":tabnew ~/.config/nvim/<CR>:cd ~/.config/nvim<CR>",
+	"<cmd>tabnew ~/.config/nvim/lua/vim-options.lua<CR> <cmd>cd ~/.config/nvim/<CR> <cmd>NvimTreeOpen ~/.config/nvim<CR>",
 	{ noremap = true, desc = "Edit config" }
 )
 
 -- For nvim python provider
-vim.g.python3_host_prog = "/home/ian/.pyenv/versions/pynvim/bin/python"
+vim.g.python3_host_prog = "~/.pyenv/versions/pynvim/bin/python"
 
 -- Highlight yanked text
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
