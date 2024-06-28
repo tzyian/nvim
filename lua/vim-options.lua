@@ -12,6 +12,7 @@ vim.o.shiftwidth = 2
 -- vim.o.softtabstop = 2
 
 vim.o.termguicolors = true
+vim.o.background = "dark"
 
 -- Use system clipboard
 vim.g.clipboard = {
@@ -38,7 +39,7 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 2
 
--- Desrease update time
+-- Decrease update time
 vim.o.timeoutlen = 300
 vim.o.updatetime = 250
 
@@ -105,6 +106,12 @@ vim.keymap.set("t", "<C-w>j", "<C-\\><C-n><C-w>j", { silent = true })
 vim.keymap.set("t", "<C-w>k", "<C-\\><C-n><C-w>k", { silent = true })
 vim.keymap.set("t", "<C-w>l", "<C-\\><C-n><C-w>l", { silent = true })
 vim.keymap.set("t", "<C-w>q", "<C-\\><C-n><C-w>q", { silent = true })
+
+-- Switch tabs
+vim.keymap.set("n", "<C-n>", "gt", { silent = true, desc = "Next tab" })
+vim.keymap.set("n", "<C-p>", "gT", { silent = true, desc = "Previous tab" })
+vim.keymap.set("n", "<Tab>", "gt", { silent = true, desc = "Next tab" })
+vim.keymap.set("n", "<S-Tab>", "gT", { silent = true, desc = "Previous tab" })
 
 -- Comment remaps (not working)
 -- vim.keymap.set("n", "<c-_>", "gcc", { desc = "Comment line", silent = true })

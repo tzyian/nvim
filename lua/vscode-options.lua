@@ -20,6 +20,9 @@ vim.o.smartcase = true
 vim.o.incsearch = true
 vim.o.inccommand = "nosplit"
 
+-- For saving convenience
+vim.keymap.set("n", "<leader>w", "<Cmd>w<CR>", { desc = "Save" })
+
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {

@@ -20,7 +20,7 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		-- lazy = false,
-		event = "VeryLazy",
+		event = "BufRead",
 		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
 			{ "williamboman/mason.nvim", config = true },
@@ -28,7 +28,7 @@ return {
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ "j-hui/fidget.nvim", opts = {} },
+			{ "j-hui/fidget.nvim",       opts = {} },
 
 			-- Additional lua configuration, makes nvim stuff amazing!
 			"folke/neodev.nvim",
@@ -42,6 +42,7 @@ return {
 					cmd = {
 						"clangd",
 						"--offset-encoding=utf-16",
+						"--clang-tidy",
 					},
 				},
 			},
@@ -69,7 +70,7 @@ return {
 					end,
 				},
 				-- gopls = {},
-				-- pyright = {},
+				pylsp = {},
 				-- rust_analyzer = {},
 				-- tsserver = {},
 				-- html = { filetypes = { 'html', 'twig', 'hbs'} },
@@ -78,7 +79,6 @@ return {
 					on_attach = function(client, bufnr)
 						if client.server_capabilities.codeLensProvider then
 							vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
-
 								buffer = bufnr,
 								callback = function()
 									vim.lsp.codelens.refresh()
@@ -161,7 +161,7 @@ return {
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
 			vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "[C]ode [F]ormat" })
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show [K]ind" })
-			vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.hover, { desc = "Show [K]ind" })
+			vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { desc = "Show [K]ind" })
 
 			vim.keymap.set("n", "<leader>cs", vim.lsp.buf.document_symbol, { desc = "[C]ode Document [S]ymbols" })
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "[G]o [D]efinition" })
