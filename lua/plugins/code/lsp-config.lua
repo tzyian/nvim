@@ -1,51 +1,19 @@
 return {
 	{
-		"williamboman/mason.nvim",
-		-- lazy = false,
-		event = "VeryLazy",
-		config = function()
-			require("mason").setup()
-		end,
-	},
-
-	{
-		"williamboman/mason-lspconfig.nvim",
-		-- lazy = false,
-		event = "VeryLazy",
-		opts = {
-			-- auto_install = true,
-		},
-	},
-
-	{
 		"neovim/nvim-lspconfig",
 		-- lazy = false,
-		event = "BufRead",
+		event = "BufReadPre",
 		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
-			{ "williamboman/mason.nvim", config = true },
-			"williamboman/mason-lspconfig.nvim",
+			{ "williamboman/mason.nvim",           opts = {} },
+			{ "williamboman/mason-lspconfig.nvim", opts = {} },
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ "j-hui/fidget.nvim",       opts = {} },
+			{ "j-hui/fidget.nvim",                 opts = {} },
 
 			-- Additional lua configuration, makes nvim stuff amazing!
 			"folke/neodev.nvim",
-		},
-		opts = {
-			servers = {
-				clangd = {
-					capabilities = {
-						offsetEncoding = { "utf-16" },
-					},
-					cmd = {
-						"clangd",
-						"--offset-encoding=utf-16",
-						"--clang-tidy",
-					},
-				},
-			},
 		},
 		config = function()
 			local servers = {
@@ -70,23 +38,24 @@ return {
 					end,
 				},
 				-- gopls = {},
-				pylsp = {},
+				pylsp = {
+					plugins = {
+						-- formatter
+						black = { enabled = true },
+						autopep8 = { enabled = false },
+						yapf = { enabled = false },
+						-- linter
+						pycodestyle = {
+							ignore = { "E501" },
+							maxLineLength = 100,
+						},
+					},
+				},
 				-- rust_analyzer = {},
 				-- tsserver = {},
 				-- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
 				ocamllsp = {
-					on_attach = function(client, bufnr)
-						if client.server_capabilities.codeLensProvider then
-							vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
-								buffer = bufnr,
-								callback = function()
-									vim.lsp.codelens.refresh()
-								end,
-							})
-						end
-					end,
-
 					-- This doesn't seem to be working eh
 					settings = {
 						extendedHover = { enable = true },
@@ -101,7 +70,6 @@ return {
 						onEdit = true,
 					},
 				},
-
 				lua_ls = {
 					Lua = {
 						workspace = { checkThirdParty = false },
@@ -124,9 +92,6 @@ return {
 
 			mason_lspconfig.setup({
 				ensure_installed = vim.tbl_keys(servers or {}),
-			})
-
-			mason_lspconfig.setup({
 				handlers = {
 					function(server_name)
 						if server_name == "rust_analyzer" then
@@ -143,32 +108,40 @@ return {
 				},
 			})
 
-			vim.api.nvim_create_autocmd({ "BufEnter" }, {
-				pattern = "*",
-				callback = function()
-					vim.lsp.inlay_hint.enable()
-					-- vim.lsp.codelens.refresh()
+			vim.api.nvim_create_autocmd("LspAttach", {
+				vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "[R]ename" }),
+				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" }),
+				vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "[C]ode [F]ormat" }),
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show [K]ind" }),
+				vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { desc = "Show [K]ind" }),
+
+				callback = function(event)
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+					if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+						vim.lsp.inlay_hint.enable()
+						vim.keymap.set("n", "<leader>ci", function()
+							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+						end, { desc = "Toggle Inlay Hints" })
+					end
+
+					if client and client.server_capabilities.codeLensProvider and vim.lsp.codelens then
+						vim.lsp.codelens.refresh()
+						vim.keymap.set(
+							"n",
+							"<leader>cl",
+							vim.lsp.codelens.refresh,
+							{ desc = "[C]ode [L]ens", silent = true }
+						)
+						vim.keymap.set(
+							"n",
+							"<leader>cL",
+							vim.lsp.codelens.clear,
+							{ desc = "[C]ode [L]ens Clear", silent = true }
+						)
+					end
 				end,
 			})
-
-			vim.keymap.set("n", "<Leader>ci", function()
-				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-			end, { desc = "Toggle [i]nlay hints" })
-			vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.refresh, { desc = "[C]ode [L]ens", silent = true })
-			vim.keymap.set("n", "<leader>cL", vim.lsp.codelens.clear, { desc = "[C]ode [L]ens Clear", silent = true })
-
-			vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "[R]ename" })
-			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" })
-			vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "[C]ode [F]ormat" })
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show [K]ind" })
-			vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { desc = "Show [K]ind" })
-
-			vim.keymap.set("n", "<leader>cs", vim.lsp.buf.document_symbol, { desc = "[C]ode Document [S]ymbols" })
-			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { desc = "[G]o [D]efinition" })
-			vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, { desc = "[G]o [R]eferences" })
-			vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "[G]o [I]mplementation" })
-			vim.keymap.set("n", "<leader>gt", vim.lsp.buf.type_definition, { desc = "[G]o [T]ype Definition" })
-			vim.keymap.set("n", "<leader>gs", vim.lsp.buf.signature_help, { desc = "[G]o [S]ignature Help" })
 		end,
 	},
 }

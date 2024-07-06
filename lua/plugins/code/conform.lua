@@ -1,3 +1,4 @@
+-- NOTE: remove
 return {}
 -- return { -- Autoformat
 --   'stevearc/conform.nvim',

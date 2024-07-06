@@ -1,3 +1,4 @@
+-- NOTE: remove
 return {
   -- 'ray-x/navigator.lua',
   -- dependencies = {

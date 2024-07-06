@@ -1,5 +1,5 @@
+-- TODO: to configure
 return {
-	-- TODO: to configure
 	"ThePrimeagen/harpoon",
 	lazy = true,
 	branch = "harpoon2",

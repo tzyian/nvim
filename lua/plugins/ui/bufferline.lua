@@ -1,3 +1,4 @@
+-- 	NOTE: remove
 return {}
 -- return {
 --   "akinsho/bufferline.nvim",

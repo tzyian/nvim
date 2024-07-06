@@ -22,32 +22,34 @@ return {
 			},
 		},
 		config = function()
+			-- [[ Configure Telescope ]]
+			-- See `:help telescope` and `:help telescope.setup()`
 			require("telescope").setup({
 				extensions = {
 					["ui-select"] = {
 						require("telescope.themes").get_dropdown({}),
 					},
 				},
-			})
-			local builtin = require("telescope.builtin")
-
-			require("telescope").load_extension("ui-select")
-
-			-- [[ Configure Telescope ]]
-			-- See `:help telescope` and `:help telescope.setup()`
-			require("telescope").setup({
 				defaults = {
+					layout_config = {
+						horizontal = {
+							preview_cutoff = 0,
+						},
+					},
 					mappings = {
 						i = {
 							["<C-u>"] = false,
 							["<C-d>"] = false,
+							["<C-p>"] = require("telescope.actions.layout").toggle_preview,
 						},
 					},
 				},
 			})
+			local builtin = require("telescope.builtin")
 
-			-- Enable telescope fzf native, if installed
+			-- Enable Telescope extensions if they are installed
 			pcall(require("telescope").load_extension, "fzf")
+			pcall(require("telescope").load_extension, "ui-select")
 
 			-- Telescope live_grep in git root
 			-- Function to find the git root directory based on the current buffer's path
@@ -86,9 +88,30 @@ return {
 
 			vim.api.nvim_create_user_command("LiveGrepGitRoot", live_grep_git_root, {})
 
+			local function telescope_live_grep_open_files()
+				builtin.live_grep({
+					grep_open_files = true,
+					prompt_title = "Live Grep in Open Files",
+				})
+			end
+
+			local function telescope_buffers()
+				builtin.buffers({
+					sort_mru = true,
+					ignore_current_buffer = true,
+				})
+			end
+
 			-- See `:help telescope.builtin`
+
+			-- Buffers and Files
+			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
 			vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find recently opened files" })
-			vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set("n", "<leader><space>", telescope_buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set("n", "<leader>bb", telescope_buffers, { desc = "[B]uffers [b]rowse" })
+
+			-- Grep
+			vim.keymap.set("n", "<leader>f/", telescope_live_grep_open_files, { desc = "[F]ind [/] in Open Files" })
 			vim.keymap.set("n", "<leader>/", function()
 				-- You can pass additional configuration to telescope to change theme, layout, etc.
 				builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
@@ -96,29 +119,43 @@ return {
 					previewer = false,
 				}))
 			end, { desc = "[/] Fuzzily search in current buffer" })
-
-			local function telescope_live_grep_open_files()
-				builtin.live_grep({
-					grep_open_files = true,
-					prompt_title = "Live Grep in Open Files",
-				})
-			end
-			vim.keymap.set("n", "<leader>f/", telescope_live_grep_open_files, { desc = "[F]ind [/] in Open Files" })
-			vim.keymap.set("n", "<leader>fs", builtin.builtin, { desc = "[F]ind [S]elect Telescope" })
-			vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "Search [G]it [F]iles" })
-			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
-			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
 			vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "[F]ind current [W]ord" })
 			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind by [G]rep" })
-			vim.keymap.set("n", "<leader>fG", ":LiveGrepGitRoot<cr>", { desc = "[F]ind by [G]rep on Git Root" })
-			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
-			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "[F]ind [R]esume" })
+
+			-- Git
+			vim.keymap.set("n", "<leader>fhf", builtin.git_files, { desc = "Find git files" })
+			vim.keymap.set("n", "<leader>fhc", builtin.git_commits, { desc = "Find git commits" })
+			vim.keymap.set("n", "<leader>fhr", ":LiveGrepGitRoot<cr>", { desc = "[F]ind by [G]rep on Git Root" })
+
+			-- Lsp
+			vim.keymap.set("n", "<leader>gr", builtin.lsp_references, { desc = "Go References" })
+			vim.keymap.set("n", "<leader>gd", builtin.lsp_definitions, { desc = "Go Definitions" })
+			vim.keymap.set("n", "<leader>gD", builtin.lsp_type_definitions, { desc = "Go Type Definitions" })
+			vim.keymap.set("n", "<leader>gi", builtin.lsp_implementations, { desc = "Go Implementations" })
+			vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Find Document Symbols" })
 			vim.keymap.set("n", "<leader>fS", builtin.lsp_dynamic_workspace_symbols, { desc = "Workspace [S]ymbols" })
-			vim.keymap.set("n", "<leader>bb", builtin.buffers, { desc = "Buffers [b]rowse" })
-			vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "[O]ld Files" })
+
+			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
+			vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "[F]ind quickfix" })
+			vim.keymap.set("n", "<leader>ft", builtin.treesitter, { desc = "Find treesitter" })
+
+			vim.keymap.set("n", "<leader>fln", builtin.lsp_incoming_calls, { desc = "Find Incoming" })
+			vim.keymap.set("n", "<leader>flo", builtin.lsp_outgoing_calls, { desc = "Find Outgoing" })
+
+			-- Marks
+			vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Find marks" })
+
+			-- Misc
+			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "[F]ind [R]esume" })
+			vim.keymap.set("n", "<leader>fx", builtin.builtin, { desc = "[F]ind Select Telescope" })
+			vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
+			vim.keymap.set("n", "<leader>fH", builtin.help_tags, { desc = "[F]ind [H]elp" })
 			vim.keymap.set("n", "<leader>fc", function()
 				builtin.find_files({ cwd = vim.fn.stdpath("config") })
-			end, { desc = "[S]earch [N]eovim files" })
+			end, { desc = "[F]ind [C]onfig" })
+			vim.keymap.set("n", "<leader>fp", function()
+				builtin.planets({ show_pluto = true, show_moon = true })
+			end, { desc = "[F]ind [P]lanets" })
 		end,
 	},
 }

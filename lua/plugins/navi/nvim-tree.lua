@@ -1,3 +1,5 @@
+-- 	NOTE: remove
+--
 -- 	"nvim-neo-tree/neo-tree.nvim",
 -- 	branch = "v3.x",
 -- 	dependencies = {
@@ -19,7 +21,7 @@
 return {
 	"nvim-tree/nvim-tree.lua",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
-	lazy = true,
+	event = "BufWinEnter",
 	cmd = "NvimTreeToggle",
 	config = function()
 		local function on_attach_change(bufnr)
