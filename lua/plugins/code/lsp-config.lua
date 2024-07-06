@@ -28,7 +28,7 @@ return {
 						"clangd",
 						"--offset-encoding=utf-16",
 					},
-					on_attach = function(client, bufnr)
+					on_attach = function()
 						vim.keymap.set(
 							"n",
 							"<leader>ch",
@@ -39,15 +39,19 @@ return {
 				},
 				-- gopls = {},
 				pylsp = {
-					plugins = {
-						-- formatter
-						black = { enabled = true },
-						autopep8 = { enabled = false },
-						yapf = { enabled = false },
-						-- linter
-						pycodestyle = {
-							ignore = { "E501" },
-							maxLineLength = 100,
+					settings = {
+						pylsp = {
+							plugins = {
+								-- formatter
+								autopep8 = { enabled = false },
+								yapf = { enabled = false },
+								-- linter
+								pycodestyle = {
+									enabled = true,
+									-- ignore = { "E501" },
+									-- maxLineLength = 100,
+								},
+							},
 						},
 					},
 				},
@@ -58,10 +62,12 @@ return {
 				ocamllsp = {
 					-- This doesn't seem to be working eh
 					settings = {
-						extendedHover = { enable = true },
-						codelens = { enable = true },
-						inlayHints = { enable = true },
-						syntaxDocumentation = { enable = true },
+						ocamllsp = {
+							extendedHover = { enable = true },
+							codelens = { enable = true },
+							inlayHints = { enable = true },
+							syntaxDocumentation = { enable = true },
+						},
 					},
 				},
 				texlab = {
