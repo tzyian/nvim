@@ -18,7 +18,7 @@ return {
 	},
 
 	keys = {
-		{ "<leader>cc", "<cmd>TSContextToggle<CR>", desc = "Toggle [C]ontext", silent = true },
+		{ "<leader>cc", "<cmd>TSContextToggle<CR>", desc = "Toggle Context", silent = true },
 		{
 			"gc",
 			function()

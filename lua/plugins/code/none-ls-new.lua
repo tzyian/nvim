@@ -1,0 +1,118 @@
+return {}
+-- return {
+-- 	"nvimtools/none-ls.nvim",
+-- 	event = "VeryLazy",
+-- 	config = function()
+-- 		local null_ls = require("null-ls")
+--
+-- 		vim.api.nvim_create_user_command("ToggleBufferFormat", function(args)
+-- 			if vim.b.disable_autoformat then
+-- 				vim.b.disable_autoformat = false
+-- 				return
+-- 			end
+-- 			vim.b.disable_autoformat = true
+-- 		end, {
+-- 			desc = "Toggle autoformat-on-save for this buffer",
+-- 		})
+--
+-- 		vim.api.nvim_create_user_command("ToggleGlobalFormat", function(args)
+-- 			if vim.g.disable_autoformat then
+-- 				vim.g.disable_autoformat = false
+-- 				vim.b.disable_autoformat = false
+-- 				return
+-- 			end
+-- 			vim.g.disable_autoformat = true
+-- 		end, {
+-- 			desc = "Toggle autoformat-on-save globally",
+-- 		})
+--
+-- 		vim.keymap.set("n", "<leader>cg", "<cmd>ToggleBufferFormat<CR>", { desc = "Toggle format on save (buffer)" })
+-- 		vim.keymap.set("n", "<leader>cG", "<cmd>ToggleGlobalFormat<CR>", { desc = "Toggle format on save (global)" })
+--
+-- 		-- require("which-key").add({
+-- 		-- 	{
+-- 		-- 		"<leader>cg",
+-- 		-- 		"<cmd>ToggleBufferFormat<CR>",
+-- 		-- 		desc = "Toggle format on save (buffer)",
+-- 		-- 		icon = function()
+-- 		-- 			if vim.b.disable_autoformat then
+-- 		-- 				return { icon = " ", color = "yellow" }
+-- 		-- 			else
+-- 		-- 				return { icon = " ", color = "green" }
+-- 		-- 			end
+-- 		-- 		end,
+-- 		-- 	},
+-- 		-- 	{
+-- 		-- 		"<leader>cG",
+-- 		-- 		"<cmd>ToggleGlobalFormat<CR>",
+-- 		-- 		desc = "Toggle format on save (global)",
+-- 		-- 		icon = function()
+-- 		-- 			if vim.g.disable_autoformat then
+-- 		-- 				return { icon = " ", color = "yellow" }
+-- 		-- 			else
+-- 		-- 				return { icon = " ", color = "green" }
+-- 		-- 			end
+-- 		-- 		end,
+-- 		-- 	},
+-- 		-- })
+--
+-- 		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+-- 		null_ls.setup({
+-- 			sources = {
+-- 				-- Lua
+-- 				null_ls.builtins.formatting.stylua,
+--
+-- 				-- JS/TS
+-- 				null_ls.builtins.formatting.prettier,
+-- 				-- null_ls.builtins.formatting.rustywind,
+-- 				-- null_ls.builtins.diagnostics.eslint_d,
+--
+-- 				-- Bash/Shell
+-- 				null_ls.builtins.formatting.shfmt,
+-- 				null_ls.builtins.formatting.shellharden,
+-- 				-- null_ls.builtins.diagnostics.shellcheck,
+--
+-- 				-- Python
+-- 				null_ls.builtins.formatting.black,
+-- 				null_ls.builtins.formatting.isort,
+--
+-- 				-- Yaml
+-- 				null_ls.builtins.formatting.yamlfmt,
+-- 				null_ls.builtins.diagnostics.yamllint,
+--
+-- 				-- Ocaml
+-- 				null_ls.builtins.formatting.ocamlformat,
+--
+-- 				null_ls.builtins.formatting.goimports,
+-- 				null_ls.builtins.formatting.gofmt,
+-- 				null_ls.builtins.diagnostics.golangci_lint,
+--
+-- 				-- Java
+--
+-- 				-- C++
+-- 				-- null_ls.builtins.formatting.clang_format,
+-- 				null_ls.builtins.diagnostics.cppcheck,
+-- 			},
+--
+-- 			on_attach = function(client, bufnr)
+-- 				if vim.b[bufnr].disable_autoformat or vim.g.disable_autoformat then
+-- 					return
+-- 				end
+--
+-- 				if client.supports_method("textDocument/formatting") then
+-- 					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+-- 					vim.api.nvim_create_autocmd("BufWritePre", {
+-- 						group = augroup,
+-- 						buffer = bufnr,
+-- 						callback = function()
+-- 							-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+-- 							-- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
+-- 							vim.lsp.buf.format({ async = false })
+-- 						end,
+-- 					})
+-- 					vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "Code Format" })
+-- 				end
+-- 			end,
+-- 		})
+-- 	end,
+-- }

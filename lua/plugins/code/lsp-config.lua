@@ -5,7 +5,7 @@ return {
 		event = "BufReadPre",
 		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
-			{ "williamboman/mason.nvim",           opts = {} },
+			{ "williamboman/mason.nvim",           opts = {}, cmd = "Mason" },
 			{ "williamboman/mason-lspconfig.nvim", opts = {} },
 
 			-- Useful status updates for LSP
@@ -115,11 +115,11 @@ return {
 			})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
-				vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "[R]ename" }),
-				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" }),
-				vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "[C]ode [F]ormat" }),
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show [K]ind" }),
-				vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { desc = "Show [K]ind" }),
+				vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" }),
+				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" }),
+				vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "Code Format" }),
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show Kind" }),
+				vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { desc = "Show Kind" }),
 
 				callback = function(event)
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -133,18 +133,8 @@ return {
 
 					if client and client.server_capabilities.codeLensProvider and vim.lsp.codelens then
 						vim.lsp.codelens.refresh()
-						vim.keymap.set(
-							"n",
-							"<leader>cl",
-							vim.lsp.codelens.refresh,
-							{ desc = "[C]ode [L]ens", silent = true }
-						)
-						vim.keymap.set(
-							"n",
-							"<leader>cL",
-							vim.lsp.codelens.clear,
-							{ desc = "[C]ode [L]ens Clear", silent = true }
-						)
+						vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.refresh, { desc = "Code Lens" })
+						vim.keymap.set("n", "<leader>cL", vim.lsp.codelens.clear, { desc = "Code Lens Clear" })
 					end
 				end,
 			})

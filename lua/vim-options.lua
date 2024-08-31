@@ -68,78 +68,83 @@ vim.opt.inccommand = "split"
 vim.wo.signcolumn = "auto:1"
 vim.wo.foldcolumn = "auto:1"
 
--- Remove highlights after searching
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { silent = true })
-
--- Disable yank on delete
-vim.keymap.set("n", "x", '"_x', { noremap = true })
-vim.keymap.set("n", "<Del>", '"_x', { noremap = true })
-
--- Switch buffers quickly
-vim.keymap.set("n", "<leader>bd", "<cmd>bdelete<CR>", { desc = "Buffer [d]elete", silent = true })
-vim.keymap.set("n", "[b", "<cmd>bp<CR>", { silent = true, desc = "Previous [b]uffer" })
-vim.keymap.set("n", "]b", "<cmd>bn<CR>", { silent = true, desc = "Next [b]uffer" })
-vim.keymap.set("n", "<leader>b[", "<cmd>bp<CR>", { silent = true, desc = "Previous buffer" })
-vim.keymap.set("n", "<leader>b]", "<cmd>bp<CR>", { silent = true, desc = "Next buffer" })
-
 -- Completion
 vim.o.completeopt = "menuone,noselect,noinsert"
 
+-- For nvim python provider
+vim.g.python3_host_prog = "~/.pyenv/versions/pynvim/bin/python"
+
+---------------------------------------------
+------------------ Keymaps ------------------
+---------------------------------------------
+
+local function nmap(key, option, desc)
+	vim.keymap.set("n", key, option, { desc = desc })
+end
+
+local function tmap(key, option, desc)
+	vim.keymap.set("t", key, option, { desc = desc })
+end
+
+-- Better cursor movement
+-- vim.keymap.set({ "n", "o", "v" }, "H", "^", { silent = true })
+-- vim.keymap.set({ "n", "o", "v" }, "L", "$", { silent = true })
+
+-- Remove highlights after searching
+nmap("<Esc>", "<cmd>nohlsearch<CR>", "Remove highlights after searching")
+
+-- Disable yank on delete
+nmap("x", '"_x', "Disable yank on delete")
+nmap("<Del>", '"_x', "Disable yank on delete")
+
+-- -- Switch buffers quickly
+-- nmap("<leader>bd", "<cmd>bdelete<CR>", "Buffer delete")
+-- nmap("[b", "<cmd>bp<CR>", "Previous buffer")
+-- nmap("]b", "<cmd>bn<CR>", "Next buffer")
+-- nmap("<leader>b[", "<cmd>bp<CR>", "Previous buffer")
+-- nmap("<leader>b]", "<cmd>bp<CR>", "Next buffer")
+
 -- Diagnostics
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>ql", vim.diagnostic.setloclist, { desc = "Open diagnostics [l]ist" })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+nmap("<leader>e", vim.diagnostic.open_float, "Open floating diagnostic message")
+nmap("<leader>ql", vim.diagnostic.setloclist, "Open diagnostics list")
+nmap("[d", vim.diagnostic.goto_prev, "Go to previous diagnostic message")
+nmap("]d", vim.diagnostic.goto_next, "Go to next diagnostic message")
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Open terminal
-vim.keymap.set("n", "<leader>t", "<cmd>vsplit<CR><cmd>term<CR>a", { silent = true, desc = "Open [t]erminal" })
-vim.keymap.set("n", "<leader>T", "<cmd>sp<CR><cmd>term<CR>a", { silent = true, desc = "Open [T]erminal" })
+nmap("<leader>t", "<cmd>vsplit<CR><cmd>term<CR>a", "Open terminal")
+nmap("<leader>T", "<cmd>sp<CR><cmd>term<CR>a", "Open Terminal")
 
 -- Escape terminal mode
-vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { silent = true })
-vim.keymap.set("t", "<C-w>h", "<C-\\><C-n><C-w>h", { silent = true })
-vim.keymap.set("t", "<C-w>j", "<C-\\><C-n><C-w>j", { silent = true })
-vim.keymap.set("t", "<C-w>k", "<C-\\><C-n><C-w>k", { silent = true })
-vim.keymap.set("t", "<C-w>l", "<C-\\><C-n><C-w>l", { silent = true })
-vim.keymap.set("t", "<C-w>q", "<C-\\><C-n><C-w>q", { silent = true })
+tmap("<Esc>", "<C-\\><C-n>", "Escape terminal mode")
+tmap("<C-w>h", "<C-\\><C-n><C-w>h", "Move to left window")
+tmap("<C-w>j", "<C-\\><C-n><C-w>j", "Move to window below")
+tmap("<C-w>k", "<C-\\><C-n><C-w>k", "Move to window above")
+tmap("<C-w>l", "<C-\\><C-n><C-w>l", "Move to right window")
+tmap("<C-w>q", "<C-\\><C-n><C-w>q", "Close window")
 
 -- Switch tabs
-vim.keymap.set("n", "<C-n>", "gt", { silent = true, desc = "Next tab" })
-vim.keymap.set("n", "<C-p>", "gT", { silent = true, desc = "Previous tab" })
-vim.keymap.set("n", "<Tab>", "gt", { silent = true, desc = "Next tab" })
-vim.keymap.set("n", "<S-Tab>", "gT", { silent = true, desc = "Previous tab" })
+nmap("<C-n>", "gt", "Next tab")
+nmap("<C-p>", "gT", "Previous tab")
+nmap("<Tab>", "gt", "Next tab")
+nmap("<S-Tab>", "gT", "Previous tab")
 
 -- Comment remaps (not working)
 -- vim.keymap.set("n", "<c-_>", "gcc", { desc = "Comment line", silent = true })
 -- vim.keymap.set("v", "<c-_>", "gc", { desc = "Comment line", silent = true })
 
 -- For saving convenience
-vim.keymap.set("n", "<leader>w", "<Cmd>w<CR>", { desc = "Save" })
+nmap("<leader>w", "<cmd>w<CR>", "Save")
 
 -- Misc Config
-vim.keymap.set("n", "<leader>ml", "<cmd>Lazy<CR>", { desc = "Lazy" })
-vim.keymap.set("n", "<leader>mm", "<cmd>Mason<CR>", { desc = "Mason" })
-vim.keymap.set("n", "<leader>mi", "<cmd>LspInfo<CR>", { desc = "LspInfo" })
-vim.keymap.set(
-	"n",
+nmap("<leader>ml", "<cmd>Lazy<CR>", "Lazy")
+nmap("<leader>mm", "<cmd>Mason<CR>", "Mason")
+nmap("<leader>mi", "<cmd>LspInfo<CR>", "LspInfo")
+nmap(
 	"<leader>mc",
 	"<cmd>tabnew ~/.config/nvim/lua/vim-options.lua<CR> <cmd>cd ~/.config/nvim/<CR> <cmd>NvimTreeOpen ~/.config/nvim<CR>",
-	{ noremap = true, desc = "Edit config" }
+	"Edit config"
 )
-
--- For nvim python provider
-vim.g.python3_host_prog = "~/.pyenv/versions/pynvim/bin/python"
-
--- Highlight yanked text
-local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	pattern = "*",
-})

@@ -52,9 +52,6 @@ return {
 						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 					}),
 				},
-			})
-
-			cmp.setup({
 				snippet = {
 					expand = function(args)
 						require("luasnip").lsp_expand(args.body)

@@ -1,8 +1,7 @@
 return {
 	{
-		"MeanderingProgrammer/markdown.nvim",
+		"MeanderingProgrammer/render-markdown.nvim",
 		event = "BufRead *.md",
-		name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		config = function()
 			require("render-markdown").setup({})
@@ -10,7 +9,7 @@ return {
 	},
 	{
 		"ellisonleao/glow.nvim",
-		lazy = true,
+		event = "BufRead *.md",
 		cmd = "Glow",
 		opts = {},
 		keys = {
@@ -19,7 +18,7 @@ return {
 	},
 	{
 		"iamcco/markdown-preview.nvim",
-		lazy = true,
+		event = "BufRead *.md",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
 		build = "cd app && npm install",
 		config = function()

@@ -8,12 +8,12 @@
 -- 		"MunifTanjim/nui.nvim",
 -- 	},
 -- 	config = function()
--- 		vim.keymap.set("n", "<leader>n", ":Neotree toggle=true <CR>", { silent = true, desc = "Open [N]eotree" })
+-- 		vim.keymap.set("n", "<leader>n", ":Neotree toggle=true <CR>", { silent = true, desc = "Open Neotree" })
 -- 		vim.keymap.set(
 -- 			"n",
 -- 			"<leader>bf",
 -- 			":Neotree buffers reveal float<CR>",
--- 			{ silent = true, desc = "Open [b]uffers [f]loat" }
+-- 			{ silent = true, desc = "Open buffers float" }
 -- 		)
 -- 	end,
 -- }
@@ -24,9 +24,27 @@ return {
 	event = "BufWinEnter",
 	cmd = "NvimTreeToggle",
 	config = function()
-		local function on_attach_change(bufnr)
-			local api = require("nvim-tree.api")
+		local api = require("nvim-tree.api")
 
+		local function edit_or_open()
+			local node = api.tree.get_node_under_cursor()
+
+			if node.nodes ~= nil then
+				-- expand or collapse folder
+				api.node.open.edit()
+			else
+				-- open file
+				api.node.open.preview()
+			end
+		end
+
+		local function del_arr_keys(bufnr, key_arr)
+			for _, key in ipairs(key_arr) do
+				vim.keymap.del("n", key, { buffer = bufnr })
+			end
+		end
+
+		local function on_attach_change(bufnr)
 			local function opts(desc)
 				return {
 					desc = "nvim-tree: " .. desc,
@@ -36,17 +54,44 @@ return {
 					nowait = true,
 				}
 			end
+			local function nmap(key, cmd, desc)
+				vim.keymap.set("n", key, cmd, opts(desc))
+			end
 
 			api.config.mappings.default_on_attach(bufnr)
 
-			vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<CR>", { silent = true, desc = "Ope[n] file tree" })
-			vim.keymap.set("n", ".", api.tree.change_root_to_node, opts("CD"))
-			vim.keymap.set("n", "<BS>", api.tree.change_root_to_parent, opts("Up"))
-			vim.keymap.set("n", ",", api.node.run.cmd, opts("Run Command"))
-			vim.keymap.set("n", "<C-s>", api.node.open.vertical, opts("Open: Vertical Split"))
-			vim.keymap.set("n", "<C-x>", api.node.open.horizontal, opts("Open: Horizontal Split"))
-			vim.keymap.del("n", "<C-v>", { buffer = bufnr })
-			vim.keymap.del("n", "<c-e>", { buffer = bufnr })
+			--[[
+			-- Most important keymaps
+			-- ----------------------
+			-- x: Cut
+			-- c: Copy
+			-- p: Paste
+			-- L: Preview
+			--]]
+
+			nmap("<leader>n", "<cmd>NvimTreeToggle<CR>", "Toggle NvimTree")
+			nmap(".", api.tree.change_root_to_node, "Change root to node")
+			nmap(",", api.node.run.cmd, "Run command")
+			nmap("<C-s>", api.node.open.vertical, "Open: Vertical Split")
+			nmap("<C-x>", api.node.open.horizontal, "Open: Horizontal Split")
+			nmap("l", api.node.open.preview, "Preview")
+			nmap("h", api.node.navigate.parent_close, "Parent")
+			nmap("?", api.tree.toggle_help, "Help")
+
+			del_arr_keys(bufnr, {
+				"<C-v>",
+				"<C-e>",
+				"<C-]>",
+				"J",
+				"K",
+				"<BS>",
+				"<Tab>",
+				"<",
+				">",
+				"-",
+				"g?",
+				"I",
+			})
 		end
 
 		require("nvim-tree").setup({
@@ -75,6 +120,6 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>", { silent = true, desc = "Ope[n] file tree" })
+		vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>", { silent = true, desc = "Open file tree" })
 	end,
 }

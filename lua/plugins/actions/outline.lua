@@ -12,5 +12,10 @@ return {
 			peek_location = "<Tab>",
 			fold_toggle = "t",
 		},
+		symbols = {
+			filter = {
+				python = { "Function", "Class" },
+			},
+		},
 	},
 }

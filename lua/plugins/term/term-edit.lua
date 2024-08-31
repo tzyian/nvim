@@ -1,7 +1,7 @@
 return {
   "chomosuke/term-edit.nvim",
   lazy = true,
-  ft = { "fterm_lazygit", "FTerm" },
+  ft = { "fterm_lazygit", "FTerm", "toggleterm" },
   version = "1.*",
   config = function()
     local shell = {
