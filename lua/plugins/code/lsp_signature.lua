@@ -1,12 +1,18 @@
--- NOTE: remove
 return {}
 -- return {
---   {
---     "ray-x/lsp_signature.nvim",
---     event = "InsertEnter",
---     opts = {},
---     config = function(_, opts)
---       require("lsp_signature").setup(opts)
---     end,
---   },
+-- 	{
+-- 		"ray-x/lsp_signature.nvim",
+-- 		event = "InsertEnter",
+-- 		opts = {
+-- 			toggle_key = "<C-b>",
+-- 			doc_lines = 1,
+-- 		},
+-- 		config = function(_, opts)
+-- 			require("lsp_signature").setup(opts)
+--
+-- 			-- vim.keymap.set({ "n", "i" }, "<C-k>", function()
+-- 			-- 	require("lsp_signature").toggle_float_win()
+-- 			-- end, { silent = true, noremap = true, desc = "toggle signature" })
+-- 		end,
+-- 	},
 -- }

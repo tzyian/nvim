@@ -9,11 +9,12 @@ return {
 	},
 	config = function()
 		require("barbecue").setup()
-		vim.keymap.set(
-			"n",
-			"<leader>cb",
-			"<cmd>lua require('barbecue.ui').toggle()<CR>",
-			{ desc = "Toggle breadcrumbs" }
-		)
+		------ Been moved to which-key.lua
+		-- vim.keymap.set(
+		-- 	"n",
+		-- 	"<leader>cb",
+		-- 	"<cmd>lua require('barbecue.ui').toggle()<CR>",
+		-- 	{ desc = "Toggle breadcrumbs" }
+		-- )
 	end,
 }

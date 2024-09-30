@@ -2,7 +2,8 @@ return {
 	"karb94/neoscroll.nvim",
 	event = "VeryLazy",
 	config = function()
-		require("neoscroll").setup({
+		local neoscroll = require("neoscroll")
+		neoscroll.setup({
 			-- All these keys will be mapped to their corresponding default scrolling animation
 			-- mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
 			mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>" },
@@ -10,22 +11,31 @@ return {
 			stop_eof = true,           -- Stop at <EOF> when scrolling downwards
 			respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
 			cursor_scrolls_alone = false, -- The cursor will keep on scrolling even if the window cannot scroll further
-			easing_function = nil,     -- Default easing function
+			easing = "circular",       -- Default easing function
 			pre_hook = nil,            -- Function to run before the scrolling animation starts
 			post_hook = nil,           -- Function to run after the scrolling animation ends
 			performance_mode = false,  -- Disable "Performance Mode" on all buffers.
 		})
 
-		local t = {}
-		-- Syntax: t[keys] = {function, {function arguments}}
-		t["<C-u>"] = { "scroll", { "-vim.wo.scroll", "false", "50", [['circular']] } }
-		t["<C-d>"] = { "scroll", { "vim.wo.scroll", "false", "50", [['circular']] } }
-		t["<C-b>"] = { "scroll", { "-vim.api.nvim_win_get_height(0)", "false", "75", [['circular']] } }
-		t["<C-f>"] = { "scroll", { "vim.api.nvim_win_get_height(0)", "false", "75", [['circular']] } }
-		-- Pass "nil" to disable the easing animation (constant scrolling speed)
-		-- t["<C-y>"] = { "scroll", { "-0.10", "false", "10", nil } }
-		-- t["<C-e>"] = { "scroll", { "0.10", "false", "10", nil } }
+		local keymap = {
+			["<C-u>"] = function()
+				neoscroll.ctrl_u({ duration = 50, easing = "circular" })
+			end,
+			["<C-d>"] = function()
+				neoscroll.ctrl_d({ duration = 50, easing = "circular" })
+			end,
+			-- Use the "circular" easing function
+			["<C-b>"] = function()
+				neoscroll.ctrl_b({ duration = 75, easing = "circular" })
+			end,
+			["<C-f>"] = function()
+				neoscroll.ctrl_f({ duration = 75, easing = "circular" })
+			end,
+		}
 
-		require("neoscroll.config").set_mappings(t)
+		local modes = { "n", "v", "x" }
+		for key, func in pairs(keymap) do
+			vim.keymap.set(modes, key, func)
+		end
 	end,
 }

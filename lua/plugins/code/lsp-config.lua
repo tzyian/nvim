@@ -2,15 +2,15 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		-- lazy = false,
-		event = "BufReadPre",
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
-			{ "williamboman/mason.nvim",           opts = {}, cmd = "Mason" },
+			{ "williamboman/mason.nvim", opts = {}, cmd = "Mason" },
 			{ "williamboman/mason-lspconfig.nvim", opts = {} },
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ "j-hui/fidget.nvim",                 opts = {} },
+			{ "j-hui/fidget.nvim", opts = {} },
 
 			-- Additional lua configuration, makes nvim stuff amazing!
 			"folke/neodev.nvim",
@@ -38,44 +38,47 @@ return {
 					end,
 				},
 				-- gopls = {},
-				pylsp = {
-					settings = {
-						pylsp = {
-							plugins = {
-								-- formatter
-								autopep8 = { enabled = false },
-								yapf = { enabled = false },
-								-- linter
-								pycodestyle = {
-									enabled = true,
-									-- ignore = { "E501" },
-									-- maxLineLength = 100,
-								},
-							},
-						},
-					},
-				},
+				pyright = {},
+				-- pylsp = {
+				-- 	settings = {
+				-- 		pylsp = {
+				-- 			plugins = {
+				-- 				-- formatter
+				-- 				autopep8 = { enabled = false },
+				-- 				black = { enabled = true },
+				-- 				yapf = { enabled = false },
+				-- 				-- linter
+				-- 				pycodestyle = {
+				-- 					enabled = true,
+				-- 					-- ignore = { "E501" },
+				-- 					-- maxLineLength = 100,
+				-- 				},
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
 				-- rust_analyzer = {},
 				-- tsserver = {},
 				-- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
-				ocamllsp = {
-					-- This doesn't seem to be working eh
-					settings = {
-						ocamllsp = {
-							extendedHover = { enable = true },
-							codelens = { enable = true },
-							inlayHints = { enable = true },
-							syntaxDocumentation = { enable = true },
-						},
-					},
-				},
+				-- ocamllsp = {
+				-- 	-- This doesn't seem to be working eh
+				-- 	settings = {
+				-- 		ocamllsp = {
+				-- 			extendedHover = { enable = true },
+				-- 			codelens = { enable = true },
+				-- 			inlayHints = { enable = true },
+				-- 			syntaxDocumentation = { enable = true },
+				-- 		},
+				-- 	},
+				-- },
 				texlab = {
 					chktex = {
 						onOpenAndSave = true,
 						onEdit = true,
 					},
 				},
+				jdtls = {},
 				lua_ls = {
 					Lua = {
 						workspace = { checkThirdParty = false },
@@ -114,6 +117,17 @@ return {
 				},
 			})
 
+			-- vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 	callback = function()
+			-- 		local mode = vim.api.nvim_get_mode().mode
+			-- 		local filetype = vim.bo.filetype
+			-- 		if vim.bo.modified == true and mode == "n" then
+			-- 			vim.cmd("lua vim.lsp.buf.format()")
+			-- 		else
+			-- 		end
+			-- 	end,
+			-- })
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" }),
 				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" }),
@@ -129,6 +143,21 @@ return {
 						vim.keymap.set("n", "<leader>ci", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 						end, { desc = "Toggle Inlay Hints" })
+
+						require("which-key").add({
+							{
+								"<leader>ci",
+								"<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>",
+								desc = "Toggle Inlay Hints",
+								icon = function()
+									if vim.lsp.inlay_hint.is_enabled() then
+										return { icon = " ", color = "green" }
+									else
+										return { icon = " ", color = "yellow" }
+									end
+								end,
+							},
+						})
 					end
 
 					if client and client.server_capabilities.codeLensProvider and vim.lsp.codelens then

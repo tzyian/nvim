@@ -1,24 +1,5 @@
--- 	NOTE: remove
---
--- 	"nvim-neo-tree/neo-tree.nvim",
--- 	branch = "v3.x",
--- 	dependencies = {
--- 		"nvim-lua/plenary.nvim",
--- 		"nvim-tree/nvim-web-devicons",
--- 		"MunifTanjim/nui.nvim",
--- 	},
--- 	config = function()
--- 		vim.keymap.set("n", "<leader>n", ":Neotree toggle=true <CR>", { silent = true, desc = "Open Neotree" })
--- 		vim.keymap.set(
--- 			"n",
--- 			"<leader>bf",
--- 			":Neotree buffers reveal float<CR>",
--- 			{ silent = true, desc = "Open buffers float" }
--- 		)
--- 	end,
--- }
-
 return {
+	-- "mxple/nvim-tree.lua",
 	"nvim-tree/nvim-tree.lua",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	event = "BufWinEnter",
@@ -26,17 +7,17 @@ return {
 	config = function()
 		local api = require("nvim-tree.api")
 
-		local function edit_or_open()
-			local node = api.tree.get_node_under_cursor()
-
-			if node.nodes ~= nil then
-				-- expand or collapse folder
-				api.node.open.edit()
-			else
-				-- open file
-				api.node.open.preview()
-			end
-		end
+		-- local function edit_or_open()
+		-- 	local node = api.tree.get_node_under_cursor()
+		--
+		-- 	if node.nodes ~= nil then
+		-- 		-- expand or collapse folder
+		-- 		api.node.open.edit()
+		-- 	else
+		-- 		-- open file
+		-- 		api.node.open.preview()
+		-- 	end
+		-- end
 
 		local function del_arr_keys(bufnr, key_arr)
 			for _, key in ipairs(key_arr) do
@@ -54,8 +35,20 @@ return {
 					nowait = true,
 				}
 			end
+
 			local function nmap(key, cmd, desc)
 				vim.keymap.set("n", key, cmd, opts(desc))
+			end
+
+			local function change_root_to_node(node)
+				if node == nil then
+					node = api.tree.get_node_under_cursor()
+				end
+
+				if node ~= nil and node.type == "directory" then
+					vim.api.nvim_set_current_dir(node.absolute_path)
+				end
+				api.tree.change_root_to_node(node)
 			end
 
 			api.config.mappings.default_on_attach(bufnr)
@@ -66,11 +59,12 @@ return {
 			-- x: Cut
 			-- c: Copy
 			-- p: Paste
-			-- L: Preview
+			-- l: Preview
 			--]]
 
 			nmap("<leader>n", "<cmd>NvimTreeToggle<CR>", "Toggle NvimTree")
-			nmap(".", api.tree.change_root_to_node, "Change root to node")
+			nmap(".", change_root_to_node, "Change root to node")
+			nmap("<2-RightMouse>", change_root_to_node, "Change root to node")
 			nmap(",", api.node.run.cmd, "Run command")
 			nmap("<C-s>", api.node.open.vertical, "Open: Vertical Split")
 			nmap("<C-x>", api.node.open.horizontal, "Open: Horizontal Split")
@@ -96,6 +90,11 @@ return {
 
 		require("nvim-tree").setup({
 			on_attach = on_attach_change,
+			actions = {
+				open_file = {
+					resize_window = false,
+				},
+			},
 			update_focused_file = {
 				enable = true,
 				update_root = true,
@@ -107,6 +106,9 @@ return {
 			view = {
 				number = true,
 				relativenumber = true,
+			},
+			help = {
+				sort_by = "desc",
 			},
 			renderer = {
 				indent_markers = {
@@ -120,6 +122,6 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>", { silent = true, desc = "Open file tree" })
+		vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<CR>", { silent = true, desc = "Open file tree" })
 	end,
 }

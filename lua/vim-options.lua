@@ -14,20 +14,42 @@ vim.o.shiftwidth = 2
 vim.o.termguicolors = true
 vim.o.background = "dark"
 
--- Use system clipboard
-vim.g.clipboard = {
-	name = "win32yank",
-	copy = {
-		["+"] = "win32yank.exe -i --crlf",
-		["*"] = "win32yank.exe -i --crlf",
-	},
-	paste = {
-		["+"] = "win32yank.exe -o --lf",
-		["*"] = "win32yank.exe -o --lf",
-	},
-	cache_enabled = 0,
-}
+-- Sync system keyboard
 vim.o.clipboard = "unnamedplus"
+
+if vim.fn.has("wsl") == 1 then
+	-- For nvim python provider
+	-- Here since this won't be used anywhere else
+	vim.g.python3_host_prog = "~/.pyenv/versions/pynvim/bin/python"
+
+	-- Makes wsl nvim faster by not searching for clipboard provider
+	vim.g.clipboard = {
+		name = "win32yank",
+		copy = {
+			["+"] = "win32yank.exe -i --crlf",
+			["*"] = "win32yank.exe -i --crlf",
+		},
+		paste = {
+			["+"] = "win32yank.exe -o --lf",
+			["*"] = "win32yank.exe -o --lf",
+		},
+		cache_enabled = true,
+	}
+elseif vim.fn.has("win32") == 1 then
+	-- Set shell
+	local powershell_options = {
+		shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
+		shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+		shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
+		shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
+		shellquote = "",
+		shellxquote = "",
+	}
+
+	for option, value in pairs(powershell_options) do
+		vim.opt[option] = value
+	end
+end
 
 -- Line numbers
 vim.o.number = true
@@ -71,9 +93,6 @@ vim.wo.foldcolumn = "auto:1"
 -- Completion
 vim.o.completeopt = "menuone,noselect,noinsert"
 
--- For nvim python provider
-vim.g.python3_host_prog = "~/.pyenv/versions/pynvim/bin/python"
-
 ---------------------------------------------
 ------------------ Keymaps ------------------
 ---------------------------------------------
@@ -110,13 +129,15 @@ nmap("<leader>ql", vim.diagnostic.setloclist, "Open diagnostics list")
 nmap("[d", vim.diagnostic.goto_prev, "Go to previous diagnostic message")
 nmap("]d", vim.diagnostic.goto_next, "Go to next diagnostic message")
 
+vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { silent = true, noremap = true, desc = "toggle signature" })
+
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Open terminal
-nmap("<leader>t", "<cmd>vsplit<CR><cmd>term<CR>a", "Open terminal")
-nmap("<leader>T", "<cmd>sp<CR><cmd>term<CR>a", "Open Terminal")
+nmap("<leader>tt", "<cmd>vsplit<CR><cmd>term<CR>a", "Open terminal")
+nmap("<leader>tT", "<cmd>sp<CR><cmd>term<CR>a", "Open Terminal")
 
 -- Escape terminal mode
 tmap("<Esc>", "<C-\\><C-n>", "Escape terminal mode")

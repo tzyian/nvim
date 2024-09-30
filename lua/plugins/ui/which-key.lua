@@ -1,6 +1,6 @@
 return {
 	"folke/which-key.nvim",
-	event = "VeryLazy",
+	-- event = "VeryLazy",
 	opts = {},
 	config = function()
 		require("which-key").add({
@@ -24,6 +24,38 @@ return {
 			{ "<leader>z",  group = "Leet" },
 			{ "<leader>fl", group = "Lsp" },
 			{ "<leader>fh", group = "Git" },
+
+			-- I'm not sure how to shift this out. I think cos my plugins are lazy but this is not
+			{
+				"<leader>cb",
+				"<cmd>lua require('barbecue.ui').toggle()<CR>",
+				desc = "Toggle breadcrumbs",
+				icon = { icon = " ", color = "green" },
+			},
+			{
+				"<leader>cg",
+				"<cmd>ToggleBufferFormat<CR>",
+				desc = "Toggle format on save (buffer)",
+				icon = function()
+					if vim.b.disable_autoformat then
+						return { icon = " ", color = "yellow" }
+					else
+						return { icon = " ", color = "green" }
+					end
+				end,
+			},
+			{
+				"<leader>cG",
+				"<cmd>ToggleGlobalFormat<CR>",
+				desc = "Toggle format on save (global)",
+				icon = function()
+					if vim.g.disable_autoformat then
+						return { icon = " ", color = "yellow" }
+					else
+						return { icon = " ", color = "green" }
+					end
+				end,
+			},
 		})
 	end,
 }

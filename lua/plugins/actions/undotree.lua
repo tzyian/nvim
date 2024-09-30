@@ -5,6 +5,6 @@ return {
 	cmd = "UndotreeToggle",
 	opt = {},
 	keys = {
-		{ "<leader>u", ":UndotreeToggle<CR>", silent = true, desc = "Toggle undotree" },
+		{ "<leader>u", "<cmd>UndotreeToggle<CR>", silent = true, desc = "Open undotree" },
 	},
 }
