@@ -1,9 +1,11 @@
 return {
-	-- "mxple/nvim-tree.lua",
 	"nvim-tree/nvim-tree.lua",
 	dependencies = { "nvim-tree/nvim-web-devicons" },
-	event = "BufWinEnter",
+	lazy = true,
 	cmd = "NvimTreeToggle",
+	keys = {
+		{ "<leader>n", "<cmd>NvimTreeToggle<CR>", { silent = true, desc = "Open file tree" } },
+	},
 	config = function()
 		local api = require("nvim-tree.api")
 

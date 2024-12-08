@@ -17,7 +17,7 @@ return {
 				null_ls.builtins.diagnostics.cmake_lint,
 
 				------------ JS
-				null_ls.builtins.diagnostics.spectral,
+				-- null_ls.builtins.diagnostics.spectral,
 
 				------------ SQL
 				null_ls.builtins.diagnostics.sqlfluff.with({

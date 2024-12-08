@@ -36,10 +36,8 @@ return {
 							-- You can use the capture groups defined in textobjects.scm
 							["af"] = "@function.outer",
 							["if"] = "@function.inner",
-							["ac"] = "@comment.outer",
-							["ic"] = "@comment.inner",
-							["aC"] = "@class.outer",
-							["iC"] = "@class.inner",
+							["ac"] = "@class.outer",
+							["ic"] = "@class.inner",
 						},
 
 						include_surrounding_whitespace = false,
@@ -48,10 +46,10 @@ return {
 						enable = true,
 						swap_previous = {
 							["<leader><Left>"] = "@parameter.inner",
-							["<leader><Up>"] = "@parameter.inner",
+							-- ["<leader><Up>"] = "@parameter.inner",
 						},
 						swap_next = {
-							["<leader><Down>"] = "@parameter.inner",
+							-- ["<leader><Down>"] = "@parameter.inner",
 							["<leader><Right>"] = "@parameter.inner",
 						},
 					},

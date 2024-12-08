@@ -13,6 +13,7 @@ vim.o.shiftwidth = 2
 
 vim.o.termguicolors = true
 vim.o.background = "dark"
+vim.o.conceallevel = 1
 
 -- Sync system keyboard
 vim.o.clipboard = "unnamedplus"
@@ -22,7 +23,8 @@ if vim.fn.has("wsl") == 1 then
 	-- Here since this won't be used anywhere else
 	vim.g.python3_host_prog = "~/.pyenv/versions/pynvim/bin/python"
 
-	-- Makes wsl nvim faster by not searching for clipboard provider
+	-- Makes wsl nvim start up faster by not searching for clipboard provider
+	-- Also see https://neovim.io/doc/user/provider.html#clipboard-wsl
 	vim.g.clipboard = {
 		name = "win32yank",
 		copy = {
@@ -71,6 +73,7 @@ vim.opt.undofile = true
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+vim.opt.diffopt = "vertical"
 
 -- Sets how neovim will display certain whitespace in the editor.
 --  See :help 'list'
@@ -105,7 +108,7 @@ local function tmap(key, option, desc)
 	vim.keymap.set("t", key, option, { desc = desc })
 end
 
--- Better cursor movement
+-- Better cursor movement (replaced with changing buffers)
 -- vim.keymap.set({ "n", "o", "v" }, "H", "^", { silent = true })
 -- vim.keymap.set({ "n", "o", "v" }, "L", "$", { silent = true })
 
@@ -129,15 +132,19 @@ nmap("<leader>ql", vim.diagnostic.setloclist, "Open diagnostics list")
 nmap("[d", vim.diagnostic.goto_prev, "Go to previous diagnostic message")
 nmap("]d", vim.diagnostic.goto_next, "Go to next diagnostic message")
 
+-- Diagnostics
 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { silent = true, noremap = true, desc = "toggle signature" })
+
+-- Delete word in front
+vim.keymap.set("i", "<C-e>", "<C-o>dw", { silent = true, noremap = true, desc = "Delete word" })
 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Open terminal
-nmap("<leader>tt", "<cmd>vsplit<CR><cmd>term<CR>a", "Open terminal")
-nmap("<leader>tT", "<cmd>sp<CR><cmd>term<CR>a", "Open Terminal")
+nmap("<leader>tt", "<cmd>vsplit<CR><cmd>term<CR>a", "Open Vert terminal")
+nmap("<leader>tT", "<cmd>sp<CR><cmd>term<CR>a", "Open Split Terminal")
 
 -- Escape terminal mode
 tmap("<Esc>", "<C-\\><C-n>", "Escape terminal mode")
@@ -150,8 +157,8 @@ tmap("<C-w>q", "<C-\\><C-n><C-w>q", "Close window")
 -- Switch tabs
 nmap("<C-n>", "gt", "Next tab")
 nmap("<C-p>", "gT", "Previous tab")
-nmap("<Tab>", "gt", "Next tab")
-nmap("<S-Tab>", "gT", "Previous tab")
+-- nmap("<Tab>", "gt", "Next tab")
+-- nmap("<S-Tab>", "gT", "Previous tab")
 
 -- Comment remaps (not working)
 -- vim.keymap.set("n", "<c-_>", "gcc", { desc = "Comment line", silent = true })

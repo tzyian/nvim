@@ -16,7 +16,9 @@ return {
 	-- stylua: ignore
 	keys = {
 		{ "<Leader><Tab>", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-		{ "<Tab>",         mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+		-- NOTE: <Tab> is equivalent to <C-i> 
+		--
+		-- { "<Tab>",         mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
 		{ "S",             mode = { "n", "o" },      function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
 		-- Flash Treesitter usage: yS + select textobject
 		{ "r",             mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },

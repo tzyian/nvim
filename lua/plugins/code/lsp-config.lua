@@ -37,8 +37,11 @@ return {
 						)
 					end,
 				},
+				elixirls = {
+					cmd = { "elixir-ls" },
+				},
 				-- gopls = {},
-				pyright = {},
+				-- pyright = {},
 				-- pylsp = {
 				-- 	settings = {
 				-- 		pylsp = {
@@ -72,13 +75,13 @@ return {
 				-- 		},
 				-- 	},
 				-- },
-				texlab = {
-					chktex = {
-						onOpenAndSave = true,
-						onEdit = true,
-					},
-				},
-				jdtls = {},
+				-- texlab = {
+				-- 	chktex = {
+				-- 		onOpenAndSave = true,
+				-- 		onEdit = true,
+				-- 	},
+				-- },
+				-- jdtls = {},
 				lua_ls = {
 					Lua = {
 						workspace = { checkThirdParty = false },

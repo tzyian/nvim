@@ -19,8 +19,13 @@ return {
 			},
 			{
 				"<leader>cp",
-				"<cmd>Copilot disable<CR>",
-				desc = "Copilot disable",
+				"<cmd>Copilot toggle<CR>",
+				desc = "Copilot toggle",
+			},
+			{
+				"<leader>cP",
+				"<cmd>Copilot status<CR>",
+				desc = "Copilot status",
 			},
 		},
 	},
@@ -48,13 +53,13 @@ return {
 		},
 		keys = {
 			{
-				"<leader>aa",
+				"<leader>at",
 				"<cmd>CopilotChatToggle<cr>",
 				mode = { "n", "v" },
 				desc = "CopilotChat - Toggle",
 			},
 			{
-				"<leader>aq",
+				"<leader>aa",
 				function()
 					local input = vim.fn.input("Quick Chat: ")
 					if input ~= "" then

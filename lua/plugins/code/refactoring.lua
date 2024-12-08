@@ -7,7 +7,7 @@ return {
 	lazy = true,
 	keys = {
 		{
-			"<leader>R",
+			"<leader>cR",
 			"<cmd>lua require('telescope').extensions.refactoring.refactors()<CR>",
 			mode = { "n", "x" },
 			desc = "Refactor",

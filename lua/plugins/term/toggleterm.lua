@@ -15,10 +15,29 @@ return {
 		-- opts = { --[[ things you want to change go here]]
 		-- },
 		keys = {
-			{ "<M-i>", "<cmd>ToggleTerm dir=git_dir direction=float<CR>", desc = "Open toggleterm" },
-			{ "<M-i>", "<C-\\><C-n><cmd>ToggleTerm<CR>", mode = "t", desc = "Close toggleterm" },
-			{ "<leader>tf", "<cmd>ToggleTerm<CR>", desc = "Open toggleterm" },
+			-- { "<M-i>", "<cmd>ToggleTerm dir=git_dir direction=float<CR>", desc = "Open toggleterm" },
+			-- { "<M-i>", "<C-\\><C-n><cmd>ToggleTerm<CR>", mode = "t", desc = "Close toggleterm" },
 			{ "<M-g>", "<cmd>lua Lazygit_toggle()<CR>", desc = "Open lazygit" },
+			{
+				"<leader>t1",
+				"<cmd>1ToggleTerm dir=git_dir, direction=vertical<CR>",
+				desc = "Open vertical terminal",
+			},
+			{
+				"<leader>t2",
+				"<cmd>2ToggleTerm dir=git_dir, direction=vertical<CR>",
+				desc = "Open vertical terminal",
+			},
+			{
+				"<leader>t3",
+				"<cmd>3ToggleTerm dir=git_dir, direction=horizontal<CR>",
+				desc = "Open vertical terminal",
+			},
+			{
+				"<leader>t4",
+				"<cmd>4ToggleTerm dir=git_dir, direction=horizontal<CR>",
+				desc = "Open vertical terminal",
+			},
 		},
 		config = function(_, opts)
 			require("toggleterm").setup(opts)
@@ -51,8 +70,6 @@ return {
 			function Lazygit_toggle()
 				lazygit:toggle()
 			end
-
-			-- vim.api.nvim_set_keymap("n", "<M-g>", "<cmd>lua Lazygit_toggle()<CR>", { noremap = true, silent = true })
 		end,
 	},
 }
