@@ -55,7 +55,7 @@ end
 
 -- Line numbers
 vim.o.number = true
-vim.o.rnu = true
+vim.o.rnu = false
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
