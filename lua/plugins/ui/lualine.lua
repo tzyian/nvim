@@ -1,6 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
-	-- event = "VeryLazy",
+	event = "VeryLazy",
 	priority = 5000,
 	config = function()
 		local function diff_source()

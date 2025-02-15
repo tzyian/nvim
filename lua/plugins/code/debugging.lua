@@ -12,8 +12,8 @@ return {
 			"jay-babu/mason-nvim-dap.nvim",
 
 			-- Add your own debuggers here
-			"leoluz/nvim-dap-go",
-			"mfussenegger/nvim-dap-python",
+			{ "leoluz/nvim-dap-go", event = "VeryLazy", ft = "go" },
+			{ "mfussenegger/nvim-dap-python", event = "VeryLazy", ft = "python" },
 		},
 		keys = {
 			{ "<F5>", "<cmd>lua require('dap').continue()<CR>", desc = "Debug: Start/Continue (F5)" },
@@ -26,6 +26,7 @@ return {
 			{ "<Leader>du", "<cmd>lua require('dap').step_out()<CR>", desc = "Debug: Step Out (F3)" },
 			{ "<F9>", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint (F9)" },
 			{ "<Leader>dt", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint (F9)" },
+			{ "<Leader>dx", "<cmd>lua require('dap').terminate()<CR>", desc = "Debug: Terminate session" },
 			{
 				"<Leader>dB",
 				"<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
