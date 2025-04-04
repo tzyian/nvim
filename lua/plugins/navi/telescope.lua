@@ -6,7 +6,7 @@ return {
 		dependencies = {
 			{ "nvim-lua/plenary.nvim" },
 			{ "nvim-telescope/telescope-ui-select.nvim" },
-			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+			{ "nvim-tree/nvim-web-devicons",            enabled = vim.g.have_nerd_font },
 			{ -- If encountering errors, see telescope-fzf-native README for installation instructions
 				"nvim-telescope/telescope-fzf-native.nvim",
 
@@ -49,7 +49,8 @@ return {
 
 			-- Enable Telescope extensions if they are installed
 			pcall(require("telescope").load_extension, "fzf")
-			pcall(require("telescope").load_extension, "ui-select")
+			-- pcall(require("telescope").load_extension, "ui-select")
+			pcall(require('telescope').load_extension('ht'))
 
 			-- Telescope live_grep in git root
 			-- Function to find the git root directory based on the current buffer's path
@@ -68,7 +69,7 @@ return {
 
 				-- Find the Git root directory from the current file's path
 				local git_root =
-					vim.fn.systemlist("git -C " .. vim.fn.escape(current_dir, " ") .. " rev-parse --show-toplevel")
+						vim.fn.systemlist("git -C " .. vim.fn.escape(current_dir, " ") .. " rev-parse --show-toplevel")
 				if vim.v.shell_error ~= 0 then
 					print("Not a git repository. Searching on current working directory")
 					return cwd

@@ -37,6 +37,19 @@ if vim.fn.has("wsl") == 1 then
 		},
 		cache_enabled = true,
 	}
+
+	-- vim.g.clipboard = {
+	-- 	name = "WslClipboard",
+	-- 	copy = {
+	-- 		["+"] = "clip.exe",
+	-- 		["*"] = "clip.exe",
+	-- 	},
+	-- 	paste = {
+	-- 		["+"] = 'pwsh.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+	-- 		["*"] = 'pwsh.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+	-- 	},
+	-- 	cache_enabled = 0,
+	-- }
 elseif vim.fn.has("win32") == 1 then
 	-- Set shell
 	local powershell_options = {

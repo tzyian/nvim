@@ -83,13 +83,15 @@ return {
 				-- },
 				-- jdtls = {},
 				lua_ls = {
-					Lua = {
-						workspace = { checkThirdParty = false },
-						telemetry = { enable = false },
-						-- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-						diagnostics = {
-							globals = { "vim" },
-							disable = { "missing-fields" },
+					settings = {
+						Lua = {
+							workspace = { checkThirdParty = false },
+							telemetry = { enable = false },
+							-- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+							diagnostics = {
+								globals = { "vim" },
+								-- disable = { "missing-fields" },
+							},
 						},
 					},
 				},
