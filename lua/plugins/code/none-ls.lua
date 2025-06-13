@@ -39,7 +39,7 @@ return {
 				------------ Others
 				-- null_ls.builtins.diagnostics.markdownlint,
 				null_ls.builtins.code_actions.refactoring,
-				null_ls.builtins.diagnostics.semgrep,
+				-- null_ls.builtins.diagnostics.semgrep,
 				-- null_ls.builtins.diagnostics.codespell,
 			},
 		})

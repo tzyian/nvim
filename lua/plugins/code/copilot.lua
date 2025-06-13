@@ -45,7 +45,7 @@ return {
 		},
 		opts = {
 			-- See Configuration section for rest
-			model = "claude-3.5-sonnet",
+			-- model = "claude-3.5-sonnet",
 			-- auto_follow_cursor = false,
 			answer_header = "## Copilot \n `<C-s>` to Accept, `<C-d>` to Reset, `gd` to show Diffs, `g?` for Help ",
 
