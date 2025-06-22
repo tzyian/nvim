@@ -21,7 +21,7 @@ vim.o.incsearch = true
 vim.o.inccommand = "nosplit"
 
 local function vscmap(key, option, desc)
-	vim.keymap.set("n", key, "<cmd>call VSCodeNotify('" .. option .. "')<CR>", { desc = desc })
+    vim.keymap.set("n", key, "<cmd>call VSCodeNotify('" .. option .. "')<CR>", { desc = desc })
 end
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Remove highlights after searching" })
@@ -74,7 +74,7 @@ vscmap("]e", "editor.action.marker.prev", "Next Error")
 vscmap("<leader>hd", "git.openChange", "Diff")
 vscmap("<leader>hu", "git.unstageSelectedRanges", "Undo stage range")
 vscmap("<leader>hs", "git.diff.stageHunk", "Stage hunk")
-vscmap("<leader>hs", "git.stageSelectedRanges", "Stage range")
+-- vscmap("<leader>hs", "git.stageSelectedRanges", "Stage range")
 vscmap("<leader>hr", "git.revertSelectedRanges", "Revert range")
 vscmap("<leader>hp", "editor.action.dirtydiff.next", "Next Diff")
 vscmap("<leader>hm", "editor.action.dirtydiff.previous", "Prev Diff")

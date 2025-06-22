@@ -6,7 +6,7 @@ return {
 		require("which-key").add({
 			{ "<leader>a",  group = "Copilot Chat", mode = { "n", "v" } },
 			{ "<leader>b",  group = "Buffer" },
-			{ "<leader>c",  group = "Code" },
+			{ "<leader>c",  group = "Code",         mode = { "n", "v" } },
 			{ "<leader>ct", group = "Toggle format" },
 			{ "<leader>d",  group = "Debug" },
 			{ "<leader>f",  group = "Find" },
@@ -17,7 +17,7 @@ return {
 			{ "<leader>m",  group = "Misc Config" },
 			{ "<leader>p",  group = "Preview" },
 			{ "<leader>q",  group = "Diagnostics" },
-			{ "<leader>r",  group = "SnipRun" },
+			{ "<leader>r",  group = "SnipRun",      mode = { "n", "v" } },
 			{ "<leader>s",  group = "Session" },
 			{ "<leader>S",  group = "sshfs" },
 			{ "<leader>t",  group = "Terminal" },

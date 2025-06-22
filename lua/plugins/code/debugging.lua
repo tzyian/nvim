@@ -12,28 +12,28 @@ return {
 			"jay-babu/mason-nvim-dap.nvim",
 
 			-- Add your own debuggers here
-			{ "leoluz/nvim-dap-go", event = "VeryLazy", ft = "go" },
+			{ "leoluz/nvim-dap-go",           event = "VeryLazy", ft = "go" },
 			{ "mfussenegger/nvim-dap-python", event = "VeryLazy", ft = "python" },
 		},
 		keys = {
-			{ "<F5>", "<cmd>lua require('dap').continue()<CR>", desc = "Debug: Start/Continue (F5)" },
-			{ "<Leader>dd", "<cmd>lua require('dap').continue()<CR>", desc = "Debug: Start/Continue (F5)" },
-			{ "<F1>", "<cmd>lua require('dap').step_into()<CR>", desc = "Debug: Step Into (F1)" },
-			{ "<Leader>di", "<cmd>lua require('dap').step_into()<CR>", desc = "Debug: Step Into (F1)" },
-			{ "<F2>", "<cmd>lua require('dap').step_over()<CR>", desc = "Debug: Step Over (F2)" },
-			{ "<Leader>do", "<cmd>lua require('dap').step_over()<CR>", desc = "Debug: Step Over (F2)" },
-			{ "<F3>", "<cmd>lua require('dap').step_out()<CR>", desc = "Debug: Step Out (F3)" },
-			{ "<Leader>du", "<cmd>lua require('dap').step_out()<CR>", desc = "Debug: Step Out (F3)" },
-			{ "<F9>", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint (F9)" },
+			{ "<F5>",       "<cmd>lua require('dap').continue()<CR>",          desc = "Debug: Start/Continue (F5)" },
+			{ "<Leader>dd", "<cmd>lua require('dap').continue()<CR>",          desc = "Debug: Start/Continue (F5)" },
+			{ "<F1>",       "<cmd>lua require('dap').step_into()<CR>",         desc = "Debug: Step Into (F1)" },
+			{ "<Leader>di", "<cmd>lua require('dap').step_into()<CR>",         desc = "Debug: Step Into (F1)" },
+			{ "<F2>",       "<cmd>lua require('dap').step_over()<CR>",         desc = "Debug: Step Over (F2)" },
+			{ "<Leader>do", "<cmd>lua require('dap').step_over()<CR>",         desc = "Debug: Step Over (F2)" },
+			{ "<F3>",       "<cmd>lua require('dap').step_out()<CR>",          desc = "Debug: Step Out (F3)" },
+			{ "<Leader>du", "<cmd>lua require('dap').step_out()<CR>",          desc = "Debug: Step Out (F3)" },
+			{ "<F9>",       "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint (F9)" },
 			{ "<Leader>dt", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint (F9)" },
-			{ "<Leader>dx", "<cmd>lua require('dap').terminate()<CR>", desc = "Debug: Terminate session" },
+			{ "<Leader>dx", "<cmd>lua require('dap').terminate()<CR>",         desc = "Debug: Terminate session" },
 			{
 				"<Leader>dB",
 				"<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>",
 				desc = "Debug: Set Breakpoint",
 			},
 			-- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-			{ "<F7>", "<cmd>lua require('dapui').toggle()<CR>", desc = "Debug: See last session result (F7)" },
+			{ "<F7>",       "<cmd>lua require('dapui').toggle()<CR>", desc = "Debug: See last session result (F7)" },
 			{ "<Leader>dl", "<cmd>lua require('dapui').toggle()<CR>", desc = "Debug: See last session result (F7)" },
 		},
 		config = function()
@@ -107,9 +107,9 @@ return {
 			dap.listeners.before.event_terminated["dapui_config"] = dapui.close
 			dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
-			-- Install golang specific config
 			require("dap-go").setup()
 			require("dap-python").setup("~/.pyenv/versions/pynvim/bin/python")
+			require("java-debug-adapter").setup()
 		end,
 	},
 }
