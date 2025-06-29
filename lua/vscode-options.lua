@@ -8,10 +8,6 @@ vim.opt.scrolloff = 2
 -- Use system clipboard
 vim.o.clipboard = "unnamedplus"
 
--- Disable yank on delete
-vim.keymap.set("n", "x", '"_x', { noremap = true })
-vim.keymap.set("n", "<Del>", '"_x', { noremap = true })
-
 -- Case insensitive search unless capital letters are used or \C
 vim.o.ignorecase = true
 vim.o.smartcase = true
@@ -20,70 +16,114 @@ vim.o.smartcase = true
 vim.o.incsearch = true
 vim.o.inccommand = "nosplit"
 
-local function vscmap(key, option, desc)
-    vim.keymap.set("n", key, "<cmd>call VSCodeNotify('" .. option .. "')<CR>", { desc = desc })
+local vscode = require('vscode')
+
+local function nmap(key, command, desc)
+    vim.keymap.set("n", key, command, { desc = desc, noremap = true, silent = true })
 end
 
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Remove highlights after searching" })
+local function vscnmap(key, option, desc)
+    vim.keymap.set("n", key, function() vscode.call(option) end, { desc = desc, silent = true })
+end
 
--- For saving convenience
-vim.keymap.set("n", "<leader>w", "<Cmd>w<CR>", { desc = "Save" })
+local function vscvmap(key, option, desc)
+    vim.keymap.set("v", key, function() vscode.call(option) end, { desc = desc, silent = true })
+end
+
+
+-- Disable yank on delete
+nmap("x", '"_x', "Disable yank on delete")
+nmap("<Del>", '"_x', "Disable yank on delete")
+
+nmap("<Esc>", "<cmd>nohlsearch<CR>", "Remove highlights after searching")
+-- nmap("<leader>w", "<cmd>w<CR>", "Save")
+
 
 -- Better keymaps
 -- vim.keymap.set({ "n", "v", "o" }, "H", "^", { noremap = true })
 -- vim.keymap.set({ "n", "v", "o" }, "L", "$", { noremap = true })
 
 -- Show VSCode Which Key
--- vim.keymap.set({ "n", "v", "o" }, "<leader>", "<cmd>call VSCodeNotify('whichkey.show')<CR>", { noremap = true })
 -- set "whichkey.show" to "space" when "editorTextFocus && neovim.mode == 'normal'"
-vscmap("<leader>", "whichkey.show", "Show Which Key")
+-- vscnmap("<leader>", "whichkey.show", "Show Which Key")
 
 -- Remap for dealing with word wrap
--- vim.keymap.set("n", "k", "gk", { silent = true, noremap = true })
--- vim.keymap.set("n", "j", "gj", { silent = true, noremap = true })
-
+-- nmap("k", "gk", "Move up wrapped line")
+-- nmap("j", "gj", "Move down wrapped line")
+--
 -- VScode Window Navigation
-vscmap("<C-j>", "workbench.action.navigateDown", "Navigate Down")
-vscmap("<C-k>", "workbench.action.navigateUp", "Navigate Up")
-vscmap("<C-h>", "workbench.action.navigateLeft", "Navigate Left")
-vscmap("<C-l>", "workbench.action.navigateRight", "Navigate Right")
+vscnmap("<C-j>", "workbench.action.navigateDown", "Navigate Down")
+vscnmap("<C-k>", "workbench.action.navigateUp", "Navigate Up")
+vscnmap("<C-h>", "workbench.action.navigateLeft", "Navigate Left")
+vscnmap("<C-l>", "workbench.action.navigateRight", "Navigate Right")
 
-vscmap("<S-l>", "workbench.action.nextEditor", "Next Editor")
-vscmap("<S-h>", "workbench.action.previousEditor", "Previous Editor")
+vscnmap("<S-l>", "workbench.action.nextEditor", "Next Editor")
+vscnmap("<S-h>", "workbench.action.previousEditor", "Previous Editor")
 
 -- Zen Mode
-vscmap("<leader>z", "workbench.action.toggleZenMode", "Zen Mode")
+-- vscnmap("<leader>z", "workbench.action.toggleZenMode", "Zen Mode")
 
 -- File Explorer
-vscmap("<leader>n", "workbench.view.explorer", "Explorer")
+-- vscnmap("<leader>n", "workbench.view.explorer", "Explorer")
 
 -- Telescope
-vscmap("<leader>fg", "workbench.action.findInFiles", "Find Grep")
-vscmap("<leader>ff", "workbench.action.quickOpen", "Find File")
-vscmap("<leader>gd", "editor.action.revealDefinition", "Go to definition")
-vscmap("<leader>gr", "editor.action.goToReferences", "Go to references")
-vscmap("<leader>gi", "editor.action.goToImplementation", "Go to implementation")
+-- vscnmap("<leader>fg", "workbench.action.findInFiles", "Find Grep")
+-- vscnmap("<leader>ff", "workbench.action.quickOpen", "Find File")
+-- vscnmap("<leader>gd", "editor.action.revealDefinition", "Go to definition")
+-- vscnmap("<leader>gr", "editor.action.goToReferences", "Go to references")
+-- vscnmap("<leader>gi", "editor.action.goToImplementation", "Go to implementation")
 
 -- Errors
-vscmap("<leader>e", "editor.action.showHover", "Hover")
-vscmap("<leader>q", "workbench.actions.view.problems", "Errors")
-vscmap("[e", "editor.action.marker.next", "Prev Error")
-vscmap("]e", "editor.action.marker.prev", "Next Error")
+-- vscnmap("<leader>e", "editor.action.showHover", "Hover")
+-- vscnmap("<leader>q", "workbench.actions.view.problems", "Errors")
+vscnmap("[e", "editor.action.marker.next", "Prev Error")
+vscnmap("]e", "editor.action.marker.prev", "Next Error")
 
 -- Git
-vscmap("<leader>hd", "git.openChange", "Diff")
-vscmap("<leader>hu", "git.unstageSelectedRanges", "Undo stage range")
-vscmap("<leader>hs", "git.diff.stageHunk", "Stage hunk")
--- vscmap("<leader>hs", "git.stageSelectedRanges", "Stage range")
-vscmap("<leader>hr", "git.revertSelectedRanges", "Revert range")
-vscmap("<leader>hp", "editor.action.dirtydiff.next", "Next Diff")
-vscmap("<leader>hm", "editor.action.dirtydiff.previous", "Prev Diff")
-vim.keymap.set("n", "]h", "editor.action.dirtydiff.next", { desc = "Next diff" })
-vim.keymap.set("n", "[h", "editor.action.dirtydiff.previous", { desc = "Previous diff" })
+-- vscnmap("<leader>hd", "git.openChange", "Diff")
+-- vscnmap("<leader>hu", "git.unstageSelectedRanges", "Undo stage range")
+-- vscnmap("<leader>hr", "git.revertSelectedRanges", "Revert range")
+-- vscnmap("<leader>hp", "editor.action.dirtydiff.next", "Next Diff")
+-- vscnmap("<leader>hm", "editor.action.dirtydiff.previous", "Prev Diff")
+-- vscnmap("<leader>hs", "git.diff.stageHunk", "Stage hunk")
+-- vscvmap("<leader>hS", "git.stageSelectedRanges", "Stage range")
 
 -- Code
-vscmap("<leader>cr", "editor.action.rename", "Rename")
-vscmap("<leader>cf", "editor.action.formatDocument", "Format")
+-- vscnmap("<leader>cr", "editor.action.rename", "Rename")
+-- vscnmap("<leader>cf", "editor.action.formatDocument", "Format")
+
+local function mapMove(key, direction)
+    vim.keymap.set('n', key, function()
+        local count = vim.v.count
+        local v = 1
+        local style = 'wrappedLine'
+        if count > 0 then
+            v = count
+            style = 'line'
+        end
+        vscode.action('cursorMove', {
+            args = {
+                to = direction,
+                by = style,
+                value = v
+            }
+        })
+    end)
+end
+
+mapMove('k', 'up')
+mapMove('j', 'down')
+
+
+vscnmap('zM', 'editor.foldAll', "Fold all")
+vscnmap('zR', 'editor.unfoldAll', "Unfold all")
+vscnmap('zc', 'editor.fold', "Fold")
+vscnmap('zC', 'editor.foldRecursively', "Fold recursively")
+vscnmap('zo', 'editor.unfold', "Unfold")
+vscnmap('zO', 'editor.unfoldRecursively', "Unfold recursively")
+vscnmap('za', 'editor.toggleFold', "Toggle fold")
+
+
 
 --[[
 -- Useful VSCode Shortcuts
@@ -109,16 +149,16 @@ vim.cmd([[
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		vim.highlight.on_yank()
-	end,
-	group = highlight_group,
-	pattern = "*",
+    callback = function()
+        vim.highlight.on_yank()
+    end,
+    group = highlight_group,
+    pattern = "*",
 })
 
 -- For vscode Neovim Ui Modifier
 vim.api.nvim_exec(
-	[[
+    [[
     " THEME CHANGER
     function! SetCursorLineNrColorInsert(mode)
         " Insert mode: blue
@@ -141,5 +181,5 @@ vim.api.nvim_exec(
         autocmd ModeChanged [vV\x16]*:* call VSCodeNotify('nvim-theme.normal')
     augroup END
 ]],
-	false
+    false
 )
