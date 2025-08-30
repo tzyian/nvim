@@ -50,7 +50,7 @@ return {
 			-- Enable Telescope extensions if they are installed
 			pcall(require("telescope").load_extension, "fzf")
 			-- pcall(require("telescope").load_extension, "ui-select")
-			pcall(require('telescope').load_extension('ht'))
+			-- pcall(require('telescope').load_extension('ht'))
 
 			-- Telescope live_grep in git root
 			-- Function to find the git root directory based on the current buffer's path

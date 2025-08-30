@@ -109,7 +109,7 @@ return {
 
 			require("dap-go").setup()
 			require("dap-python").setup("~/.pyenv/versions/pynvim/bin/python")
-			require("java-debug-adapter").setup()
+			-- require("java-debug-adapter").setup()
 		end,
 	},
 }
