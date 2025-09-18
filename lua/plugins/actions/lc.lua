@@ -16,6 +16,27 @@ return {
 		-- configuration goes here
 		lang = "t",
 		-- i think ambiguous config makes it select every time
+		storage = {
+			home = vim.fn.expand("~/leetcode"),
+		},
+		injector = {
+			["python3"] = {
+				imports = function()
+					return { "from typing import *", "" }
+				end,
+			},
+			["cpp"] = {
+				imports = function()
+					return { "#include <bits/stdc++.h>", "using namespace std;" }
+				end,
+				after = "int main() {}",
+			},
+			["java"] = {
+				imports = function()
+					return { "", "import java.util.*;", "import java.math.*;" }
+				end,
+			},
+		},
 	},
 	keys = {
 		{ "<leader>zz", "<cmd>Leet<CR>",         desc = "Leet" },

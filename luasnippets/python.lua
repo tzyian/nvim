@@ -15,5 +15,9 @@ return {
 	s({ trig = "icc" }, { t("from collections import Counter") }),
 	s({ trig = "ict" }, { t("from collections import Counter") }),
 	s({ trig = "ifc" }, { t("from functools import cache") }),
-	s({ trig = "ipr" }, { t("x = Solution().") }),
+	s({ trig = "ipr" }, {
+		t("x = Solution()."),
+		i(1),
+		t({ "", "print(x)" }),
+	})
 }
