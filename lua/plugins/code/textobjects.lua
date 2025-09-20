@@ -14,36 +14,48 @@ return {
 		return {
 			n_lines = 50,
 			custom_textobjects = {
-				-- f = function call (builtin)
-				-- a = argument (builtin)
+				-- f = function call (builtin) i.e. foo(inside here)
+				-- a = argument (builtin) def foo(arg1: type, arg2: type)
 				-- t = tags (builtin)
 				-- { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
-				--
-				o = ai.gen_spec.treesitter({ -- code block
+
+				-- code block
+				o = ai.gen_spec.treesitter({
 					a = { "@block.outer", "@conditional.outer", "@loop.outer" },
 					i = { "@block.inner", "@conditional.inner", "@loop.inner" },
 				}),
-				i = spec.indent(),
-				F = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }), -- function
-				c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),   -- class
-				d = { "%f[%d]%d+" },                                                      -- digits
-				e = {                                                                     -- Word with case
-					{ "%u[%l%d]+%f[^%l%d]", "%f[%S][%l%d]+%f[^%l%d]", "%f[%P][%l%d]+%f[^%l%d]", "^[%l%d]+%f[^%l%d]" },
-					"^().*()$",
+				-- function definition
+				F = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }),
+				-- class
+				c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
+
+				-- Word for camelCase or snake_case
+				e = {
+					{
+						'%u[%l%d]+%f[^%l%d]',
+						'%f[%S][%l%d]+%f[^%l%d]',
+						'%f[%P][%l%d]+%f[^%l%d]',
+						'^[%l%d]+%f[^%l%d]',
+					},
+					'^().*()$'
 				},
-				g = function()
-					-- Global
-					local from = { line = 1, col = 1 }
-					local to = {
-						line = vim.fn.line("$"),
-						col = math.max(vim.fn.getline("$"):len(), 1),
-					}
+
+				d = spec.number(),
+				i = spec.indent(),
+				g = spec.buffer(),
+				["$"] = spec.line(), -- { "^.*$" },
+
+				-- start of line
+				H = function()
+					local l = vim.fn.line(".")
+					local c = vim.fn.col(".")
+					local from = { line = l, col = 1 }
+					local to = { line = l, col = c }
 					return { from = from, to = to }
 				end,
-				["$"] = { "^.*$" },
+				-- end of line
+				L = { ".*" },
 			},
-			u = ai.gen_spec.function_call(),                        -- u for "Usage"
-			U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot in function name
 		}
 	end,
 	config = function(_, opts)
