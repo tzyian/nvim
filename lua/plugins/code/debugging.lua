@@ -12,7 +12,7 @@ return {
 			"jay-babu/mason-nvim-dap.nvim",
 
 			-- Add your own debuggers here
-			{ "leoluz/nvim-dap-go",           event = "VeryLazy", ft = "go" },
+			-- { "leoluz/nvim-dap-go",           event = "VeryLazy", ft = "go" },
 			{ "mfussenegger/nvim-dap-python", event = "VeryLazy", ft = "python" },
 		},
 		keys = {
@@ -107,7 +107,7 @@ return {
 			dap.listeners.before.event_terminated["dapui_config"] = dapui.close
 			dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
-			require("dap-go").setup()
+			-- require("dap-go").setup()
 			require("dap-python").setup("~/.pyenv/versions/pynvim/bin/python")
 			-- require("java-debug-adapter").setup()
 		end,

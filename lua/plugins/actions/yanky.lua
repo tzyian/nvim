@@ -1,6 +1,6 @@
 return {
   "gbprod/yanky.nvim",
-  lazy = true,
+  event = "VeryLazy",
   keys = {
     { "[y",         "<Plug>(YankyPreviousEntry)" },
     { "]y",         "<Plug>(YankyNextEntry)" },

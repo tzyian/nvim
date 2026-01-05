@@ -22,14 +22,13 @@ return {
 		injector = {
 			["python3"] = {
 				imports = function()
-					return { "from typing import *", "" }
+					return { "from typing import List, Optional", "" }
 				end,
 			},
 			["cpp"] = {
 				imports = function()
 					return { "#include <bits/stdc++.h>", "using namespace std;" }
 				end,
-				after = "int main() {}",
 			},
 			["java"] = {
 				imports = function()

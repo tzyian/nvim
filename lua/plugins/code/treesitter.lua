@@ -14,7 +14,7 @@ return {
 				auto_install = true,
 				highlight = {
 					enable = true,
-					disable = { "latex" },
+					disable = { "latex", "csv" },
 				},
 				indent = { enable = true },
 			})

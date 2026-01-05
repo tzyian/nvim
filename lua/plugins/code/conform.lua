@@ -36,14 +36,17 @@ return { -- Autoformat
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
-				python = { "isort", "black" },
-				go = { "golines", "goimports" },
+				python = { "ruff_format", "ruff_organize_imports"
+					-- "ruff_fix", -- disable because it removes unused imports if not configured otherwise
+				},
+				go = { "golines", "goimports", "golangci-lint" },
 				sh = { "shfmt", "shellharden" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
 				-- java = { "google-java-format" },
 				latex = { "latexindent" },
-				ocaml = { "ocamlformat" },
+				-- ocaml = { "ocamlformat" },
+				sql = { "sqruff" },
 				javascript = { "prettierd", "prettier", stop_after_first = true },
 				typescript = { "prettierd", "prettier", stop_after_first = true },
 				json = { "prettierd", "prettier", stop_after_first = true },
