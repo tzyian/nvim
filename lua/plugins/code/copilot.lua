@@ -1,6 +1,7 @@
 return {
 	{
 		"zbirenbaum/copilot.lua",
+		dependencies = { "copilotlsp-nvim/copilot-lsp", },
 		cmd = "Copilot",
 		event = "InsertEnter",
 		config = function()
@@ -8,11 +9,19 @@ return {
 				suggestion = {
 					auto_trigger = true,
 				},
+				nes = {
+					enabled = true,
+					keymap = {
+						accept_and_goto = "<leader>C",
+						accept = false,
+						dismiss = "<Esc>",
+					},
+				},
 			})
 		end,
 		keys = {
 			{
-				"<M-c>",
+				"<leader>cT",
 				mode = { "n", "i" },
 				"<cmd>Copilot panel<CR>",
 				desc = "Open Copilot panel",
@@ -96,10 +105,7 @@ return {
 			},
 			{
 				"<leader>ap",
-				function()
-					local actions = require("CopilotChat.actions")
-					require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
-				end,
+				"<cmd>CopilotChatPrompts<cr>",
 				mode = { "n", "v" },
 				desc = "CopilotChat - Prompt actions",
 			},

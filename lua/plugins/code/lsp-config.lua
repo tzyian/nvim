@@ -7,6 +7,7 @@ return {
 			-- Automatically install LSPs to stdpath for neovim
 			{ "williamboman/mason.nvim",           opts = {}, cmd = "Mason" },
 			{ "williamboman/mason-lspconfig.nvim", opts = {} },
+			{ "p00f/clangd_extensions.nvim" },
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -27,15 +28,8 @@ return {
 					cmd = {
 						"clangd",
 						"--offset-encoding=utf-16",
+						"--extra-arg=-std=c++20",
 					},
-					on_attach = function()
-						vim.keymap.set(
-							"n",
-							"<leader>ch",
-							"<cmd>ClangdSwitchSourceHeader<CR>",
-							{ desc = "ClangdSwitchSourceHeader" }
-						)
-					end,
 				},
 				elixirls = {
 					cmd = { "elixir-ls" },
@@ -122,25 +116,26 @@ return {
 				},
 			})
 
-			-- vim.api.nvim_create_autocmd("BufWritePre", {
-			-- 	callback = function()
-			-- 		local mode = vim.api.nvim_get_mode().mode
-			-- 		local filetype = vim.bo.filetype
-			-- 		if vim.bo.modified == true and mode == "n" then
-			-- 			vim.cmd("lua vim.lsp.buf.format()")
-			-- 		else
-			-- 		end
-			-- 	end,
-			-- })
-
 			vim.api.nvim_create_autocmd("LspAttach", {
-				vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" }),
-				vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" }),
-				vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { desc = "Code Format" }),
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show Kind" }),
-				vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { desc = "Show Kind" }),
 
 				callback = function(event)
+					local bufnr = event.buf
+					vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
+					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
+					vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { buffer = bufnr, desc = "Code Format" })
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Kind" })
+					vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Kind" })
+
+					-- Clangd-specific keymap
+					if client and client.name == "clangd" then
+						vim.keymap.set(
+							"n",
+							"<leader>ch",
+							"<cmd>ClangdSwitchSourceHeader<CR>",
+							{ buffer = bufnr, desc = "Switch Source/Header" }
+						)
+					end
+
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 
 					if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then

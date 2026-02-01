@@ -1,7 +1,7 @@
 return {
 	"kawre/leetcode.nvim",
 	build = ":TSUpdate html",
-	-- lazy = true,
+	lazy = true,
 	dependencies = {
 		"nvim-telescope/telescope.nvim",
 		"nvim-lua/plenary.nvim", -- required by telescope

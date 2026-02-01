@@ -26,7 +26,7 @@ return { -- Autoformat
 				if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
 					return
 				end
-				return { timeout_ms = 500, lsp_fallback = true }
+				return { timeout_ms = 500, lsp_format = "fallback", }
 			end,
 
 			notify_on_error = false,
@@ -34,7 +34,7 @@ return { -- Autoformat
 				lsp_format = "fallback",
 			},
 			formatters_by_ft = {
-				lua = { "stylua" },
+				-- lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
 				python = { "ruff_format", "ruff_organize_imports"
 					-- "ruff_fix", -- disable because it removes unused imports if not configured otherwise
@@ -44,14 +44,14 @@ return { -- Autoformat
 				c = { "clang-format" },
 				cpp = { "clang-format" },
 				-- java = { "google-java-format" },
-				latex = { "latexindent" },
+				-- latex = { "latexindent" },
 				-- ocaml = { "ocamlformat" },
 				sql = { "sqruff" },
 				javascript = { "prettierd", "prettier", stop_after_first = true },
 				typescript = { "prettierd", "prettier", stop_after_first = true },
 				json = { "prettierd", "prettier", stop_after_first = true },
-				xml = { "xmlformatter" },
 				yaml = { "yamlfmt" },
+				typst = { "typstyle" }
 			},
 		})
 
