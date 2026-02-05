@@ -3,7 +3,7 @@ return { -- Autoformat
 	"stevearc/conform.nvim",
 	event = { "BufWritePre", "BufNewFile" },
 	lazy = true,
-	cmd = { "ConformInfo" },
+	cmd = { "ConformInfo", "ToggleBufferFormat", "ToggleGlobalFormat", "Format" },
 	keys = {
 		{
 			-- Customize or remove this keymap to your liking

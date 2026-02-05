@@ -20,7 +20,15 @@ return {
 	},
 
 	keys = {
-		{ "<leader>cc", "<cmd>TSContext toggle<CR>", desc = "Toggle Context", silent = true },
+		{
+			"<leader>cc",
+			function()
+				vim.g.context_enabled = not vim.g.context_enabled
+				vim.cmd("TSContext toggle")
+			end,
+			desc = "Toggle Context",
+			silent = true,
+		},
 		{
 			"<leader>gc",
 			function()

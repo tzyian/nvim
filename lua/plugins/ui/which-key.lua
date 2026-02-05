@@ -1,9 +1,16 @@
 return {
 	"folke/which-key.nvim",
-	-- event = "VeryLazy",
-	opts = {},
-	config = function()
-		require("which-key").add({
+	event = "VeryLazy",
+	init = function()
+		if vim.g.barbecue_enabled == nil then
+			vim.g.barbecue_enabled = true
+		end
+		if vim.g.context_enabled == nil then
+			vim.g.context_enabled = true
+		end
+	end,
+	opts = {
+		spec = {
 			{ "<leader>a",  group = "Copilot Chat", mode = { "n", "v" } },
 			{ "<leader>b",  group = "Buffer" },
 			{ "<leader>c",  group = "Code",         mode = { "n", "v" } },
@@ -26,12 +33,31 @@ return {
 			{ "<leader>fl", group = "Lsp" },
 			{ "<leader>fh", group = "Git" },
 
-			-- I'm not sure how to shift this out. I think cos my plugins are lazy but this is not
+			{
+				"<leader>cc",
+				desc = "Toggle Context",
+				icon = function()
+					if vim.g.context_enabled then
+						return { icon = " ", color = "green" }
+					else
+						return { icon = " ", color = "yellow" }
+					end
+				end,
+			},
 			{
 				"<leader>cb",
-				"<cmd>lua require('barbecue.ui').toggle()<CR>",
+				function()
+					vim.g.barbecue_enabled = not vim.g.barbecue_enabled
+					require("barbecue.ui").toggle()
+				end,
 				desc = "Toggle breadcrumbs",
-				icon = { icon = " ", color = "green" },
+				icon = function()
+					if vim.g.barbecue_enabled then
+						return { icon = " ", color = "green" }
+					else
+						return { icon = " ", color = "yellow" }
+					end
+				end,
 			},
 			{
 				"<leader>cg",
@@ -56,7 +82,7 @@ return {
 						return { icon = " ", color = "green" }
 					end
 				end,
-			},
-		})
-	end,
+			}, 
+		},
+	},
 }
