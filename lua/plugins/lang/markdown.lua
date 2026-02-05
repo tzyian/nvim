@@ -31,25 +31,34 @@ return {
 	-- },
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		event = "BufRead *.md",
+		ft = { "markdown" },
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		config = function()
-			require("render-markdown").setup({})
+			require('render-markdown').setup({
+				completions = { lsp = { enabled = true } },
+			})
 		end,
 	},
-	-- {
-	-- 	"iamcco/markdown-preview.nvim",
-	-- 	event = "BufRead *.md",
-	-- 	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-	-- 	build = "cd app && npm install",
-	-- 	config = function()
-	-- 		vim.g.mkdp_filetypes = { "markdown" }
-	-- 		vim.g.mkdp_open_to_the_world = 1
-	-- 		-- vim.g.mkdp_browser = "wslview"
-	-- 	end,
-	-- 	ft = { "markdown" },
-	-- 	keys = {
-	-- 		{ "<leader>pp", "<cmd>MarkdownPreview<CR>", silent = true, desc = "Markdown Preview" },
-	-- 	},
-	-- },
+	{
+		"iamcco/markdown-preview.nvim",
+		-- Load on specific command or file opening
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = "cd app && npm install",
+		config = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+			vim.g.mkdp_open_to_the_world = 1
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "markdown",
+				callback = function()
+					vim.keymap.set("n", "<leader>pp", "<cmd>MarkdownPreview<CR>", {
+						buffer = true,
+						silent = true,
+						desc = "Markdown Preview",
+					})
+				end,
+			})
+		end,
+	},
 }
