@@ -2,6 +2,12 @@ return {
 	"kawre/leetcode.nvim",
 	build = ":TSUpdate html",
 	lazy = true,
+	cmd = { "Leet" },
+	init = function()
+		if vim.fn.argv(0) == "leetcode.nvim" then
+			require("lazy").load({ plugins = { "leetcode.nvim" } })
+		end
+	end,
 	dependencies = {
 		"nvim-telescope/telescope.nvim",
 		"nvim-lua/plenary.nvim", -- required by telescope
@@ -16,6 +22,7 @@ return {
 		-- configuration goes here
 		lang = "t",
 		-- i think ambiguous config makes it select every time
+		-- image_support = true,
 		storage = {
 			home = vim.fn.expand("~/leetcode"),
 		},
