@@ -15,6 +15,7 @@ return {
 			{ "<leader>ht", group = "Toggle" },
 			{ "<leader>l",  group = "FileType" },
 			{ "<leader>m",  group = "Misc Config" },
+				{ "<leader>n",  "<cmd>NvimTreeToggle<CR>", desc = "Open file tree" },
 			{ "<leader>p",  group = "Preview" },
 			{ "<leader>q",  group = "Diagnostics" },
 			{ "<leader>r",  group = "SnipRun",      mode = { "n", "v" } },

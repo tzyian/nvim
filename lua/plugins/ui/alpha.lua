@@ -4,9 +4,15 @@ return {
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
 	},
+	cmd = { "Alpha" },
+	event = "VimEnter",
 	priority = 1000,
 
 	config = function()
+		if vim.fn.argc() > 0 then
+			return
+		end
+
 		local alpha = require("alpha")
 		local dashboard = require("alpha.themes.startify")
 
