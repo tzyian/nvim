@@ -34,48 +34,6 @@ return {
 				elixirls = {
 					cmd = { "elixir-ls" },
 				},
-				-- gopls = {},
-				-- pyright = {},
-				-- pylsp = {
-				-- 	settings = {
-				-- 		pylsp = {
-				-- 			plugins = {
-				-- 				-- formatter
-				-- 				autopep8 = { enabled = false },
-				-- 				black = { enabled = true },
-				-- 				yapf = { enabled = false },
-				-- 				-- linter
-				-- 				pycodestyle = {
-				-- 					enabled = true,
-				-- 					-- ignore = { "E501" },
-				-- 					-- maxLineLength = 100,
-				-- 				},
-				-- 			},
-				-- 		},
-				-- 	},
-				-- },
-				-- rust_analyzer = {},
-				-- tsserver = {},
-				-- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
-				-- ocamllsp = {
-				-- 	-- This doesn't seem to be working eh
-				-- 	settings = {
-				-- 		ocamllsp = {
-				-- 			extendedHover = { enable = true },
-				-- 			codelens = { enable = true },
-				-- 			inlayHints = { enable = true },
-				-- 			syntaxDocumentation = { enable = true },
-				-- 		},
-				-- 	},
-				-- },
-				-- texlab = {
-				-- 	chktex = {
-				-- 		onOpenAndSave = true,
-				-- 		onEdit = true,
-				-- 	},
-				-- },
-				-- jdtls = {},
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -95,34 +53,30 @@ return {
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-			-- Ensure the servers above are installed
 			local mason_lspconfig = require("mason-lspconfig")
 
 			mason_lspconfig.setup({
 				ensure_installed = vim.tbl_keys(servers or {}),
 				handlers = {
 					function(server_name)
-						if server_name == "rust_analyzer" then
-							return
-						end
-
 						local server = servers[server_name] or {}
 						-- This handles overriding only values explicitly passed
 						-- by the server configuration above. Useful when disabling
 						-- certain features of an LSP (for example, turning off formatting for tsserver)
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
+						vim.lsp.config(server_name, server)
+						vim.lsp.enable(server_name)
 					end,
 				},
 			})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
-
 				callback = function(event)
 					local bufnr = event.buf
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
 					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
-					vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { buffer = bufnr, desc = "Code Format" })
+					-- vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { buffer = bufnr, desc = "Code Format" })
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Kind" })
 					vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Kind" })
 
@@ -135,8 +89,6 @@ return {
 							{ buffer = bufnr, desc = "Switch Source/Header" }
 						)
 					end
-
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
 
 					if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
 						vim.lsp.inlay_hint.enable()

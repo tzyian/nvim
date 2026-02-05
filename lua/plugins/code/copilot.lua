@@ -12,7 +12,7 @@ return {
 				nes = {
 					enabled = true,
 					keymap = {
-						accept_and_goto = "<leader>C",
+						accept_and_goto = "<M-c>",
 						accept = false,
 						dismiss = "<Esc>",
 					},
