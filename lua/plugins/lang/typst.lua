@@ -8,7 +8,7 @@ return {
     vim.api.nvim_create_autocmd('FileType', {
       pattern = 'typst',
       callback = function()
-        vim.keymap.set('n', '<leader>pt', '<cmd>TypstPreview<cr>', {
+        vim.keymap.set('n', '<leader>pp', '<cmd>TypstPreview<cr>', {
           buffer = true,
           desc = 'Preview Typst Document'
         })
