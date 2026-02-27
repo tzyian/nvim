@@ -19,10 +19,6 @@ vim.o.conceallevel = 1
 vim.o.clipboard = "unnamedplus"
 
 if vim.fn.has("wsl") == 1 then
-	-- For nvim python provider
-	-- Here since this won't be used anywhere else
-	vim.g.python3_host_prog = "~/.pyenv/versions/pynvim/bin/python"
-
 	-- Makes wsl nvim start up faster by not searching for clipboard provider
 	-- Also see https://neovim.io/doc/user/provider.html#clipboard-wsl
 	vim.g.clipboard = {
@@ -155,10 +151,6 @@ vim.keymap.set("i", "<C-e>", "<C-o>dw", { silent = true, noremap = true, desc = 
 -- Remap for dealing with word wrap
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
--- Open terminal
-nmap("<leader>tt", "<cmd>vsplit<CR><cmd>term<CR>a", "Open Vert terminal")
-nmap("<leader>tT", "<cmd>sp<CR><cmd>term<CR>a", "Open Split Terminal")
 
 -- Escape terminal mode
 tmap("<Esc>", "<C-\\><C-n>", "Escape terminal mode")

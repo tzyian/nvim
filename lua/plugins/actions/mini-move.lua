@@ -1,5 +1,5 @@
 return {
-  "echasnovski/mini.move",
+  "nvim-mini/mini.move",
   version = false,
   event = "VeryLazy",
   opts = {},

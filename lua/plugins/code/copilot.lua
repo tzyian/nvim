@@ -10,7 +10,7 @@ return {
 					auto_trigger = true,
 				},
 				nes = {
-					enabled = true,
+					enabled = false,
 					keymap = {
 						accept_and_goto = "<M-c>",
 						accept = false,

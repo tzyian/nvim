@@ -13,9 +13,4 @@ return {
 	opts = {
 		use_default_keymaps = false,
 	},
-	-- config = function()
-	--   require("treesj").setup({ --[[ your config ]]
-	--     use_defa
-	--   })
-	-- end,
 }

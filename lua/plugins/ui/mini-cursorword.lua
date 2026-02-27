@@ -1,5 +1,5 @@
 return {
-  "echasnovski/mini.cursorword",
+  "nvim-mini/mini.cursorword",
   version = false,
   event = "VeryLazy",
   opts = {},

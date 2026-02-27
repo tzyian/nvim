@@ -1,9 +1,9 @@
 return {
-	"echasnovski/mini.ai",
+	"nvim-mini/mini.ai",
 	event = "VeryLazy",
 	dependencies = {
 		{
-			'echasnovski/mini.extra',
+			'nvim-mini/mini.extra',
 			version = false,
 			-- config = function() require('mini.extra').setup() end,
 		},
