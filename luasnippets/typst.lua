@@ -4,10 +4,23 @@ local t = ls.text_node
 local i = ls.insert_node
 
 return {
+  s({ trig = "ersp" }, {
+    t("event/relation/situation/property"),
+  }),
+
   s({ trig = "eg" }, {
     t("#example["),
     i(1, "text"),
     t("]"),
+    i(0),
+  }),
+
+  s({ trig = "ub" }, {
+    t('#math.underbrace(['),
+    i(1, 'text'),
+    t('],['),
+    i(2, 'annot'),
+    t('])'),
     i(0),
   }),
 
@@ -17,12 +30,14 @@ return {
     t("]"),
     i(0),
   }),
+
   s({ trig = "ul" }, {
     t("#underline["),
     i(1, "text"),
     t("]"),
     i(0),
   }),
+
   s({ trig = "tab", name = "Table" }, {
     t({ "#table(", "  columns: " }),
     i(1, "2"),

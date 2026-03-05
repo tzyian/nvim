@@ -6,7 +6,6 @@ return {
     {
       "<leader>cs",
       "<cmd>GrugFar<CR>",
-      mode = { "n", "v" },
       desc = "Search and Replace",
     },
   },

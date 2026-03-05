@@ -6,13 +6,6 @@ return {
 
     null_ls.setup({
       sources = {
-        -- null_ls.builtins.diagnostics.codespell.with({
-        --   filetypes = { "markdown", "typst" },
-        -- }),
-        null_ls.builtins.completion.spell.with({
-          filetypes = { "markdown", "typst" },
-        }),
-
         ------------ Shell
         -- null_ls.builtins.diagnostics.gitleaks,
 

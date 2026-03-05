@@ -106,6 +106,17 @@ vim.wo.foldcolumn = "auto:1"
 -- Completion
 vim.o.completeopt = "menuone,noselect,noinsert"
 
+-- Text formatting for visual mode
+function text_formatting(key, prefix, suffix, desc)
+	vim.keymap.set("v", key, function()
+		vim.cmd('normal! "xy')
+		local selection = vim.fn.getreg("x")
+		local wrapped = prefix .. selection .. suffix
+		vim.fn.setreg("x", wrapped)
+		vim.cmd('normal! gv"xp')
+	end, { buffer = true, desc = desc })
+end
+
 ---------------------------------------------
 ------------------ Keymaps ------------------
 ---------------------------------------------
@@ -118,9 +129,45 @@ local function tmap(key, option, desc)
 	vim.keymap.set("t", key, option, { desc = desc })
 end
 
+local function imap(key, option, desc)
+	vim.keymap.set("i", key, option, { desc = desc })
+end
+
 -- Better cursor movement (replaced with changing buffers)
 -- vim.keymap.set({ "n", "o", "v" }, "H", "^", { silent = true })
 -- vim.keymap.set({ "n", "o", "v" }, "L", "$", { silent = true })
+
+nmap("gh", "^", "Move to beginning of line")
+nmap("gl", "$", "Move to end of line")
+
+
+-- Autocorrect last error in paragraph
+local function correct_last_error()
+	local mode = vim.api.nvim_get_mode().mode
+	local cursor = vim.api.nvim_win_get_cursor(0)
+	local current_line = cursor[1]
+	local para_start = vim.fn.line("'{")
+
+	vim.cmd('normal! [s')
+	local error_pos = vim.api.nvim_win_get_cursor(0)
+
+	if error_pos[1] >= para_start and error_pos[1] <= current_line then
+		vim.cmd('normal! 1z=')
+		vim.api.nvim_win_set_cursor(0, cursor)
+	else
+		vim.api.nvim_win_set_cursor(0, cursor)
+	end
+
+	if mode:sub(1, 1) == 'i' then
+		vim.cmd('startinsert')
+	end
+end
+
+
+-- In insert mode, <C-x><C-s> goes to last error and gives suggestion list
+-- imap("<M-s>", "<c-g>u<Esc>[s1z=`]a<c-g>u", "Fix last typo in buffer")
+imap("<M-s>", correct_last_error, "Autocorrect last typo in paragraph")
+nmap("<M-s>", correct_last_error, "Autocorrect last typo in paragraph")
 
 -- Remove highlights after searching
 nmap("<Esc>", "<cmd>nohlsearch<CR>", "Remove highlights after searching")
