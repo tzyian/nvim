@@ -7,7 +7,7 @@ return {
 		config = function()
 			require("copilot").setup({
 				suggestion = {
-					auto_trigger = true,
+					enabled = false,
 				},
 				nes = {
 					enabled = false,
@@ -37,13 +37,6 @@ return {
 				desc = "Copilot enable",
 			},
 		},
-	},
-	{
-		"zbirenbaum/copilot-cmp",
-		event = "InsertEnter",
-		config = function()
-			require("copilot_cmp").setup()
-		end,
 	},
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",

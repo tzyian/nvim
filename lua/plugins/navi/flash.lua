@@ -3,10 +3,26 @@ return {
 	event = "VeryLazy",
 	-- @type Flash.Config
 	opts = {
+		search = {
+			exclude = {
+				"blink-cmp-menu",
+				"blink-cmp-documentation",
+				"blink-cmp-signature",
+				"notify",
+				"cmp_menu",
+				"noice",
+				"flash_prompt",
+				function(win)
+					-- exclude non-focusable windows
+					return not vim.api.nvim_win_get_config(win).focusable
+				end,
+			}
+		},
 		modes = {
 			search = {
 				enabled = true,
 				incremental = false,
+
 			},
 			-- char = {
 			-- 	jump_labels = true,
@@ -16,7 +32,7 @@ return {
 	-- stylua: ignore
 	keys = {
 		{ "<Leader><Tab>", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-		-- NOTE: <Tab> is equivalent to <C-i> 
+		-- NOTE: <Tab> is equivalent to <C-i>
 		--
 		-- { "<Tab>",         mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
 		{ "S",             mode = { "n", "o" },      function() require("flash").treesitter() end,        desc = "Flash Treesitter" },

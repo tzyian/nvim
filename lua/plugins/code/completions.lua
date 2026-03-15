@@ -1,104 +1,105 @@
 return {
 	{
-		"hrsh7th/nvim-cmp",
+		"saghen/blink.cmp",
 		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-cmdline",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-nvim-lsp-signature-help",
-			"saadparwaiz1/cmp_luasnip",
-			"rafamadriz/friendly-snippets",
-			"onsails/lspkind.nvim",
+			"fang2hou/blink-copilot",
 			{
-				"L3MON4D3/LuaSnip",
-				build = "make install_jsregexp",
+				'L3MON4D3/LuaSnip',
+				version = '2.*',
+				build = (function()
+					if vim.fn.executable 'make' == 0 then return end
+					return 'make install_jsregexp'
+				end)(),
+				dependencies = { "rafamadriz/friendly-snippets" },
+				opts = {},
 			},
 		},
-		event = { "InsertEnter", "CmdlineEnter" },
-		config = function()
-			local cmp = require("cmp")
-			local luasnip = require("luasnip")
 
+		version = "1.*",
+		event = { "InsertEnter", "CmdlineEnter" },
+		opts = {
+			keymap = {
+				preset = "none",
+				["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+				["<C-e>"] = { "cancel", "fallback" },
+				['<C-y>'] = { 'select_and_accept', 'fallback' },
+				["<CR>"] = { "accept", "fallback" },
+
+				['<Up>'] = { 'select_prev', 'fallback' },
+				['<Down>'] = { 'select_next', 'fallback' },
+				['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
+				['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
+
+				["<C-b>"] = { "scroll_documentation_up", "fallback" },
+				["<C-f>"] = { "scroll_documentation_down", "fallback" },
+
+				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+
+				['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
+			},
+			snippets = { preset = "luasnip", },
+			signature = { enabled = true, },
+			completion = {
+				list = {
+					selection = {
+						-- press Tab to select the first item
+						preselect = false
+					},
+					trigger = {
+						-- show_in_snippet = false
+					},
+				},
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 0,
+				},
+			},
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer", "copilot" },
+				providers = {
+					path = {
+						opts = {
+							get_cwd = function(_)
+								-- path from cwd e.g. git root rather than buffer parent
+								return vim.fn.getcwd()
+							end,
+						},
+					},
+					copilot = {
+						name = "copilot",
+						module = "blink-copilot",
+						async = true,
+					},
+				},
+			},
+			cmdline = {
+				completion = {
+					list = {
+						selection = {
+							preselect = false
+						}
+					},
+					menu = {
+						auto_show = true,
+					}
+				},
+				sources = function()
+					local type = vim.fn.getcmdtype()
+					if type == "/" or type == "?" then
+						return { "buffer" }
+					end
+					if type == ":" then
+						return { "path", "cmdline" }
+					end
+					return {}
+				end,
+			},
+		},
+		config = function(_, opts)
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
-
-			cmp.setup.cmdline("/", {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = {
-					{ name = "buffer" },
-				},
-			})
-
-			cmp.setup.cmdline(":", {
-				mapping = cmp.mapping.preset.cmdline(),
-				sources = cmp.config.sources({
-					{ name = "path" },
-					{ name = "cmdline", option = { ignore_cmds = { "Man", "!" } } }
-				}),
-			})
-
-			local lspkind = require("lspkind")
-			cmp.setup({
-				formatting = {
-					format = lspkind.cmp_format({
-						maxwidth = 50,   -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-						-- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
-						ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-					}),
-				},
-				snippet = {
-					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
-					end,
-				},
-				preselect = cmp.PreselectMode.None,
-				completion = {
-					completeopt = "menu,menuone,noinsert,noselect",
-				},
-
-				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
-				},
-
-				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-
-					["<CR>"] = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = false,
-					}),
-
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif luasnip.expand_or_locally_jumpable() then
-							luasnip.expand_or_jump()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif luasnip.locally_jumpable(-1) then
-							luasnip.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "copilot" },
-					{ name = "nvim_lsp_signature_help" },
-					{ name = "luasnip" }, -- For luasnip users.
-				}),
-			})
+			require("blink.cmp").setup(opts)
 		end,
 	},
 }

@@ -5,16 +5,14 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
-			{ "williamboman/mason.nvim",           opts = {}, cmd = "Mason" },
-			{ "williamboman/mason-lspconfig.nvim", opts = {} },
+			{ "mason-org/mason.nvim",                      opts = {} },
+			{ "williamboman/mason-lspconfig.nvim", },
+			{ 'WhoIsSethDaniel/mason-tool-installer.nvim', },
 			{ "p00f/clangd_extensions.nvim" },
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ "j-hui/fidget.nvim",                 opts = {} },
-
-			-- Additional lua configuration, makes nvim stuff amazing!
-			"folke/neodev.nvim",
+			{ "j-hui/fidget.nvim",                         opts = {} },
 		},
 		config = function()
 			local servers = {
@@ -55,37 +53,28 @@ return {
 									'${3rd}/busted/library',
 								}),
 							},
+							diagnostics = {
+								globals = { "vim" }
+							}
 						})
 					end,
 					settings = {
-						Lua = {
-							diagnostics = {
-								globals = { "vim" } }
-						},
+						Lua = {},
 					},
 				},
 			}
 
-			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
-			local mason_lspconfig = require("mason-lspconfig")
-
-			mason_lspconfig.setup({
-				ensure_installed = vim.tbl_keys(servers or {}),
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for tsserver)
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						vim.lsp.config(server_name, server)
-						vim.lsp.enable(server_name)
-					end,
-				},
+			local ensure_installed = vim.tbl_keys(servers or {})
+			vim.list_extend(ensure_installed, {
+				-- You can add other tools here that you want Mason to install
 			})
+
+			require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+
+			for name, server in pairs(servers) do
+				vim.lsp.config(name, server)
+				vim.lsp.enable(name)
+			end
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(event)
@@ -107,11 +96,11 @@ return {
 						)
 					end
 
-					if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+					if client and client:supports_method('textDocument/inlayHint', event.buf) then
 						vim.lsp.inlay_hint.enable()
-						vim.keymap.set("n", "<leader>ci", function()
-							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-						end, { desc = "Toggle Inlay Hints" })
+						vim.keymap.set("n", "<leader>ci",
+							function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end,
+							{ desc = "Toggle Inlay Hints" })
 
 						require("which-key").add({
 							{
