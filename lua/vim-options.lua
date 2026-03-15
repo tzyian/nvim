@@ -9,14 +9,19 @@ vim.o.smartindent = true
 vim.o.tabstop = 2
 vim.o.smarttab = true
 vim.o.shiftwidth = 2
+vim.o.breakindent = true
 -- vim.o.softtabstop = 2
 
 vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.o.conceallevel = 1
 
+-- Ask if want to save changes before exiting
+vim.o.confirm = true
+
 -- Sync system keyboard
-vim.o.clipboard = "unnamedplus"
+--  Schedule the setting after `UiEnter` because it can increase startup-time.
+vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 
 if vim.fn.has("wsl") == 1 then
 	-- Makes wsl nvim start up faster by not searching for clipboard provider
@@ -63,6 +68,14 @@ elseif vim.fn.has("win32") == 1 then
 	end
 end
 
+-- Allow image.nvim to have ft = "png"
+-- Useful for viewing assets pasted using img-clip
+vim.filetype.add({
+	extension = {
+		png = "png",
+	},
+})
+
 -- Line numbers
 vim.o.number = true
 vim.o.rnu = false
@@ -106,39 +119,23 @@ vim.wo.foldcolumn = "auto:1"
 -- Completion
 vim.o.completeopt = "menuone,noselect,noinsert"
 
--- Text formatting for visual mode
-function text_formatting(key, prefix, suffix, desc)
-	vim.keymap.set("v", key, function()
-		vim.cmd('normal! "xy')
-		local selection = vim.fn.getreg("x")
-		local wrapped = prefix .. selection .. suffix
-		vim.fn.setreg("x", wrapped)
-		vim.cmd('normal! gv"xp')
-	end, { buffer = true, desc = desc })
-end
+
+vim.diagnostic.config {
+	update_in_insert = false,
+	severity_sort = true,
+	float = { border = 'rounded', source = 'if_many' },
+	underline = { severity = { min = vim.diagnostic.severity.WARN } },
+
+	virtual_text = false, -- Text shows up at the end of the line
+	virtual_lines = false, -- Text shows up underneath the line, with virtual lines
+
+	-- Auto open the float, in '[d' and ']d'
+	jump = { float = true },
+}
 
 ---------------------------------------------
------------------- Keymaps ------------------
+----------------- Functions -----------------
 ---------------------------------------------
-
-local function nmap(key, option, desc)
-	vim.keymap.set("n", key, option, { desc = desc })
-end
-
-local function tmap(key, option, desc)
-	vim.keymap.set("t", key, option, { desc = desc })
-end
-
-local function imap(key, option, desc)
-	vim.keymap.set("i", key, option, { desc = desc })
-end
-
--- Better cursor movement (replaced with changing buffers)
--- vim.keymap.set({ "n", "o", "v" }, "H", "^", { silent = true })
--- vim.keymap.set({ "n", "o", "v" }, "L", "$", { silent = true })
-
-nmap("gh", "^", "Move to beginning of line")
-nmap("gl", "$", "Move to end of line")
 
 
 -- Autocorrect last error in paragraph
@@ -162,6 +159,18 @@ local function correct_last_error()
 		vim.cmd('startinsert')
 	end
 end
+
+
+---------------------------------------------
+------------------ Keymaps ------------------
+---------------------------------------------
+
+-- Better cursor movement (replaced with changing buffers)
+-- vim.keymap.set({ "n", "o", "v" }, "H", "^", { silent = true })
+-- vim.keymap.set({ "n", "o", "v" }, "L", "$", { silent = true })
+
+nmap("gh", "^", "Move to beginning of line")
+nmap("gl", "$", "Move to end of line")
 
 
 -- In insert mode, <C-x><C-s> goes to last error and gives suggestion list
@@ -189,15 +198,14 @@ nmap("<leader>ql", vim.diagnostic.setloclist, "Open diagnostics list")
 nmap("[d", vim.diagnostic.goto_prev, "Go to previous diagnostic message")
 nmap("]d", vim.diagnostic.goto_next, "Go to next diagnostic message")
 
--- Diagnostics
-vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { silent = true, noremap = true, desc = "toggle signature" })
+imap("<C-k>", vim.lsp.buf.signature_help, "Toggle signature")
 
 -- Delete word in front
-vim.keymap.set("i", "<C-e>", "<C-o>dw", { silent = true, noremap = true, desc = "Delete word" })
+imap("<C-e>", "<C-o>dw", "Delete word")
 
 -- Remap for dealing with word wrap
-vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+nmap("k", "v:count == 0 ? 'gk' : 'k'", "Move up (respecting word wrap)", { expr = true })
+nmap("j", "v:count == 0 ? 'gj' : 'j'", "Move down (respecting word wrap)", { expr = true })
 
 -- Escape terminal mode
 tmap("<Esc>", "<C-\\><C-n>", "Escape terminal mode")
@@ -224,11 +232,6 @@ nmap("<leader>w", "<cmd>w<CR>", "Save")
 nmap("<leader>ml", "<cmd>Lazy<CR>", "Lazy")
 nmap("<leader>mm", "<cmd>Mason<CR>", "Mason")
 nmap("<leader>mi", "<cmd>LspInfo<CR>", "LspInfo")
-nmap(
-	"<leader>mc",
-	"<cmd>tabnew ~/.config/nvim/lua/vim-options.lua<CR> <cmd>cd ~/.config/nvim/<CR> <cmd>NvimTreeOpen ~/.config/nvim<CR>",
-	"Edit config"
-)
 
 
 require("which-key-additions")

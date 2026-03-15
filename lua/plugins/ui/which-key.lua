@@ -1,6 +1,7 @@
 return {
 	"folke/which-key.nvim",
 	event = "VeryLazy",
+	-- event = "VimEnter",
 	init = function()
 		if vim.g.barbecue_enabled == nil then
 			vim.g.barbecue_enabled = true
@@ -10,22 +11,23 @@ return {
 		end
 	end,
 	opts = {
+		delay = 0,
 		spec = {
-			{ "<leader>a",  group = "Copilot Chat", mode = { "n", "v" } },
+			{ "<leader>a",  group = "Copilot Chat",    mode = { "n", "v" } },
 			{ "<leader>b",  group = "Buffer" },
-			{ "<leader>c",  group = "Code",         mode = { "n", "v" } },
+			{ "<leader>c",  group = "Code",            mode = { "n", "v" } },
 			{ "<leader>ct", group = "Toggle format" },
 			{ "<leader>d",  group = "Debug" },
 			{ "<leader>f",  group = "Find" },
 			{ "<leader>g",  group = "GoTo" },
-			{ "<leader>h",  group = "Git Hunk",     mode = { "n", "v" } },
+			{ "<leader>h",  group = "Git Hunk",        mode = { "n", "v" } },
 			{ "<leader>ht", group = "Toggle" },
 			{ "<leader>l",  group = "FileType" },
 			{ "<leader>m",  group = "Misc Config" },
-				{ "<leader>n",  "<cmd>NvimTreeToggle<CR>", desc = "Open file tree" },
+			{ "<leader>n",  "<cmd>NvimTreeToggle<CR>", desc = "Open file tree" },
 			{ "<leader>p",  group = "Preview" },
 			{ "<leader>q",  group = "Diagnostics" },
-			{ "<leader>r",  group = "SnipRun",      mode = { "n", "v" } },
+			{ "<leader>r",  group = "SnipRun",         mode = { "n", "v" } },
 			{ "<leader>s",  group = "Session" },
 			{ "<leader>S",  group = "sshfs" },
 			{ "<leader>t",  group = "Terminal" },
@@ -82,7 +84,7 @@ return {
 						return { icon = " ", color = "green" }
 					end
 				end,
-			}, 
+			},
 		},
 	},
 }

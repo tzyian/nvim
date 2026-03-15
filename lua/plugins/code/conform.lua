@@ -39,7 +39,7 @@ return { -- Autoformat
 				python = { "ruff_format", "ruff_organize_imports"
 					-- "ruff_fix", -- disable because it removes unused imports if not configured otherwise
 				},
-				go = { "golines", "goimports", "golangci-lint" },
+				go = { "gofumpt", "golines", "goimports", "golangci-lint" },
 				sh = { "shfmt", "shellharden" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },

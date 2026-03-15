@@ -2,7 +2,6 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		event = "VeryLazy",
-		branch = "0.1.x",
 		dependencies = {
 			{ "nvim-lua/plenary.nvim" },
 			{ "nvim-telescope/telescope-ui-select.nvim" },
@@ -24,6 +23,10 @@ return {
 		config = function()
 			-- [[ Configure Telescope ]]
 			-- See `:help telescope` and `:help telescope.setup()`
+			--
+			--  Show keymaps within Telescope
+			--  - Insert mode: <c-/>
+			-- Normal mode: ?
 			require("telescope").setup({
 				extensions = {
 					["ui-select"] = {
@@ -49,7 +52,7 @@ return {
 
 			-- Enable Telescope extensions if they are installed
 			pcall(require("telescope").load_extension, "fzf")
-			-- pcall(require("telescope").load_extension, "ui-select")
+			pcall(require("telescope").load_extension, "ui-select")
 			-- pcall(require('telescope').load_extension('ht'))
 
 			-- Telescope live_grep in git root
@@ -105,64 +108,71 @@ return {
 			-- See `:help telescope.builtin`
 
 			-- Buffers and Files
-			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find Files" })
-			-- vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "? Find recently opened files" })
-			vim.keymap.set("n", "<leader><space>", telescope_buffers, { desc = "  Find existing buffers" })
-			vim.keymap.set("n", "<leader>bb", telescope_buffers, { desc = "Buffers browse" })
+			nmap("<leader>ff", builtin.find_files, "Find Files")
+			-- nmap("<leader>?", builtin.oldfiles, "? Find recently opened files")
+			nmap("<leader><space>", telescope_buffers, "  Find existing buffers")
+			nmap("<leader>bb", telescope_buffers, "Buffers browse")
 
 			-- Grep
-			-- vim.keymap.set("n", "<leader>f/", telescope_live_grep_open_files, { desc = "Find / in Open Files" })
-			-- vim.keymap.set("n", "<leader>/", function()
+			-- nmap("<leader>f/", telescope_live_grep_open_files, "Find / in Open Files")
+			-- nmap("<leader>/", function()
 			-- 	-- You can pass additional configuration to telescope to change theme, layout, etc.
 			-- 	builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 			-- 		winblend = 10,
 			-- 		previewer = false,
 			-- 	}))
-			-- end, { desc = "/ Fuzzily search in current buffer" })
-			-- vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "Find current Word" })
-			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Find by Grep" })
+			-- end, "/ Fuzzily search in current buffer")
+			-- nmap("<leader>fw", builtin.grep_string, "Find current Word")
+			nmap("<leader>fg", builtin.live_grep, "Find by Grep")
 
 			-- Git
-			vim.keymap.set("n", "<leader>fhf", builtin.git_files, { desc = "Find git files" })
-			vim.keymap.set("n", "<leader>fhc", builtin.git_commits, { desc = "Find git commits" })
-			vim.keymap.set("n", "<leader>fhr", "<cmd>LiveGrepGitRoot<cr>", { desc = "Find by Grep on Git Root" })
+			nmap("<leader>fhf", builtin.git_files, "Find git files")
+			nmap("<leader>fhc", builtin.git_commits, "Find git commits")
+			nmap("<leader>fhr", "<cmd>LiveGrepGitRoot<cr>", "Find by Grep on Git Root")
 
-			-- Lsp
-			vim.keymap.set("n", "gr", builtin.lsp_references, { desc = "Go References" })
-			vim.keymap.set("n", "<leader>gr", builtin.lsp_references, { desc = "Go References" })
-			vim.keymap.set("n", "gd", builtin.lsp_definitions, { desc = "Go Definitions" })
-			vim.keymap.set("n", "<leader>gd", builtin.lsp_definitions, { desc = "Go Definitions" })
-			vim.keymap.set("n", "gD", builtin.lsp_type_definitions, { desc = "Go Type Definitions" })
-			vim.keymap.set("n", "<leader>gD", builtin.lsp_type_definitions, { desc = "Go Type Definitions" })
-			vim.keymap.set("n", "gi", builtin.lsp_implementations, { desc = "Go Implementations" })
-			vim.keymap.set("n", "<leader>gi", builtin.lsp_implementations, { desc = "Go Implementations" })
+			vim.api.nvim_create_autocmd('LspAttach', {
+				group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
+				callback = function(event)
+					local buf = event.buf
 
-			vim.keymap.set("n", "<leader>gn", builtin.lsp_incoming_calls, { desc = "Find Incoming" })
-			vim.keymap.set("n", "<leader>gg", builtin.lsp_outgoing_calls, { desc = "Find Outgoing" })
+					-- Lsp
+					nmap("gr", builtin.lsp_references, "Go References", { buffer = buf })
+					nmap("<leader>gr", builtin.lsp_references, "Go References", { buffer = buf })
+					nmap("gd", builtin.lsp_definitions, "Go Definitions", { buffer = buf })
+					nmap("<leader>gd", builtin.lsp_definitions, "Go Definitions", { buffer = buf })
+					nmap("gD", builtin.lsp_type_definitions, "Go Type Definitions", { buffer = buf })
+					nmap("<leader>gD", builtin.lsp_type_definitions, "Go Type Definitions", { buffer = buf })
+					nmap("gi", builtin.lsp_implementations, "Go Implementations", { buffer = buf })
+					nmap("<leader>gi", builtin.lsp_implementations, "Go Implementations", { buffer = buf })
 
-			vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "Find Document Symbols" })
-			vim.keymap.set("n", "<leader>fS", builtin.lsp_dynamic_workspace_symbols, { desc = "Workspace Symbols" })
+					nmap("<leader>gn", builtin.lsp_incoming_calls, "Find Incoming", { buffer = buf })
+					nmap("<leader>gg", builtin.lsp_outgoing_calls, "Find Outgoing", { buffer = buf })
+
+					nmap("<leader>fs", builtin.lsp_document_symbols, "Find Document Symbols", { buffer = buf })
+					nmap("<leader>fS", builtin.lsp_dynamic_workspace_symbols, "Workspace Symbols", { buffer = buf })
+				end,
+			})
 
 			-- Diagnostics
-			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Find Diagnostics" })
-			vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "Find quickfix" })
+			nmap("<leader>fd", builtin.diagnostics, "Find Diagnostics")
+			nmap("<leader>fq", builtin.quickfix, "Find quickfix")
 
 			-- Marks
-			vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Find marks" })
+			nmap("<leader>fm", builtin.marks, "Find marks")
 
 			-- Misc
-			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "Find Resume" })
-			vim.keymap.set("n", "<leader>fx", builtin.builtin, { desc = "Find Select Telescope" })
-			-- vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Find Keymaps" })
-			-- vim.keymap.set("n", "<leader>ft", builtin.treesitter, { desc = "Find treesitter" })
-			-- vim.keymap.set("n", "<leader>fH", builtin.help_tags, { desc = "Find Help" })
-			vim.keymap.set("n", "<leader>f:", builtin.command_history, { desc = "Find Command History" })
-			vim.keymap.set("n", "<leader>fc", function()
+			nmap("<leader>fr", builtin.resume, "Find Resume")
+			nmap("<leader>fx", builtin.builtin, "Find Select Telescope")
+			-- nmap("<leader>fk", builtin.keymaps, "Find Keymaps")
+			-- nmap("<leader>ft", builtin.treesitter, "Find treesitter")
+			-- nmap("<leader>fH", builtin.help_tags, "Find Help")
+			nmap("<leader>f:", builtin.command_history, "Find Command History")
+			nmap("<leader>fc", function()
 				builtin.find_files({ cwd = vim.fn.stdpath("config") })
-			end, { desc = "Find Config" })
-			-- vim.keymap.set("n", "<leader>fp", function()
+			end, "Find Config")
+			-- nmap("<leader>fp", function()
 			-- 	builtin.planets({ show_pluto = true, show_moon = true })
-			-- end, { desc = "Find Planets" })
+			-- end, "Find Planets")
 		end,
 	},
 }

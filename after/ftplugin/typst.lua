@@ -1,8 +1,8 @@
 vim.o.spell = true
 
-text_formatting("<leader>b", "*", "*", "Bold")
-text_formatting("<leader>i", "_", "_", "Italic")
-text_formatting("<leader>u", "#underline[", "]", "Underline")
-text_formatting("<leader>c", "`", "`", "Code")
-text_formatting("<leader>s", "#strike[", "]", "Strikethrough")
-text_formatting("<leader>m", "$", "$", "math")
+Text_Format("<leader>b", "*", "*", "Bold")
+Text_Format("<leader>i", "_", "_", "Italic")
+Text_Format("<leader>u", "#underline[", "]", "Underline")
+Text_Format("<leader>c", "`", "`", "Code")
+Text_Format("<leader>s", "#strike[", "]", "Strikethrough")
+Text_Format("<leader>m", "$", "$", "math")

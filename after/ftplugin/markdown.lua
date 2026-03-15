@@ -1,8 +1,8 @@
 vim.o.spell = true
 
-text_formatting("<leader>cb", "**", "**", "Bold")
-text_formatting("<leader>ci", "_", "_", "Italic")
+Text_Format("<leader>cb", "**", "**", "Bold")
+Text_Format("<leader>ci", "_", "_", "Italic")
 -- markdown doesn't have underline
-text_formatting("<leader>cc", "`", "`", "Code")
-text_formatting("<leader>cs", "~~", "~~", "Strikethrough")
-text_formatting("<leader>cm", "$", "$", "Strikethrough")
+Text_Format("<leader>cc", "`", "`", "Code")
+Text_Format("<leader>cs", "~~", "~~", "Strikethrough")
+Text_Format("<leader>cm", "$", "$", "Strikethrough")

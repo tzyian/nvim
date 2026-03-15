@@ -19,7 +19,7 @@ return {
 				lualine_b = { { "b:gitsigns_head", icon = "" }, { "diff", source = diff_source }, "diagnostics" },
 			},
 			options = {
-				theme = "catppuccin",
+				theme = "catppuccin-nvim",
 			},
 		})
 	end,

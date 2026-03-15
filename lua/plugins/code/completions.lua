@@ -21,7 +21,7 @@ return {
 			local luasnip = require("luasnip")
 
 			require("luasnip.loaders.from_vscode").lazy_load()
-			require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/luasnippets/" })
+			require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
 
 			cmp.setup.cmdline("/", {
 				mapping = cmp.mapping.preset.cmdline(),
@@ -34,13 +34,7 @@ return {
 				mapping = cmp.mapping.preset.cmdline(),
 				sources = cmp.config.sources({
 					{ name = "path" },
-				}, {
-					{
-						name = "cmdline",
-						option = {
-							ignore_cmds = { "Man", "!" },
-						},
-					},
+					{ name = "cmdline", option = { ignore_cmds = { "Man", "!" } } }
 				}),
 			})
 
