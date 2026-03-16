@@ -1,13 +1,13 @@
 local bufnr = vim.api.nvim_get_current_buf()
 
-map("<leader>ca", function() vim.cmd.RustLsp('codeAction') end, "Rust Code Action")
+nmap("K", function() vim.cmd.RustLsp({ 'hover', 'actions' }) end, "Rust Hover Actions", { buffer = bufnr })
+nmap("<leader>ca", function() vim.cmd.RustLsp('codeAction') end, "Rust Code Action", { buffer = bufnr })
+nmap("<leader>E", function() vim.cmd.RustLsp('explainError') end, "Rust Explain Error", { buffer = bufnr })
+nmap("<leader>ge", function() vim.cmd.RustLsp('relatedDiagnostics') end, "Rust related diagnostics", { buffer = bufnr })
+nmap("ge", function() vim.cmd.RustLsp('relatedDiagnostics') end, "Rust related diagnostics", { buffer = bufnr })
+nmap("<leader>rr", function() vim.cmd.RustLsp('runnables') end, "Rust Run", { buffer = bufnr })
 
-map("<leader>E", function() vim.cmd.RustLsp('explainError') end, "Rust Explain Error")
+nmap("<leader><Up>", function() vim.cmd.RustLsp { 'moveItem', 'up' } end, "Rust Move Item Down", { buffer = bufnr })
+nmap("<leader><Down>", function() vim.cmd.RustLsp { 'moveItem', 'down' } end, "Rust Move Item Up", { buffer = bufnr })
 
-map("K", function() vim.cmd.RustLsp({ 'hover', 'actions' }) end, "Rust Hover Actions")
-
-map("<leader>rr", function() vim.cmd.RustLsp('run') end, "Rust Run")
-
--- map("<M-Down>", function() vim.cmd.RustLsp('moveItemDown') end, "Rust Move Item Down")
---
--- map("<M-Up>", function() vim.cmd.RustLsp('moveItemUp') end, "Rust Move Item Up")
+nmap("<leader>J", function() vim.cmd.RustLsp('joinLines') end, "Rust Join Lines", { buffer = bufnr })
