@@ -7,7 +7,7 @@ return {
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
       local ts = require("nvim-treesitter")
- 
+
       local ensureInstalled = { 'bash', 'lua', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', "python" }
 
       ts.install(ensureInstalled)
@@ -22,8 +22,8 @@ return {
           disabled = { "latex", "csv" }
           if vim.tbl_contains(disabled, language) then return end
 
-          local has_parser = ts.get_available()[language]
-          if not has_parser then return end
+          local available = vim.list_contains(ts.get_available(), language)
+          if not available then return end
 
           ts.install({ language })
 

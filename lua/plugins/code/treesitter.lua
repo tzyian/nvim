@@ -22,17 +22,14 @@ return {
 					disabled = { "latex", "csv" }
 					if vim.tbl_contains(disabled, language) then return end
 
-
-					local has_parser = ts.get_available()[language]
-					if not has_parser then return end
+					local available = vim.list_contains(ts.get_available(), language)
+					if not available then return end
 
 					ts.install({ language })
 
 					-- check if parser exists and load it
 					if not vim.treesitter.language.add(language) then return end
 					-- enables syntax highlighting and other treesitter features
-
-
 					vim.treesitter.start(buf, language)
 
 					-- enables treesitter based folds
@@ -75,7 +72,5 @@ return {
 				},
 			})
 		end,
-
-
 	},
 }
