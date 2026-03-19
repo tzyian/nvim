@@ -19,6 +19,10 @@ return {
     vim.cmd.colorscheme("catppuccin-nvim")
     vim.cmd([[
         hi! FlashLabel guifg=black guibg=orange
+        " the text selected when typing / or shift tab
+        " hi! FlashCurrent guifg=black guibg=#FF00FF
+        " not sure why FlashCursor is not working
+        " hi! FlashCursor guifg=red guibg=blue
       ]])
   end,
 }
