@@ -9,6 +9,7 @@ return {
 		if vim.g.context_enabled == nil then
 			vim.g.context_enabled = true
 		end
+		require("which-key-additions")
 	end,
 	opts = {
 		delay = 0,

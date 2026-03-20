@@ -1,5 +1,5 @@
 -- From https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/util/mini.lua#L21-L80
-function ai_whichkey()
+local function ai_whichkey()
   ---@type table<string, string|table>
   local objects = {
     a = "Argument",
@@ -18,34 +18,27 @@ function ai_whichkey()
   }
 
   local ret = { mode = { "o", "x" } }
-  ---@type table<string, string>
-  local mappings = vim.tbl_extend("force", {}, {
+  local mappings = {
     around = "a",
     inside = "i",
     around_next = "an",
     inside_next = "in",
     around_last = "al",
     inside_last = "il",
-  }, {})
+  }
   mappings.goto_left = nil
   mappings.goto_right = nil
 
   for name, prefix in pairs(mappings) do
     name = name:gsub("^around_", ""):gsub("^inside_", "")
     ret[#ret + 1] = { prefix, group = name }
-    for _, obj in ipairs(objects) do
-      local desc = obj.desc
-      if prefix:sub(1, 1) == "i" then
-        desc = desc:gsub(" with ws", "")
-      end
-      ret[#ret + 1] = { prefix .. obj[1], desc = obj.desc }
+    for key, desc in pairs(objects) do
+      ret[#ret + 1] = { prefix .. key, desc = desc }
     end
   end
   require("which-key").add(ret, { notify = false })
 end
 
 vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    ai_whichkey()
-  end,
+  callback = ai_whichkey
 })
