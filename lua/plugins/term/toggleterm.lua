@@ -72,10 +72,10 @@ return {
 						height = math.floor(0.75 * vim.o.lines),
 					},
 					on_open = function(term)
-						vim.api.nvim_win_set_option(
-							term.window,
-							"winhighlight",
-							"FloatBorder:" .. hl_group
+						vim.api.nvim_set_option_value(
+							"winhl",
+							"FloatBorder:" .. hl_group,
+							{ win = term.window, scope = "local" }
 						)
 						vim.schedule(function()
 							if vim.api.nvim_buf_is_valid(term.bufnr) then
@@ -110,10 +110,10 @@ return {
 						term.bufnr, "n", "q", "<cmd>close<CR>",
 						{ noremap = true, silent = true }
 					)
-					vim.api.nvim_win_set_option(
-						term.window,
+					vim.api.nvim_set_option_value(
 						"winhighlight",
-						"FloatBorder:" .. "ToggleTermBorderRed"
+						"FloatBorder:" .. "ToggleTermBorderRed",
+						{ win = term.window, scope = "local" }
 					)
 				end,
 			})

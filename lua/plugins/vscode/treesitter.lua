@@ -19,7 +19,7 @@ return {
           local language = vim.treesitter.language.get_lang(filetype)
           if not language then return end
 
-          disabled = { "latex", "csv" }
+          local disabled = { "latex", "csv" }
           if vim.tbl_contains(disabled, language) then return end
 
           local available = vim.list_contains(ts.get_available(), language)
