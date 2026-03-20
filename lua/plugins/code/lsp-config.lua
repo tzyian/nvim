@@ -5,20 +5,21 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
-			{ "mason-org/mason.nvim",                      opts = {} },
+			{ "mason-org/mason.nvim",              opts = {} },
 			{ "williamboman/mason-lspconfig.nvim", },
-			{ 'WhoIsSethDaniel/mason-tool-installer.nvim', },
+			-- { 'WhoIsSethDaniel/mason-tool-installer.nvim', },
 			{ "p00f/clangd_extensions.nvim" },
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ "j-hui/fidget.nvim",                         opts = {} },
+			{ "j-hui/fidget.nvim",                 opts = {} },
 		},
 		config = function()
 			local servers = {
 				-- jdtls = {
 				-- 	filetypes = { "java" },
 				-- },
+				basedpyright = {},
 				clangd = {
 					capabilities = {
 						offsetEncoding = { "utf-16" },
@@ -69,12 +70,27 @@ return {
 				-- You can add other tools here that you want Mason to install
 			})
 
-			require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+			local mason_lspconfig = require("mason-lspconfig")
+			mason_lspconfig.setup({
+				ensure_installed = vim.tbl_keys(servers or {}),
+				handlers = {
+					function(server_name)
+						local server = servers[server_name] or {}
+						-- This handles overriding only values explicitly passed
+						-- by the server configuration above. Useful when disabling
+						-- certain features of an LSP (for example, turning off formatting for tsserver)
+						vim.lsp.config(server_name, server)
+						vim.lsp.enable(server_name)
+					end,
+				},
+			})
 
-			for name, server in pairs(servers) do
-				vim.lsp.config(name, server)
-				vim.lsp.enable(name)
-			end
+			-- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+			--
+			-- for name, server in pairs(servers) do
+			-- 	vim.lsp.config(name, server)
+			-- 	vim.lsp.enable(name)
+			-- end
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(event)
