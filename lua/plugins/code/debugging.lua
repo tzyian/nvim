@@ -37,6 +37,11 @@ return {
 			{ "<Leader>dl", "<cmd>lua require('dapui').toggle()<CR>", desc = "Debug: See last session result (F7)" },
 		},
 		config = function()
+			vim.fn.sign_define("DapBreakpoint", {
+				text = "●", -- a large dot
+				texthl = "DapBreakpointSign",
+			})
+
 			local dap = require("dap")
 			local dapui = require("dapui")
 
@@ -54,7 +59,7 @@ return {
 				-- online, please don't ask me how to install them :)
 				ensure_installed = {
 					-- Update this to ensure that you have the debuggers for the langs you want
-					-- "delv we",
+					-- "delve",
 					"debugpy",
 				},
 			})

@@ -12,6 +12,8 @@ vim.o.shiftwidth = 2
 vim.o.breakindent = true
 -- vim.o.softtabstop = 2
 
+vim.synmaxcol = 300 -- 300 cols syntax highlighting limit
+
 vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.o.conceallevel = 1
@@ -184,6 +186,7 @@ nmap("<Esc>", "<cmd>nohlsearch<CR>", "Remove highlights after searching")
 -- Disable yank on delete
 nmap("x", '"_x', "Disable yank on delete")
 nmap("<Del>", '"_x', "Disable yank on delete")
+vmap("p", '"_dP', "Paste")
 
 -- -- Switch buffers quickly
 -- nmap("<leader>bd", "<cmd>bdelete<CR>", "Buffer delete")

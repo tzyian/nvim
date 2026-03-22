@@ -19,6 +19,7 @@ return {
 				-- jdtls = {
 				-- 	filetypes = { "java" },
 				-- },
+				gopls = {},
 				basedpyright = {},
 				clangd = {
 					capabilities = {
@@ -50,6 +51,7 @@ return {
 								-- NOTE: this is a lot slower and will cause issues when working on your own configuration.
 								--  See https://github.com/neovim/nvim-lspconfig/issues/3189
 								library = vim.tbl_extend('force', vim.api.nvim_get_runtime_file('', true), {
+									vim.env.VIMRUNTIME,
 									'${3rd}/luv/library',
 									'${3rd}/busted/library',
 								}),
@@ -73,17 +75,8 @@ return {
 			local mason_lspconfig = require("mason-lspconfig")
 			mason_lspconfig.setup({
 				ensure_installed = vim.tbl_keys(servers or {}),
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for tsserver)
-						vim.lsp.config(server_name, server)
-						vim.lsp.enable(server_name)
-					end,
-				},
 			})
+
 
 			-- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 			--

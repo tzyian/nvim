@@ -34,7 +34,6 @@ require("globals")
 if not vim.g.vscode then
 	require("vim-options")
 	require("autocmd")
-	require("which-key-additions")
 else
 	require("vscode-options")
 end

@@ -46,9 +46,9 @@ return {
 						-- press Tab to select the first item
 						preselect = false
 					},
-					trigger = {
-						-- show_in_snippet = false
-					},
+					-- trigger = {
+					-- 	show_in_snippet = false
+					-- },
 				},
 				documentation = {
 					auto_show = true,

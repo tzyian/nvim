@@ -43,34 +43,5 @@ return {
 			})
 		end,
 	},
-	{
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		event = { "BufReadPost", "BufNewFile" },
-		branch = "main",
-		keys = {
-			{
-				"<leader><Left>",
-				function()
-					require("nvim-treesitter-textobjects.swap").swap_previous "@parameter.inner"
-				end,
-				desc = "Swap previous parameter"
-			},
-			{
-				"<leader><Right>",
-				function()
-					require("nvim-treesitter-textobjects.swap").swap_next "@parameter.inner"
-				end,
-				desc = "Swap next parameter"
-			},
-		},
-		config = function(_, opts)
-			require("nvim-treesitter-textobjects").setup({
-				select = {
-					-- Automatically jump forward to textobj, similar to targets.vim
-					lookahead = true,
-					include_surrounding_whitespace = false,
-				},
-			})
-		end,
-	},
+
 }

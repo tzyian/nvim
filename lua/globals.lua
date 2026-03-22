@@ -30,3 +30,7 @@ end
 function imap(key, func, desc, opts)
   map("i", key, func, desc, opts)
 end
+
+function vmap(key, func, desc, opts)
+  map("v", key, func, desc, opts)
+end
