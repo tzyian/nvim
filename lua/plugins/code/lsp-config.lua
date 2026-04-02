@@ -31,6 +31,13 @@ return {
 						"--extra-arg=-std=c++20",
 					},
 				},
+				copilot = {
+					settings = {
+						telemetry = {
+							telemetryLevel = "off"
+						},
+					}
+				},
 				elixirls = {
 					cmd = { "elixir-ls" },
 				},
@@ -53,7 +60,6 @@ return {
 								library = vim.tbl_extend('force', vim.api.nvim_get_runtime_file('', true), {
 									vim.env.VIMRUNTIME,
 									'${3rd}/luv/library',
-									'${3rd}/busted/library',
 								}),
 							},
 							diagnostics = {
@@ -75,11 +81,21 @@ return {
 			local mason_lspconfig = require("mason-lspconfig")
 			mason_lspconfig.setup({
 				ensure_installed = vim.tbl_keys(servers or {}),
+				handlers = {
+					function(server_name)
+						local server = servers[server_name] or {}
+						-- This handles overriding only values explicitly passed
+						-- by the server configuration above. Useful when disabling
+						-- certain features of an LSP (for example, turning off formatting for tsserver)
+						vim.lsp.config(server_name, server)
+						vim.lsp.enable(server_name)
+					end,
+				},
 			})
 
 
 			-- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-			--
+
 			-- for name, server in pairs(servers) do
 			-- 	vim.lsp.config(name, server)
 			-- 	vim.lsp.enable(name)
@@ -127,7 +143,10 @@ return {
 						})
 					end
 
-					if client and client.server_capabilities.codeLensProvider and vim.lsp.codelens then
+					local filetype = vim.bo[bufnr].filetype
+					if filetype ~= "typst" and client and client:supports_method('textDocument/codeLens', event.buf) then
+						-- tinymist has codelens for typst but causes problems here for some reason
+						-- vim.lsp.codelens.enable(true, { bufnr = bufnr })
 						vim.lsp.codelens.refresh()
 						vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.refresh, { desc = "Code Lens" })
 						vim.keymap.set("n", "<leader>cL", vim.lsp.codelens.clear, { desc = "Code Lens Clear" })

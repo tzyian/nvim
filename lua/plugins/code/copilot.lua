@@ -4,21 +4,26 @@ return {
 		dependencies = { "copilotlsp-nvim/copilot-lsp", },
 		cmd = "Copilot",
 		event = "InsertEnter",
-		config = function()
-			require("copilot").setup({
-				suggestion = {
-					enabled = true,
-				},
-				nes = {
-					enabled = false,
-					keymap = {
-						accept_and_goto = "<M-c>",
-						accept = false,
-						dismiss = "<Esc>",
+		opts = {
+			server_opts_overrides = {
+				settings = {
+					telemetry = {
+						telemetryLevel = "off",
 					},
 				},
-			})
-		end,
+			},
+			suggestion = {
+				enabled = true,
+			},
+			nes = {
+				enabled = false,
+				keymap = {
+					accept_and_goto = "<M-c>",
+					accept = false,
+					dismiss = "<Esc>",
+				},
+			},
+		},
 		keys = {
 			{
 				"<leader>cT",

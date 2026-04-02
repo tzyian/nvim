@@ -2,7 +2,7 @@ return {
 	"nvim-treesitter/nvim-treesitter-context",
 	-- lazy = true,
 	event = "VeryLazy",
-	cmd = "TSContext Toggle",
+	cmd = "TSContext",
 
 	opts = {
 		enable = true,          -- Enable this plugin (Can be enabled/disabled later via commands)
@@ -37,5 +37,13 @@ return {
 			silent = true,
 			desc = "Go to context",
 		},
+		{
+			"gc",
+			function()
+				require("treesitter-context").go_to_context(vim.v.count1)
+			end,
+			silent = true,
+			desc = "Go to context",
+		}
 	},
 }

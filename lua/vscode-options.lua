@@ -18,9 +18,6 @@ vim.o.inccommand = "nosplit"
 
 local vscode = require('vscode')
 
-local function nmap(key, command, desc)
-    vim.keymap.set("n", key, command, { desc = desc, noremap = true, silent = true })
-end
 
 local function vscnmap(key, option, desc)
     vim.keymap.set("n", key, function() vscode.call(option) end, { desc = desc, silent = true })
@@ -36,21 +33,14 @@ nmap("x", '"_x', "Disable yank on delete")
 nmap("<Del>", '"_x', "Disable yank on delete")
 
 nmap("<Esc>", "<cmd>nohlsearch<CR>", "Remove highlights after searching")
--- nmap("<leader>w", "<cmd>w<CR>", "Save")
+nmap("gl", "$", "End of line")
+nmap("gh", "^", "Start of line")
 
-
--- Better keymaps
--- vim.keymap.set({ "n", "v", "o" }, "H", "^", { noremap = true })
--- vim.keymap.set({ "n", "v", "o" }, "L", "$", { noremap = true })
 
 -- Show VSCode Which Key
 -- set "whichkey.show" to "space" when "editorTextFocus && neovim.mode == 'normal'"
 -- vscnmap("<leader>", "whichkey.show", "Show Which Key")
 
--- Remap for dealing with word wrap
--- nmap("k", "gk", "Move up wrapped line")
--- nmap("j", "gj", "Move down wrapped line")
---
 -- VScode Window Navigation
 vscnmap("<C-j>", "workbench.action.navigateDown", "Navigate Down")
 vscnmap("<C-k>", "workbench.action.navigateUp", "Navigate Up")
@@ -60,37 +50,23 @@ vscnmap("<C-l>", "workbench.action.navigateRight", "Navigate Right")
 vscnmap("<S-l>", "workbench.action.nextEditor", "Next Editor")
 vscnmap("<S-h>", "workbench.action.previousEditor", "Previous Editor")
 
--- Zen Mode
--- vscnmap("<leader>z", "workbench.action.toggleZenMode", "Zen Mode")
-
--- File Explorer
--- vscnmap("<leader>n", "workbench.view.explorer", "Explorer")
-
--- Telescope
--- vscnmap("<leader>fg", "workbench.action.findInFiles", "Find Grep")
--- vscnmap("<leader>ff", "workbench.action.quickOpen", "Find File")
--- vscnmap("<leader>gd", "editor.action.revealDefinition", "Go to definition")
--- vscnmap("<leader>gr", "editor.action.goToReferences", "Go to references")
--- vscnmap("<leader>gi", "editor.action.goToImplementation", "Go to implementation")
-
 -- Errors
--- vscnmap("<leader>e", "editor.action.showHover", "Hover")
--- vscnmap("<leader>q", "workbench.actions.view.problems", "Errors")
 vscnmap("[e", "editor.action.marker.next", "Prev Error")
 vscnmap("]e", "editor.action.marker.prev", "Next Error")
 
+
+-- Folds
+vscnmap('zM', 'editor.foldAll', "Fold all")
+vscnmap('zR', 'editor.unfoldAll', "Unfold all")
+vscnmap('zc', 'editor.fold', "Fold")
+vscnmap('zC', 'editor.foldRecursively', "Fold recursively")
+vscnmap('zo', 'editor.unfold', "Unfold")
+vscnmap('zO', 'editor.unfoldRecursively', "Unfold recursively")
+vscnmap('za', 'editor.toggleFold', "Toggle fold")
+
 -- Git
--- vscnmap("<leader>hd", "git.openChange", "Diff")
--- vscnmap("<leader>hu", "git.unstageSelectedRanges", "Undo stage range")
--- vscnmap("<leader>hr", "git.revertSelectedRanges", "Revert range")
--- vscnmap("<leader>hp", "editor.action.dirtydiff.next", "Next Diff")
--- vscnmap("<leader>hm", "editor.action.dirtydiff.previous", "Prev Diff")
 -- vscnmap("<leader>hs", "git.diff.stageHunk", "Stage hunk")
 -- vscvmap("<leader>hS", "git.stageSelectedRanges", "Stage range")
-
--- Code
--- vscnmap("<leader>cr", "editor.action.rename", "Rename")
--- vscnmap("<leader>cf", "editor.action.formatDocument", "Format")
 
 local function mapMove(key, direction)
     vim.keymap.set('n', key, function()
@@ -115,13 +91,6 @@ mapMove('k', 'up')
 mapMove('j', 'down')
 
 
-vscnmap('zM', 'editor.foldAll', "Fold all")
-vscnmap('zR', 'editor.unfoldAll', "Unfold all")
-vscnmap('zc', 'editor.fold', "Fold")
-vscnmap('zC', 'editor.foldRecursively', "Fold recursively")
-vscnmap('zo', 'editor.unfold', "Unfold")
-vscnmap('zO', 'editor.unfoldRecursively', "Unfold recursively")
-vscnmap('za', 'editor.toggleFold', "Toggle fold")
 
 
 
@@ -141,6 +110,7 @@ vscnmap('za', 'editor.toggleFold', "Toggle fold")
 -- "Which Key: Show Menu" when "editorTextFocus && neovim.mode == 'normal'"
 --]]
 
+
 -- Set Flash.nvim  highlight label
 vim.cmd([[
     hi! FlashLabel guifg=#b0e8b0  guibg=#660033 cterm=bold gui=bold
@@ -154,6 +124,20 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     end,
     group = highlight_group,
     pattern = "*",
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "markdown", "text", "typst", "gitcommit" },
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+        vim.opt_local.breakindent = true
+        local punct = { ",", ".", "!", "?", ";", ":" }
+
+        for _, ch in ipairs(punct) do
+            vim.keymap.set("i", ch, ch .. "<C-g>u", { noremap = true })
+        end
+    end,
 })
 
 -- For vscode Neovim Ui Modifier

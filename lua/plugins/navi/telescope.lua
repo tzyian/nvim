@@ -19,6 +19,7 @@ return {
 					return vim.fn.executable("make") == 1
 				end,
 			},
+			-- { "nvim-telescope/telescope-frecency.nvim", }
 		},
 		config = function()
 			-- [[ Configure Telescope ]]
@@ -53,6 +54,7 @@ return {
 			-- Enable Telescope extensions if they are installed
 			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "ui-select")
+			-- pcall(require("telescope").load_extension, "frecency")
 			-- pcall(require('telescope').load_extension('ht'))
 
 			-- Telescope live_grep in git root
@@ -109,7 +111,9 @@ return {
 
 			-- Buffers and Files
 			nmap("<leader>ff", builtin.find_files, "Find Files")
-			-- nmap("<leader>?", builtin.oldfiles, "? Find recently opened files")
+			-- frecency is still noticeably slower...
+			-- nmap("<leader>ff", "<cmd>Telescope frecency workspace=CWD<cr>", "Find Files")
+			nmap("<leader>fo", builtin.oldfiles, "? Find recently opened files")
 			nmap("<leader><space>", telescope_buffers, "  Find existing buffers")
 			nmap("<leader>bb", telescope_buffers, "Buffers browse")
 
@@ -123,6 +127,7 @@ return {
 			-- 	}))
 			-- end, "/ Fuzzily search in current buffer")
 			-- nmap("<leader>fw", builtin.grep_string, "Find current Word")
+
 			nmap("<leader>fg", builtin.live_grep, "Find by Grep")
 
 			-- Git

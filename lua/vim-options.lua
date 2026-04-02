@@ -122,24 +122,73 @@ vim.wo.foldcolumn = "auto:1"
 vim.o.completeopt = "menuone,noselect,noinsert"
 
 
+---------------------------------------------
+--------------- Diagnostics -----------------
+---------------------------------------------
 vim.diagnostic.config {
 	update_in_insert = false,
 	severity_sort = true,
 	float = { border = 'rounded', source = 'if_many' },
 	underline = { severity = { min = vim.diagnostic.severity.WARN } },
-
 	virtual_text = false, -- Text shows up at the end of the line
 	virtual_lines = false, -- Text shows up underneath the line, with virtual lines
-
-	-- Auto open the float, in '[d' and ']d'
-	jump = { float = true },
 }
 
----------------------------------------------
------------------ Functions -----------------
----------------------------------------------
+local jump_ns = vim.api.nvim_create_namespace("diagnostic_jump_display")
+local function show_line_diags(bufnr, lnum)
+	if vim.diagnostic.config().virtual_lines then return end
+	local diags = vim.diagnostic.get(bufnr, { lnum = lnum })
+	vim.diagnostic.hide(jump_ns, bufnr)
+	if vim.tbl_isempty(diags) then return end
+	vim.diagnostic.show(jump_ns, bufnr, diags, {
+		virtual_text = false,
+		virtual_lines = true,
+	})
+end
+
+local function on_jump(diagnostic, bufnr)
+	if diagnostic then
+		show_line_diags(bufnr, diagnostic.lnum)
+	end
+end
+
+vim.api.nvim_create_autocmd("CursorMoved", {
+	callback = function(args)
+		vim.diagnostic.hide(jump_ns, args.buf)
+	end,
+})
 
 
+
+---------------------------------------------
+-------------------- Yank -------------------
+---------------------------------------------
+
+-- Keep the cursor position when yanking
+local cursorPreYank
+
+vim.keymap.set({ "n", "x" }, "y", function()
+	cursorPreYank = vim.api.nvim_win_get_cursor(0)
+	return "y"
+end, { expr = true })
+
+vim.keymap.set("n", "Y", function()
+	cursorPreYank = vim.api.nvim_win_get_cursor(0)
+	-- yg_ doesn't yank trailing whitespace/newlines
+	return "yg_"
+end, { expr = true })
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		if vim.v.event.operator == "y" and cursorPreYank then
+			vim.api.nvim_win_set_cursor(0, cursorPreYank)
+		end
+	end,
+})
+
+---------------------------------------------
+---------------- Autocorrect ----------------
+---------------------------------------------
 -- Autocorrect last error in paragraph
 local function correct_last_error()
 	local mode = vim.api.nvim_get_mode().mode
@@ -167,10 +216,6 @@ end
 ------------------ Keymaps ------------------
 ---------------------------------------------
 
--- Better cursor movement (replaced with changing buffers)
--- vim.keymap.set({ "n", "o", "v" }, "H", "^", { silent = true })
--- vim.keymap.set({ "n", "o", "v" }, "L", "$", { silent = true })
-
 nmap("gh", "^", "Move to beginning of line")
 nmap("gl", "$", "Move to end of line")
 
@@ -188,23 +233,27 @@ nmap("x", '"_x', "Disable yank on delete")
 nmap("<Del>", '"_x', "Disable yank on delete")
 vmap("p", '"_dP', "Paste")
 
--- -- Switch buffers quickly
--- nmap("<leader>bd", "<cmd>bdelete<CR>", "Buffer delete")
--- nmap("[b", "<cmd>bp<CR>", "Previous buffer")
--- nmap("]b", "<cmd>bn<CR>", "Next buffer")
--- nmap("<leader>b[", "<cmd>bp<CR>", "Previous buffer")
--- nmap("<leader>b]", "<cmd>bp<CR>", "Next buffer")
-
 -- Diagnostics
-nmap("<leader>e", vim.diagnostic.open_float, "Open floating diagnostic message")
-nmap("<leader>ql", vim.diagnostic.setloclist, "Open diagnostics list")
-nmap("[d", function()
-	vim.diagnostic.jump({ count = -1, float = true })
-end, "Go to previous diagnostic message")
+nmap("<leader>e", function()
+	local bufnr = vim.api.nvim_get_current_buf()
+	local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+	show_line_diags(bufnr, lnum)
+end, "Show diagnostic")
 
+nmap("<leader>E", vim.diagnostic.open_float, "Open floating diagnostic message")
 nmap("]d", function()
-	vim.diagnostic.jump({ count = 1, float = true })
-end, "Go to next diagnostic message")
+	vim.diagnostic.jump({ count = 1, on_jump = on_jump })
+end, "Next diagnostic")
+nmap("[d", function()
+	vim.diagnostic.jump({ count = -1, on_jump = on_jump })
+end, "Previous diagnostic")
+nmap("<leader>cq", function()
+	vim.diagnostic.config {
+		virtual_lines = not vim.diagnostic.config().virtual_lines,
+	}
+end, "Toggle display errors")
+
+-- nmap("<leader>qq", vim.diagnostic.setloclist, "Open diagnostics loclist ")
 
 imap("<C-k>", vim.lsp.buf.signature_help, "Toggle signature")
 
@@ -239,4 +288,5 @@ nmap("<leader>w", "<cmd>w<CR>", "Save")
 -- Misc Config
 nmap("<leader>ml", "<cmd>Lazy<CR>", "Lazy")
 nmap("<leader>mm", "<cmd>Mason<CR>", "Mason")
-nmap("<leader>mi", "<cmd>LspInfo<CR>", "LspInfo")
+nmap("<leader>mi", "<cmd>checkhealth vim.lsp<CR>", "LspInfo")
+nmap("<leader>mn", "<cmd>NullLsInfo<CR>", "NullLsInfo")

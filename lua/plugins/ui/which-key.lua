@@ -1,7 +1,6 @@
 return {
 	"folke/which-key.nvim",
-	event = "VeryLazy",
-	-- event = "VimEnter",
+	event = "VimEnter",
 	init = function()
 		if vim.g.barbecue_enabled == nil then
 			vim.g.barbecue_enabled = true

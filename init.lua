@@ -33,7 +33,7 @@ end
 require("globals")
 if not vim.g.vscode then
 	require("vim-options")
-	require("autocmd")
+	require("autocmds")
 else
 	require("vscode-options")
 end
