@@ -7,7 +7,7 @@ return {
 			-- add options here
 			-- or leave it empty to use the default settings
 			default = {
-				prompt_for_file_name = false,
+				prompt_for_file_name = true,
 			},
 		},
 		keys = {
