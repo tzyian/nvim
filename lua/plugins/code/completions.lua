@@ -2,7 +2,8 @@ return {
 	{
 		"saghen/blink.cmp",
 		dependencies = {
-			"fang2hou/blink-copilot",
+			{ "fang2hou/blink-copilot" },
+			{ "rafamadriz/friendly-snippets" },
 			{
 				'L3MON4D3/LuaSnip',
 				version = '2.*',
@@ -10,27 +11,33 @@ return {
 					if vim.fn.executable 'make' == 0 then return end
 					return 'make install_jsregexp'
 				end)(),
-				dependencies = { "rafamadriz/friendly-snippets" },
-				config = function()
-					local types = require("luasnip.util.types")
-					require 'luasnip'.config.setup({
-						ext_opts = {
-							[types.choiceNode] = {
-								active = {
-									virt_text = { { "●", "RainbowOrange" } }
-								}
-							},
-							[types.insertNode] = {
-								active = {
-									virt_text = { { "●", "RainbowBlue" } }
-								}
-							}
-						}
-					})
-				end
-			},
-		},
+				-- -- Show virtual text if there are choice nodes
+				-- config = function()
+				-- 	local types = require("luasnip.util.types")
+				-- 	require 'luasnip'.config.setup({
+				-- 		ext_opts = {
+				-- 			[types.choiceNode] = {
+				-- 				active = {
+				-- 					virt_text = { { "●", "RainbowOrange" } }
+				-- 				}
+				-- 			},
+				-- 			[types.insertNode] = {
+				-- 				active = {
+				-- 					virt_text = { { "●", "RainbowBlue" } }
+				-- 				}
+				-- 			}
+				-- 		}
+				-- 	})
+				-- end
 
+				-- -- Keymaps:
+				-- local ls = require("luasnip")
+				-- if ls.choice_active() then
+				-- 	ls.change_choice(1)
+				-- end
+			},
+
+		},
 		version = "1.*",
 		event = { "InsertEnter", "CmdlineEnter" },
 		opts = {
@@ -45,7 +52,6 @@ return {
 				['<Down>'] = { 'select_next', 'fallback' },
 				['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
 				['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
-
 				["<C-b>"] = { "scroll_documentation_up", "fallback" },
 				["<C-f>"] = { "scroll_documentation_down", "fallback" },
 
@@ -57,14 +63,14 @@ return {
 			snippets = { preset = "luasnip", },
 			signature = { enabled = true, },
 			completion = {
+				trigger = {
+					show_in_snippet = false,
+				},
 				list = {
 					selection = {
 						-- press Tab to select the first item
 						preselect = false
 					},
-					-- trigger = {
-					-- 	show_in_snippet = false
-					-- },
 				},
 				documentation = {
 					auto_show = true,
@@ -72,7 +78,7 @@ return {
 				},
 			},
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "copilot" },
+				default = { "lsp", "path", "snippets", "buffer", "copilot", },
 				per_filetype = {
 					gitcommit = { "git", "buffer" },
 					-- Disable buffer for text filetypes
@@ -120,6 +126,7 @@ return {
 			},
 		},
 		config = function(_, opts)
+			require("plugins.code.dynamic-completions")
 			require("luasnip.loaders.from_vscode").lazy_load()
 			require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
 			require("blink.cmp").setup(opts)

@@ -1,0 +1,51 @@
+local ls = require("luasnip")
+local s = ls.snippet
+local sn = ls.snippet_node
+local t = ls.text_node
+local i = ls.insert_node
+local d = ls.dynamic_node
+local c = ls.choice_node
+local ai = require("luasnip.nodes.absolute_indexer")
+
+-- a recursive formulation using
+-- https://github.com/L3MON4D3/LuaSnip/wiki/Cool-Snippets#tabular
+local function row_node(args, _, _, offset)
+  local cols = tonumber(args[1][1]) or 2
+  local nodes = {}
+
+  for j = 1, cols do
+    nodes[#nodes + 1] = t("[")
+    nodes[#nodes + 1] = i(offset + j - 1)
+    nodes[#nodes + 1] = t("], ")
+  end
+
+  return sn(nil, nodes)
+end
+
+local rec_rows
+rec_rows = function()
+  return sn(nil, {
+    c(1, {
+      t(""),
+      sn(nil, {
+        t("  "),
+        d(1, function(args) return row_node(args, nil, nil, 1) end, { ai[1] }),
+        d(2, rec_rows, { ai[1] }),
+        t(" "),
+      }),
+    }),
+  })
+end
+
+return {
+  s("table", {
+    t("#table("),
+    t({ "", "  columns: " }),
+    i(1, "2"),
+    t({ ",", "", "  table.header(" }),
+    d(2, function(args) return row_node(args, nil, nil, 1) end, { ai[1] }),
+    t({ "),", "" }),
+    d(3, rec_rows, { ai[1] }),
+    t({ "", ")" }),
+  }),
+}
