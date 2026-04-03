@@ -2,7 +2,8 @@ return {
 	"michaelb/sniprun",
 	lazy = true,
 	branch = "master",
-
+	-- no support for Windows
+	enabled = not vim.loop.os_uname().version:match("Windows"),
 	build = "sh install.sh",
 	-- do 'sh install.sh 1' if you want to force compile locally
 	-- (instead of fetching a binary from the github release). Requires Rust >= 1.65
