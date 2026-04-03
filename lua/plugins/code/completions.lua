@@ -11,7 +11,23 @@ return {
 					return 'make install_jsregexp'
 				end)(),
 				dependencies = { "rafamadriz/friendly-snippets" },
-				opts = {},
+				config = function()
+					local types = require("luasnip.util.types")
+					require 'luasnip'.config.setup({
+						ext_opts = {
+							[types.choiceNode] = {
+								active = {
+									virt_text = { { "●", "RainbowOrange" } }
+								}
+							},
+							[types.insertNode] = {
+								active = {
+									virt_text = { { "●", "RainbowBlue" } }
+								}
+							}
+						}
+					})
+				end
 			},
 		},
 
