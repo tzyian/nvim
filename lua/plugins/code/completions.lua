@@ -57,6 +57,13 @@ return {
 			},
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer", "copilot" },
+				per_filetype = {
+					gitcommit = { "git", "buffer" },
+					-- Disable buffer for text filetypes
+					typst = { "lsp", "snippets", "copilot" },
+					markdown = { "lsp", "snippets", "copilot" },
+					text = { "lsp", "snippets", "copilot" },
+				},
 				providers = {
 					path = {
 						opts = {
