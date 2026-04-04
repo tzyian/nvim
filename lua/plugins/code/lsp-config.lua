@@ -122,22 +122,31 @@ return {
 					end
 
 					-- Tinymist: allow labels to work in multi-file setups
+					local name = vim.fs.basename(vim.api.nvim_buf_get_name(args.buf))
 					if client and client.name == "tinymist" then
-						vim.keymap.set("n", "<leader>pt", function()
+						function pinBuffer()
 							client:exec_cmd({
 								title = "pin",
 								command = "tinymist.pinMain",
 								arguments = { vim.api.nvim_buf_get_name(bufnr) },
 							}, { bufnr = bufnr })
-						end, { buffer = bufnr, desc = "Tinymist pin" })
+						end
 
-						vim.keymap.set("n", "<leader>pT", function()
+						function unpinBuffer()
 							client:exec_cmd({
 								title = "unpin",
 								command = "tinymist.pinMain",
 								arguments = { vim.v.null },
 							}, { bufnr = bufnr })
-						end, { buffer = bufnr, desc = "Tinymist Unpin" })
+						end
+
+						if name == "main.typ" then
+							pinBuffer()
+						end
+
+						vim.keymap.set("n", "<leader>pt", pinBuffer, { buffer = bufnr, desc = "Tinymist pin" })
+
+						vim.keymap.set("n", "<leader>pT", unpinBuffer, { buffer = bufnr, desc = "Tinymist Unpin" })
 					end
 
 					if client and client:supports_method('textDocument/inlayHint', args.buf) then
