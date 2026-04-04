@@ -102,9 +102,9 @@ return {
 			-- end
 
 			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(event)
-					local bufnr = event.buf
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
+				callback = function(args)
+					local bufnr = args.buf
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
 					vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
 					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
 					-- vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { buffer = bufnr, desc = "Code Format" })
@@ -121,10 +121,29 @@ return {
 						)
 					end
 
-					if client and client:supports_method('textDocument/inlayHint', event.buf) then
+					-- Tinymist: allow labels to work in multi-file setups
+					if client and client.name == "tinymist" then
+						vim.keymap.set("n", "<leader>pt", function()
+							client:exec_cmd({
+								title = "pin",
+								command = "tinymist.pinMain",
+								arguments = { vim.api.nvim_buf_get_name(bufnr) },
+							}, { bufnr = bufnr })
+						end, { buffer = bufnr, desc = "Tinymist pin" })
+
+						vim.keymap.set("n", "<leader>pT", function()
+							client:exec_cmd({
+								title = "unpin",
+								command = "tinymist.pinMain",
+								arguments = { vim.v.null },
+							}, { bufnr = bufnr })
+						end, { buffer = bufnr, desc = "Tinymist Unpin" })
+					end
+
+					if client and client:supports_method('textDocument/inlayHint', args.buf) then
 						vim.lsp.inlay_hint.enable()
 						vim.keymap.set("n", "<leader>ci",
-							function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf }) end,
+							function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = args.buf }) end,
 							{ desc = "Toggle Inlay Hints" })
 
 						require("which-key").add({
@@ -144,12 +163,13 @@ return {
 					end
 
 					local filetype = vim.bo[bufnr].filetype
-					if filetype ~= "typst" and client and client:supports_method('textDocument/codeLens', event.buf) then
+					if filetype ~= "typst" and client and client:supports_method('textDocument/codeLens', args.buf) then
 						-- tinymist has codelens for typst but causes problems here for some reason
 						-- vim.lsp.codelens.enable(true, { bufnr = bufnr })
 						vim.lsp.codelens.refresh()
 						vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.refresh, { desc = "Code Lens" })
 						vim.keymap.set("n", "<leader>cL", vim.lsp.codelens.clear, { desc = "Code Lens Clear" })
+						vim.keymap.set("n", "<leader>cR", vim.lsp.codelens.run, { desc = "Code Lens Run" })
 					end
 				end,
 			})
