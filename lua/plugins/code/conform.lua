@@ -42,6 +42,7 @@ return { -- Autoformat
 				sh = { "shfmt", "shellharden" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
+				bib = { "bibtex-tidy" },
 				-- java = { "google-java-format" },
 				-- latex = { "latexindent" },
 				-- ocaml = { "ocamlformat" },
