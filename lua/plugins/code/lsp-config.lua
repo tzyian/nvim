@@ -174,8 +174,7 @@ return {
 					local filetype = vim.bo[bufnr].filetype
 					if filetype ~= "typst" and client and client:supports_method('textDocument/codeLens', args.buf) then
 						-- tinymist has codelens for typst but causes problems here for some reason
-						-- vim.lsp.codelens.enable(true, { bufnr = bufnr })
-						vim.lsp.codelens.refresh()
+						vim.lsp.codelens.enable(true, { bufnr = bufnr })
 						vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.refresh, { desc = "Code Lens" })
 						vim.keymap.set("n", "<leader>cL", vim.lsp.codelens.clear, { desc = "Code Lens Clear" })
 						vim.keymap.set("n", "<leader>cR", vim.lsp.codelens.run, { desc = "Code Lens Run" })

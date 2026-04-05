@@ -262,7 +262,7 @@ end, "Toggle display errors")
 imap("<C-k>", vim.lsp.buf.signature_help, "Toggle signature")
 
 -- Delete word in front
-imap("<C-e>", "<C-o>dw", "Delete word")
+imap("<C-e>", "<C-o>de", "Delete word")
 
 -- Remap for dealing with word wrap
 nmap("k", "v:count == 0 ? 'gk' : 'k'", "Move up (respecting word wrap)", { expr = true })
