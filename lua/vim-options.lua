@@ -226,6 +226,7 @@ map("o", "L", "$", "Start of line")
 
 -- In insert mode, <C-x><C-s> goes to last error and gives suggestion list
 -- imap("<M-s>", "<c-g>u<Esc>[s1z=`]a<c-g>u", "Fix last typo in buffer")
+imap("<C-l>", correct_last_error, "Autocorrect last typo in paragraph")
 imap("<M-s>", correct_last_error, "Autocorrect last typo in paragraph")
 nmap("<M-s>", correct_last_error, "Autocorrect last typo in paragraph")
 
