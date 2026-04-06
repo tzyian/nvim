@@ -106,15 +106,13 @@ return {
 				direction = "float",
 				on_open = function(term)
 					vim.cmd("startinsert!")
-					vim.api.nvim_buf_set_keymap(
-						term.bufnr, "n", "q", "<cmd>close<CR>",
-						{ noremap = true, silent = true }
-					)
-					vim.api.nvim_set_option_value(
-						"winhighlight",
-						"FloatBorder:" .. "ToggleTermBorderRed",
-						{ win = term.window, scope = "local" }
-					)
+					vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = term.bufnr, silent = true })
+
+					-- disable Esc keymap to avoid conflicts with lazygit's own keybindings
+					-- don't use keymap.del because buf cannot overwrite global keymap
+					vim.keymap.set("t", "<esc>", "<esc>", { buffer = term.bufnr })
+
+					vim.wo[term.window].winhighlight = "FloatBorder:ToggleTermBorderRed"
 				end,
 			})
 
