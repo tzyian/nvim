@@ -62,6 +62,7 @@ vim.api.nvim_create_autocmd("FileType", {
       -- "en_us",
       "en_gb",
     }
+    vim.opt_local.whichwrap:append("hl")
 
     local punct = { ",", ".", "!", "?", ";", ":" }
 
