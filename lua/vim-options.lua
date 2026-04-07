@@ -178,13 +178,13 @@ vim.keymap.set("n", "Y", function()
 	return "yg_"
 end, { expr = true })
 
-vim.api.nvim_create_autocmd("TextYankPost", {
-	callback = function()
-		if vim.v.event.operator == "y" and cursorPreYank then
-			vim.api.nvim_win_set_cursor(0, cursorPreYank)
-		end
-	end,
-})
+-- vim.api.nvim_create_autocmd("TextYankPost", {
+-- 	callback = function()
+-- 		if vim.v.event.operator == "y" and cursorPreYank then
+-- 			vim.api.nvim_win_set_cursor(0, cursorPreYank)
+-- 		end
+-- 	end,
+-- })
 
 ---------------------------------------------
 ---------------- Autocorrect ----------------
