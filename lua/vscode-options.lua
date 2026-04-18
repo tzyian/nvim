@@ -127,11 +127,19 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("TextFileTypes", { clear = true }),
     pattern = { "markdown", "text", "typst", "gitcommit" },
     callback = function()
         vim.opt_local.wrap = true
         vim.opt_local.linebreak = true
         vim.opt_local.breakindent = true
+        vim.opt_local.spell = true
+        vim.opt_local.spelllang = {
+            -- "en_us",
+            "en_gb",
+        }
+        vim.opt_local.whichwrap:append("hl")
+
         local punct = { ",", ".", "!", "?", ";", ":" }
 
         for _, ch in ipairs(punct) do
@@ -139,6 +147,7 @@ vim.api.nvim_create_autocmd("FileType", {
         end
     end,
 })
+
 
 -- For vscode Neovim Ui Modifier
 vim.api.nvim_exec2([[
