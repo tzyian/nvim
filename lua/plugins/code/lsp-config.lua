@@ -20,7 +20,6 @@ return {
 				-- 	filetypes = { "java" },
 				-- },
 				gopls = {},
-				basedpyright = {},
 				clangd = {
 					capabilities = {
 						offsetEncoding = { "utf-16" },
@@ -80,6 +79,9 @@ return {
 
 			local mason_lspconfig = require("mason-lspconfig")
 			mason_lspconfig.setup({
+				automatic_enable = {
+					exclude = { "rust_analyzer" },
+				},
 				ensure_installed = vim.tbl_keys(servers or {}),
 				handlers = {
 					function(server_name)
@@ -175,8 +177,14 @@ return {
 					if filetype ~= "typst" and client and client:supports_method('textDocument/codeLens', args.buf) then
 						-- tinymist has codelens for typst but causes problems here for some reason
 						vim.lsp.codelens.enable(true, { bufnr = bufnr })
-						vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.refresh, { desc = "Code Lens" })
-						vim.keymap.set("n", "<leader>cL", vim.lsp.codelens.clear, { desc = "Code Lens Clear" })
+						local function toggle_codelens()
+							vim.lsp.codelens.enable(
+								not vim.lsp.codelens.is_enabled({ bufnr = bufnr }),
+								{ bufnr = bufnr }
+							)
+						end
+
+						vim.keymap.set("n", "<leader>cl", toggle_codelens, { desc = "Toggle Code Lens" })
 						vim.keymap.set("n", "<leader>cR", vim.lsp.codelens.run, { desc = "Code Lens Run" })
 					end
 				end,
