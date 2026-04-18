@@ -82,8 +82,9 @@ return {
             height = function() return math.floor(0.75 * vim.o.lines) end,
           },
           on_open = function(term)
-            vim.cmd("startinsert!")
-            vim.keymap.set("t", "<esc>", "<esc>", { buffer = term.bufnr })
+            vim.schedule(function()
+              vim.cmd("startinsert!")
+            end)
             vim.wo[term.window].winhighlight = "FloatBorder:" .. hl_group
           end,
         })
@@ -108,7 +109,9 @@ return {
         dir = get_dir(),
         direction = "float",
         on_open = function(term)
-          vim.cmd("startinsert!")
+          vim.schedule(function()
+            vim.cmd("startinsert!")
+          end)
           vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = term.bufnr, silent = true })
 
           -- disable Esc keymap to avoid conflicts with lazygit's own keybindings
