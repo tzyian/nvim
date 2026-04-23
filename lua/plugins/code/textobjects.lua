@@ -46,7 +46,7 @@ return {
 				n_lines = 50,
 				custom_textobjects = {
 					-- f = function call (builtin) i.e. foo(inside here)
-					-- a = argument (builtin) def foo(arg1: type, arg2: type)
+					-- a = argument (builtin) def foo(arg1: and_type_hint, arg2: type)
 					-- t = tags (builtin)
 					-- { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
 
@@ -60,7 +60,7 @@ return {
 					-- class
 					c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }),
 
-					-- Word for camelCase or snake_case
+					-- sub-word for camelCase or snake_case
 					e = {
 						{
 							'%u[%l%d]+%f[^%l%d]',

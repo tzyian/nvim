@@ -13,7 +13,6 @@ return {
 	opts = {
 		delay = 0,
 		spec = {
-			{ "<leader>a",  group = "Copilot Chat",    mode = { "n", "v" } },
 			{ "<leader>b",  group = "Buffer" },
 			{ "<leader>c",  group = "Code",            mode = { "n", "v" } },
 			{ "<leader>ct", group = "Toggle format" },
