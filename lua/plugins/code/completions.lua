@@ -99,6 +99,9 @@ return {
 						name = "copilot",
 						module = "blink-copilot",
 						async = true,
+						enabled = function()
+							return not require("copilot.client").is_disabled()
+						end,
 					},
 				},
 			},
