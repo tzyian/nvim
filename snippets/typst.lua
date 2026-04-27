@@ -106,6 +106,11 @@ return {
     t("event/relation/situation/property"),
   }),
 
+  s({ trig = "rarr" }, {
+    t("$->$"),
+  }),
+
+
   s({ trig = "eg" }, {
     t("#example["),
     i(1, "text"),
@@ -135,4 +140,5 @@ return {
     t("]"),
     i(0),
   }),
+
 }
