@@ -64,7 +64,8 @@ return {
 			signature = { enabled = true, },
 			completion = {
 				trigger = {
-					show_in_snippet = false,
+					-- Enabled to allow python ipr snippet
+					show_in_snippet = true,
 				},
 				list = {
 					selection = {

@@ -32,4 +32,17 @@ return {
 		t({ "", "", "#endif // " }),
 		i(1),
 	}),
+	s({ trig = "sol" }, {
+		t({ "int main() {",
+			"    Solution s;",
+			"    vector<int> vec = {};",
+			"    vector<vector<int>> vec2 = {};",
+			"    auto out = s.",
+		}),
+		i(1),
+		t({ ";",
+			"    debug(out);",
+			"}"
+		})
+	})
 }

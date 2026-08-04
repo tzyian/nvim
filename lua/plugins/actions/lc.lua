@@ -6,6 +6,7 @@ return {
 	init = function()
 		if vim.fn.argv(0) == "leetcode.nvim" then
 			require("lazy").load({ plugins = { "leetcode.nvim" } })
+			vim.cmd("Copilot disable")
 		end
 	end,
 	dependencies = {
