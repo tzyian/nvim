@@ -68,6 +68,18 @@ elseif vim.fn.has("win32") == 1 then
 	for option, value in pairs(powershell_options) do
 		vim.opt[option] = value
 	end
+elseif vim.env.SSH_TTY then
+	vim.g.clipboard = {
+		name = 'OSC 52',
+		copy = {
+			['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+			['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+		},
+		paste = {
+			['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+			['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+		},
+	}
 end
 
 -- Allow image.nvim to have ft = "png"
