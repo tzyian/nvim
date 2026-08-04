@@ -65,6 +65,8 @@ vscnmap('zO', 'editor.unfoldRecursively', "Unfold recursively")
 vscnmap('za', 'editor.toggleFold', "Toggle fold")
 
 -- Git
+vscnmap("[h", "workbench.action.editor.previousChange", "Prev hunk")
+vscnmap("]h", "workbench.action.editor.nextChange", "Next hunk")
 -- vscnmap("<leader>hs", "git.diff.stageHunk", "Stage hunk")
 -- vscvmap("<leader>hS", "git.stageSelectedRanges", "Stage range")
 
