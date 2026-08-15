@@ -152,22 +152,7 @@ return {
 						vim.lsp.inlay_hint.enable()
 						vim.keymap.set("n", "<leader>ci",
 							function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = args.buf }) end,
-							{ desc = "Toggle Inlay Hints" })
-
-						require("which-key").add({
-							{
-								"<leader>ci",
-								"<cmd>lua vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())<CR>",
-								desc = "Toggle Inlay Hints",
-								icon = function()
-									if vim.lsp.inlay_hint.is_enabled() then
-										return { icon = " ", color = "green" }
-									else
-										return { icon = " ", color = "yellow" }
-									end
-								end,
-							},
-						})
+							{ desc = "Toggle Inlay Hints", buffer = bufnr })
 					end
 
 					local filetype = vim.bo[bufnr].filetype

@@ -22,7 +22,7 @@ return {
   cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
   keys = {
     {
-      "<leader>cv",
+      "<leader>pv",
       "<cmd>CsvViewToggle<CR>",
       desc = "Toggle CSV view",
     },

@@ -33,7 +33,7 @@ return {
 		"MeanderingProgrammer/render-markdown.nvim",
 		ft = { "markdown" },
 		keys = {
-			{ "<leader>cm", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle Markdown render" },
+			{ "<leader>pm", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle Markdown render" },
 		},
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		config = function()
