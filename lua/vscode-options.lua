@@ -51,9 +51,10 @@ vscnmap("<S-l>", "workbench.action.nextEditor", "Next Editor")
 vscnmap("<S-h>", "workbench.action.previousEditor", "Previous Editor")
 
 -- Errors
-vscnmap("[e", "editor.action.marker.next", "Prev Error")
-vscnmap("]e", "editor.action.marker.prev", "Next Error")
-
+vscnmap("[e", "editor.action.marker.prev", "Prev Error")
+vscnmap("]e", "editor.action.marker.next", "Next Error")
+vscnmap("[h", "editor.action.marker.prev", "Prev Error")
+vscnmap("]h", "editor.action.marker.next", "Next Error")
 
 -- Folds
 vscnmap('zM', 'editor.foldAll', "Fold all")
@@ -145,7 +146,7 @@ vim.api.nvim_create_autocmd("FileType", {
         local punct = { ",", ".", "!", "?", ";", ":" }
 
         for _, ch in ipairs(punct) do
-            vim.keymap.set("i", ch, ch .. "<C-g>u", { noremap = true })
+            vim.keymap.set("i", ch, ch .. "<C-g>u", { buffer = true, noremap = true })
         end
     end,
 })

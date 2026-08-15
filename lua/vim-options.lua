@@ -233,8 +233,8 @@ nmap("gl", "$", "Move to end of line")
 
 -- H and L defaults to first and last line in viewport
 -- textobjects only maps for a-i, not operator-pending
-map("o", "H", "^", "End of line")
-map("o", "L", "$", "Start of line")
+-- map("o", "H", "^", "Start of line")
+-- map("o", "L", "$", "End of line")
 
 -- In insert mode, <C-x><C-s> goes to last error and gives suggestion list
 -- imap("<M-s>", "<c-g>u<Esc>[s1z=`]a<c-g>u", "Fix last typo in buffer")

@@ -3,7 +3,7 @@ return {
 	lazy = true,
 	-- event = "VeryLazy",
 	cmd = "UndotreeToggle",
-	opt = {},
+	opts = {},
 	keys = {
 		{ "<leader>u", "<cmd>UndotreeToggle<CR>", silent = true, desc = "Open undotree" },
 	},

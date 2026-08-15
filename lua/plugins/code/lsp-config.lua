@@ -5,14 +5,14 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			-- Automatically install LSPs to stdpath for neovim
-			{ "mason-org/mason.nvim",              opts = {} },
-			{ "williamboman/mason-lspconfig.nvim", },
+			{ "mason-org/mason.nvim",           opts = {} },
+			{ "mason-org/mason-lspconfig.nvim", },
 			-- { 'WhoIsSethDaniel/mason-tool-installer.nvim', },
 			{ "p00f/clangd_extensions.nvim" },
 
 			-- Useful status updates for LSP
 			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-			{ "j-hui/fidget.nvim",                 opts = {} },
+			{ "j-hui/fidget.nvim",              opts = {} },
 		},
 		config = function()
 			local servers = {
@@ -36,9 +36,6 @@ return {
 							telemetryLevel = "off"
 						},
 					}
-				},
-				elixirls = {
-					cmd = { "elixir-ls" },
 				},
 				lua_ls = {
 					on_init = function(client)
@@ -80,7 +77,7 @@ return {
 			local mason_lspconfig = require("mason-lspconfig")
 			mason_lspconfig.setup({
 				automatic_enable = {
-					exclude = { "rust_analyzer" },
+					exclude = { "rust_analyzer", "copilot" },
 				},
 				ensure_installed = vim.tbl_keys(servers or {}),
 				handlers = {

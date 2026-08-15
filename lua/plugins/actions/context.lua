@@ -37,13 +37,5 @@ return {
 			silent = true,
 			desc = "Go to context",
 		},
-		{
-			"gc",
-			function()
-				require("treesitter-context").go_to_context(vim.v.count1)
-			end,
-			silent = true,
-			desc = "Go to context",
-		}
 	},
 }

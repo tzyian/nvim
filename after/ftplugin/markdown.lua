@@ -3,4 +3,4 @@ Text_Format("<leader>ci", "_", "_", "Italic")
 -- markdown doesn't have underline
 Text_Format("<leader>cc", "`", "`", "Code")
 Text_Format("<leader>cs", "~~", "~~", "Strikethrough")
-Text_Format("<leader>cm", "$", "$", "Strikethrough")
+Text_Format("<leader>cm", "$", "$", "Inline math")

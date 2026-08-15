@@ -53,7 +53,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("UndoBreakPoints"),
   pattern = { "markdown", "text", "typst", "gitcommit" },
-  callback = function()
+  callback = function(event)
     vim.opt_local.wrap = true
     vim.opt_local.linebreak = true
     vim.opt_local.breakindent = true
@@ -67,7 +67,7 @@ vim.api.nvim_create_autocmd("FileType", {
     local punct = { ",", ".", "!", "?", ";", ":" }
 
     for _, ch in ipairs(punct) do
-      vim.keymap.set("i", ch, ch .. "<C-g>u", { noremap = true })
+      vim.keymap.set("i", ch, ch .. "<C-g>u", { buffer = event.buf, noremap = true })
     end
   end,
 })
