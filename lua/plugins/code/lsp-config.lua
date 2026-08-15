@@ -108,7 +108,6 @@ return {
 					vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
 					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Kind" })
-					vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Kind" })
 
 					-- Clangd-specific keymap
 					if client and client.name == "clangd" then
