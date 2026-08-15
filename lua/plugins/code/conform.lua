@@ -56,33 +56,6 @@ return { -- Autoformat
 			},
 		})
 
-		------ Moved to which-key.lua
-		-- require("which-key").add({
-		--   {
-		--     "<leader>cg",
-		--     "<cmd>ToggleBufferFormat<CR>",
-		--     desc = "Toggle format on save (buffer)",
-		--     icon = function()
-		--       if vim.b.disable_autoformat then
-		--         return { icon = " ", color = "yellow" }
-		--       else
-		--         return { icon = " ", color = "green" }
-		--       end
-		--     end,
-		--   },
-		--   {
-		--     "<leader>cG",
-		--     "<cmd>ToggleGlobalFormat<CR>",
-		--     desc = "Toggle format on save (global)",
-		--     icon = function()
-		--       if vim.g.disable_autoformat then
-		--         return { icon = " ", color = "yellow" }
-		--       else
-		--         return { icon = " ", color = "green" }
-		--       end
-		--     end,
-		--   },
-		-- })
 
 		vim.api.nvim_create_user_command("ToggleBufferFormat", function(args)
 			if vim.b.disable_autoformat then

@@ -83,6 +83,7 @@ return {
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}
+						server.capabilities = require("blink.cmp").get_lsp_capabilities(server.capabilities)
 						-- This handles overriding only values explicitly passed
 						-- by the server configuration above. Useful when disabling
 						-- certain features of an LSP (for example, turning off formatting for tsserver)
@@ -106,7 +107,6 @@ return {
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 					vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
 					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
-					-- vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { buffer = bufnr, desc = "Code Format" })
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Kind" })
 					vim.keymap.set("i", "<C-k>", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Kind" })
 
