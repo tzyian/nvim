@@ -35,7 +35,7 @@ return {
 			},
 			["cpp"] = {
 				imports = function()
-					return { "#include <bits/stdc++.h>", "using namespace std;" }
+					return { '#include "debug.hpp"', "using namespace std;" }
 				end,
 			},
 			["java"] = {

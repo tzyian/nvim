@@ -25,6 +25,7 @@ return {
 			{ "<F3>",       "<cmd>lua require('dap').step_out()<CR>",          desc = "Debug: Step Out (F3)" },
 			{ "<Leader>du", "<cmd>lua require('dap').step_out()<CR>",          desc = "Debug: Step Out (F3)" },
 			{ "<F9>",       "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint (F9)" },
+			{ "<Leader>db", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint (F9)" },
 			{ "<Leader>dt", "<cmd>lua require('dap').toggle_breakpoint()<CR>", desc = "Debug: Toggle Breakpoint (F9)" },
 			{ "<Leader>dx", "<cmd>lua require('dap').terminate()<CR>",         desc = "Debug: Terminate session" },
 			{
@@ -45,6 +46,30 @@ return {
 			local dap = require("dap")
 			local dapui = require("dapui")
 
+			local function cpp_prog()
+				local filename = vim.fn.expand("%:t")
+
+				if filename:match("^%d+%.[%w%-]+%.cpp$") then
+					vim.cmd("write")
+
+					local executable = vim.fn.tempname()
+					local compiler = "g++ -std=c++23 -O0 -g -include "
+							.. vim.fn.shellescape(vim.env.HOME .. "/leetcode/debug.hpp")
+							.. " " .. vim.fn.shellescape(vim.fn.expand("%:p"))
+							.. " -o " .. vim.fn.shellescape(executable)
+					local output = vim.fn.system(compiler)
+
+					if vim.v.shell_error ~= 0 then
+						vim.notify("C++ debug build failed:\n" .. output, vim.log.levels.ERROR)
+						return nil
+					end
+
+					return executable
+				end
+
+				return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+			end
+
 			require("mason-nvim-dap").setup({
 				-- Makes a best effort to setup the various debuggers with
 				-- reasonable debug configurations
@@ -55,14 +80,25 @@ return {
 				-- see mason-nvim-dap README for more information
 				handlers = {},
 
-				-- You'll need to check that you have the required things installed
-				-- online, please don't ask me how to install them :)
 				ensure_installed = {
 					-- Update this to ensure that you have the debuggers for the langs you want
 					-- "delve",
 					"debugpy",
 				},
 			})
+
+			dap.configurations.cpp = {
+				{
+					name = "Launch file",
+					type = "codelldb",
+					request = "launch",
+					program = cpp_prog,
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+				},
+			}
+			dap.configurations.c = dap.configurations.cpp
+			dap.configurations.rust = dap.configurations.cpp
 
 
 			-- Dap UI setup
@@ -90,7 +126,6 @@ return {
 
 			-- require("dap-go").setup()
 			require("dap-python").setup()
-			-- require("java-debug-adapter").setup()
 		end,
 	},
 }

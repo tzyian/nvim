@@ -12,7 +12,9 @@ return {
 		interpreter_options = {
 			Cpp_original = {
 				-- debug template that prints to stdout on any `debug(var1, ...)`
-				compiler = "g++ -std=c++23 -O0 -include" .. os.getenv("HOME") .. "/leetcode/debug.hpp"
+				compiler = "g++ -std=c++23 -O0 -g -I "
+						.. vim.env.HOME .. "/leetcode -include "
+						.. vim.env.HOME .. "/leetcode/debug.hpp",
 			}
 		}
 	},
