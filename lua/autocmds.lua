@@ -3,9 +3,14 @@ local function augroup(name)
 end
 
 -- resize splits if window got resized
-vim.api.nvim_create_autocmd({ "VimResized" }, {
-  group = augroup("resize_splits"),
+vim.api.nvim_create_autocmd("VimResized", {
+  pattern = "*",
   callback = function()
+    -- prevent panel from splitting when in leetcode.nvim
+    if vim.fn.argv(0) == "leetcode.nvim" then
+      return
+    end
+
     local current_tab = vim.fn.tabpagenr()
     vim.cmd("tabdo wincmd =")
     vim.cmd("tabnext " .. current_tab)
