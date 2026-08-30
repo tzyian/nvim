@@ -50,7 +50,7 @@ return {
 		build = "cd app && npm install",
 		config = function()
 			vim.g.mkdp_filetypes = { "markdown" }
-			vim.g.mkdp_open_to_the_world = 1
+			vim.g.mkdp_open_ip = "127.0.0.1"
 
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "markdown",
