@@ -53,8 +53,6 @@ vscnmap("<S-h>", "workbench.action.previousEditor", "Previous Editor")
 -- Errors
 vscnmap("[e", "editor.action.marker.prev", "Prev Error")
 vscnmap("]e", "editor.action.marker.next", "Next Error")
-vscnmap("[h", "editor.action.marker.prev", "Prev Error")
-vscnmap("]h", "editor.action.marker.next", "Next Error")
 
 -- Folds
 vscnmap('zM', 'editor.foldAll', "Fold all")

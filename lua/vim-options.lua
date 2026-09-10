@@ -110,7 +110,8 @@ vim.opt.undofile = true
 -- Configure how new splits should be opened
 vim.opt.splitright = true
 vim.opt.splitbelow = true
-vim.opt.diffopt = "vertical"
+-- vertical so diffsplit opens to the right instead of below
+vim.opt.diffopt:append("vertical")
 
 -- Sets how neovim will display certain whitespace in the editor.
 --  See :help 'list'
