@@ -130,24 +130,20 @@ return {
 				end,
 			},
 			{
-				"<leader>htd",
-				function() require("gitsigns").toggle_deleted() end,
-				desc = "Toggle Git Show Deleted",
+				"<leader>hl",
+				function()
+					local gs = require("gitsigns")
+					gs.toggle_numhl() -- highlight numbers
+					gs.toggle_linehl() -- highlight lines
+					gs.toggle_deleted() -- show deleted lines
+					gs.toggle_word_diff()
+				end,
+				desc = "Toggle Git Show Changes",
 				icon = function()
 					local active = package.loaded.gitsigns and require("gitsigns.config").config.show_deleted
 					return active and { icon = " ", color = "green" } or { icon = " ", color = "yellow" }
 				end,
 			},
-			{
-				"<leader>htw",
-				function() require("gitsigns").toggle_word_diff() end,
-				desc = "Toggle Git Word Diff",
-				icon = function()
-					local active = package.loaded.gitsigns and require("gitsigns.config").config.word_diff
-					return active and { icon = " ", color = "green" } or { icon = " ", color = "yellow" }
-				end,
-			},
-
 			-- =============================================
 			-- PREVIEW & UI TOGGLES (<leader>p*)
 			-- =============================================
@@ -166,24 +162,6 @@ return {
 				desc = "Toggle CSV View",
 				icon = function()
 					local active = package.loaded["csvview"] and require("csvview").is_enabled()
-					return active and { icon = " ", color = "green" } or { icon = " ", color = "yellow" }
-				end,
-			},
-			{
-				"<leader>pz",
-				"<cmd>ZenMode<CR>",
-				desc = "Toggle Zen Mode",
-				icon = function()
-					local active = package.loaded["zen-mode.view"] and require("zen-mode.view").is_open()
-					return active and { icon = " ", color = "green" } or { icon = " ", color = "yellow" }
-				end,
-			},
-			{
-				"<leader>pl",
-				"<cmd>Limelight!!<CR>",
-				desc = "Toggle Limelight",
-				icon = function()
-					local active = vim.fn.exists("#limelight") == 1
 					return active and { icon = " ", color = "green" } or { icon = " ", color = "yellow" }
 				end,
 			},
