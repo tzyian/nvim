@@ -5,6 +5,17 @@ return { -- Lua
 		cmd = {
 			"SessionManager",
 		},
+		init = function()
+			if vim.fn.argv(0) == "session_last" then
+				require("lazy").load({ plugins = { "neovim-session-manager" } })
+				vim.cmd("SessionManager load_last_session")
+			end
+			if vim.fn.argv(0) == "session_curr" then
+				require("lazy").load({ plugins = { "neovim-session-manager" } })
+				vim.cmd("SessionManager load_current_dir_session")
+			end
+		end,
+
 		keys = {
 			{ "<leader>ss", "<cmd>SessionManager save_current_session<CR>",     desc = "Save session" },
 			{ "<leader>se", "<cmd>SessionManager load_session<CR>",             desc = "Load session" },
