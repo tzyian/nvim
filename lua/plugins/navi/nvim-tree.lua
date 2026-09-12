@@ -4,7 +4,7 @@ return {
 	lazy = true,
 	cmd = "NvimTreeToggle",
 	keys = {
-		{ "<leader>n", "<cmd>NvimTreeToggle<CR>", { silent = true, desc = "Open file tree" } },
+		{ "<leader>n", "<cmd>NvimTreeToggle<CR>", { silent = true, desc = "Toggle file tree" } },
 	},
 	config = function()
 		local api = require("nvim-tree.api")
@@ -123,7 +123,5 @@ return {
 				show_on_dirs = true,
 			},
 		})
-
-		vim.keymap.set("n", "<leader>n", "<cmd>NvimTreeToggle<CR>", { silent = true, desc = "Open file tree" })
 	end,
 }

@@ -1,9 +1,15 @@
 return {
   {
     "mikavilpas/yazi.nvim",
-    -- event = "VeryLazy",
     cmd = "Yazi",
     lazy = true,
+    init = function()
+      -- hijack netrw
+      if vim.fn.argc() == 1 then
+        require("lazy").load({ plugins = { "yazi.nvim" } })
+      end
+    end,
+
     keys = {
       -- 👇 in this section, choose your own keymappings!
       {
@@ -19,7 +25,7 @@ return {
       },
     },
     opts = {
-      open_for_directories = false,
+      open_for_directories = true,
       keymaps = {
         show_help = "<f1>",
         open_file_in_vertical_split = "<c-v>",
