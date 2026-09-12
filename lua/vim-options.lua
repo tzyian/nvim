@@ -76,8 +76,11 @@ elseif vim.env.SSH_TTY then
 			['*'] = require('vim.ui.clipboard.osc52').copy('*'),
 		},
 		paste = {
-			['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-			['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+			-- prevent ghostty from asking for perms
+			['+'] = function() end,
+			['*'] = function() end,
+			-- ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+			-- ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
 		},
 	}
 end
