@@ -72,14 +72,7 @@ return {
 				gs.blame_line({ full = true })
 			end, { desc = "git blame line" })
 
-			map("n", "<leader>hd", gs.diffthis, { desc = "git diff against staged" })
-			map("n", "<leader>hD", function()
-				gs.diffthis("~")
-			end, { desc = "git Diff against last commit" })
-			map("n", "<leader>hE", function()
-				gs.diffthis("master")
-			end, { desc = "git Diff against master" })
-
+			-- prefer diffview for git comparisons
 
 			map('n', '<leader>hq', gs.setqflist, { desc = "Show git hunk list for current file" })
 			map('n', '<leader>hQ', function() gs.setqflist('all') end, { desc = "Show git hunk list for repo" })

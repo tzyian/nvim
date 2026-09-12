@@ -98,7 +98,7 @@ return {
 			nmap("<leader>ff", builtin.find_files, "Find Files")
 			-- frecency is still noticeably slower...
 			-- nmap("<leader>ff", "<cmd>Telescope frecency workspace=CWD<cr>", "Find Files")
-			nmap("<leader>fo", builtin.oldfiles, "? Find recently opened files")
+			nmap("<leader>fo", builtin.oldfiles, "Find recently opened files")
 			nmap("<leader><space>", telescope_buffers, "  Find existing buffers")
 			nmap("<leader>bb", telescope_buffers, "Buffers browse")
 
@@ -116,10 +116,10 @@ return {
 			nmap("<leader>fg", builtin.live_grep, "Find by Grep")
 
 			-- Git
-			nmap("<leader>fhf", builtin.git_files, "Find git files")
-			nmap("<leader>fhc", builtin.git_commits, "Find git commits")
-			nmap("<leader>fhc", builtin.git_status, "Find git status")
-			nmap("<leader>fhr", "<cmd>LiveGrepGitRoot<cr>", "Find by Grep on Git Root")
+			nmap("<leader>fh", builtin.git_status, "Find git status")
+			-- nmap("<leader>fhf", builtin.git_files, "Find git files")
+			-- nmap("<leader>fhc", builtin.git_commits, "Find git commits")
+			-- nmap("<leader>fhr", "<cmd>LiveGrepGitRoot<cr>", "Find by Grep on Git Root")
 
 			vim.api.nvim_create_autocmd('LspAttach', {
 				group = vim.api.nvim_create_augroup('telescope-lsp-attach', { clear = true }),
