@@ -1,6 +1,12 @@
 return {
 	"mrjones2014/smart-splits.nvim",
 	event = "VeryLazy",
+	init = function()
+		-- tmux versions < 3.2 do not set env.TERM_PROGRAM, breaking tmux smart-splits
+		if vim.env.TMUX then
+			vim.g.smart_splits_multiplexer_integration = "tmux"
+		end
+	end,
 	config = function()
 		local builtin = require("smart-splits")
 		-- resizing splits
