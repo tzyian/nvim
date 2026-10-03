@@ -5,8 +5,11 @@ return {
     lazy = true,
     init = function()
       -- hijack netrw
-      if vim.fn.argc() == 1 then
-        require("lazy").load({ plugins = { "yazi.nvim" } })
+      for index = 0, vim.fn.argc() - 1 do
+        if vim.fn.isdirectory(vim.fn.argv(index)) == 1 then
+          require("lazy").load({ plugins = { "yazi.nvim" } })
+          break
+        end
       end
     end,
 
