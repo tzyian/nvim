@@ -15,34 +15,29 @@ return {
 			{ "leoluz/nvim-dap-go",           event = "VeryLazy", ft = "go" },
 			{ "mfussenegger/nvim-dap-python", event = "VeryLazy", ft = "python" },
 		},
-		keys = function()
-			local dap = require("dap")
-			local dapui = require("dapui")
-
-			return {
-				{ "<F5>",       function() dap.continue() end,          desc = "Debug: Start/Continue (F5)" },
-				{ "<Leader>dd", function() dap.continue() end,          desc = "Debug: Start/Continue (F5)" },
-				{ "<F1>",       function() dap.step_into() end,         desc = "Debug: Step Into (F1)" },
-				{ "<Leader>di", function() dap.step_into() end,         desc = "Debug: Step Into (F1)" },
-				{ "<F2>",       function() dap.step_over() end,         desc = "Debug: Step Over (F2)" },
-				{ "<Leader>do", function() dap.step_over() end,         desc = "Debug: Step Over (F2)" },
-				{ "<F3>",       function() dap.step_out() end,          desc = "Debug: Step Out (F3)" },
-				{ "<Leader>du", function() dap.step_out() end,          desc = "Debug: Step Out (F3)" },
-				{ "<F9>",       function() dap.toggle_breakpoint() end, desc = "Debug: Toggle Breakpoint (F9)" },
-				{ "<Leader>db", function() dap.toggle_breakpoint() end, desc = "Debug: Toggle Breakpoint (F9)" },
-				{ "<Leader>dt", function() dap.toggle_breakpoint() end, desc = "Debug: Toggle Breakpoint (F9)" },
-				{ "<Leader>dx", function() dap.terminate() end,         desc = "Debug: Terminate session" },
-				{
-					"<Leader>dB",
-					function()
-						dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-					end,
-					desc = "Debug: Set Breakpoint",
-				},
-				{ "<F7>",       function() dapui.toggle() end, desc = "Debug: See last session result (F7)" },
-				{ "<Leader>dl", function() dapui.toggle() end, desc = "Debug: See last session result (F7)" },
-			}
-		end,
+		keys = {
+			{ "<F5>",       function() require("dap").continue() end,          desc = "Debug: Start/Continue (F5)" },
+			{ "<Leader>dd", function() require("dap").continue() end,          desc = "Debug: Start/Continue (F5)" },
+			{ "<F1>",       function() require("dap").step_into() end,         desc = "Debug: Step Into (F1)" },
+			{ "<Leader>di", function() require("dap").step_into() end,         desc = "Debug: Step Into (F1)" },
+			{ "<F2>",       function() require("dap").step_over() end,         desc = "Debug: Step Over (F2)" },
+			{ "<Leader>do", function() require("dap").step_over() end,         desc = "Debug: Step Over (F2)" },
+			{ "<F3>",       function() require("dap").step_out() end,          desc = "Debug: Step Out (F3)" },
+			{ "<Leader>du", function() require("dap").step_out() end,          desc = "Debug: Step Out (F3)" },
+			{ "<F9>",       function() require("dap").toggle_breakpoint() end, desc = "Debug: Toggle Breakpoint (F9)" },
+			{ "<Leader>db", function() require("dap").toggle_breakpoint() end, desc = "Debug: Toggle Breakpoint (F9)" },
+			{ "<Leader>dt", function() require("dap").toggle_breakpoint() end, desc = "Debug: Toggle Breakpoint (F9)" },
+			{ "<Leader>dx", function() require("dap").terminate() end,         desc = "Debug: Terminate session" },
+			{
+				"<Leader>dB",
+				function()
+					require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+				end,
+				desc = "Debug: Set Breakpoint",
+			},
+			{ "<F7>",       function() require("dapui").toggle() end, desc = "Debug: See last session result (F7)" },
+			{ "<Leader>dl", function() require("dapui").toggle() end, desc = "Debug: See last session result (F7)" },
+		},
 		config = function()
 			vim.fn.sign_define("DapBreakpoint", {
 				text = "●", -- a large dot
