@@ -1,7 +1,6 @@
 return { -- Lua
 	{
 		"Shatur/neovim-session-manager",
-		event = "VimEnter",
 		cmd = {
 			"SessionManager",
 		},
@@ -13,6 +12,10 @@ return { -- Lua
 			if vim.fn.argv(0) == "session_curr" then
 				require("lazy").load({ plugins = { "neovim-session-manager" } })
 				vim.cmd("SessionManager load_current_dir_session")
+			end
+			if vim.fn.argv(0) == "session_load" then
+				require("lazy").load({ plugins = { "neovim-session-manager" } })
+				vim.cmd("SessionManager load_session")
 			end
 		end,
 
