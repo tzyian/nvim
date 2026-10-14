@@ -65,8 +65,8 @@ return {
 			map("n", "<leader>hS", gs.stage_buffer, { desc = "git Stage buffer" })
 			map("n", "<leader>hR", gs.reset_buffer, { desc = "git Reset buffer" })
 
-			map("n", "<leader>hp", gs.preview_hunk, { desc = "Preview git hunk inline" })
-			map("n", "<leader>hi", gs.preview_hunk_inline, { desc = "Preview git hunk" })
+			map("n", "<leader>hP", gs.preview_hunk, { desc = "Preview git hunk inline" })
+			map("n", "<leader>hp", gs.preview_hunk_inline, { desc = "Preview git hunk" })
 
 			map("n", "<leader>hb", function()
 				gs.blame_line({ full = true })
@@ -74,8 +74,8 @@ return {
 
 			-- prefer diffview for git comparisons
 
-			map('n', '<leader>hq', gs.setqflist, { desc = "Show git hunk list for current file" })
-			map('n', '<leader>hQ', function() gs.setqflist('all') end, { desc = "Show git hunk list for repo" })
+			map('n', '<leader>hq', gs.setqflist, { desc = "git hunk list (buffer)" })
+			map('n', '<leader>hQ', function() gs.setqflist('all') end, { desc = "git hunk list (repo)" })
 
 			-- Toggles
 			-- moved to WhichKey

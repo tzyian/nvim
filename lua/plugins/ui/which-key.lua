@@ -130,7 +130,7 @@ return {
 				end,
 			},
 			{
-				"<leader>hl",
+				"<leader>htl",
 				function()
 					local gs = require("gitsigns")
 					gs.toggle_numhl() -- highlight numbers

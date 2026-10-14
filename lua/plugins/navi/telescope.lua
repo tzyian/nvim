@@ -116,9 +116,9 @@ return {
 			nmap("<leader>fg", builtin.live_grep, "Find by Grep")
 
 			-- Git
-			nmap("<leader>fh", builtin.git_status, "Find git status")
+			-- nmap("<leader>fh", builtin.git_status, "Find git status")
 			-- nmap("<leader>fhf", builtin.git_files, "Find git files")
-			-- nmap("<leader>fhc", builtin.git_commits, "Find git commits")
+			nmap("<leader>fhc", builtin.git_commits, "Find git commits")
 			-- nmap("<leader>fhr", "<cmd>LiveGrepGitRoot<cr>", "Find by Grep on Git Root")
 
 			vim.api.nvim_create_autocmd('LspAttach', {
