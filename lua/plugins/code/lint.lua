@@ -7,7 +7,7 @@ return {
     lint.linters_by_ft = {
       go = { "golangcilint" },
       c = { "cppcheck" },
-      cpp = { "cppcheck" },
+      -- cpp = { "cppcheck" },
       elixir = { "credo" },
       sh = { "shellcheck" },
     }
