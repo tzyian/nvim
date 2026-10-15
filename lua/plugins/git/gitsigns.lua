@@ -4,6 +4,7 @@ return {
 	event = "VeryLazy",
 	opts = {
 		-- See `:help gitsigns.txt`
+		base = "HEAD",
 		current_line_blame = true,
 		current_line_blame_opts = {
 			virt_text_pos = 'right_align',

@@ -1,5 +1,6 @@
 return { -- Autoformat
 	"stevearc/conform.nvim",
+	dependencies = { "lewis6991/gitsigns.nvim" },
 	event = { "BufWritePre", "BufNewFile" },
 	lazy = true,
 	cmd = { "ConformInfo", "ToggleBufferFormat", "ToggleGlobalFormat", "Format" },
@@ -19,15 +20,48 @@ return { -- Autoformat
 		},
 	},
 	config = function()
-		require("conform").setup({
-			format_on_save = function(bufnr)
-				-- Disable with a global or buffer-local variable
-				if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+		local conform = require("conform")
+		local gitsigns = require("gitsigns")
+
+		-- source: https://github.com/stevearc/conform.nvim/issues/92
+		local function format_git_hunks(bufnr)
+			local hunks = gitsigns.get_hunks(bufnr)
+			if not hunks then
+				local status = vim.b[bufnr].gitsigns_status_dict
+				if not status or status.added ~= nil then
 					return
 				end
-				return { timeout_ms = 500, lsp_format = "fallback", }
-			end,
+				hunks = {
+					{
+						type = "untracked",
+						added = { start = 0, count = vim.api.nvim_buf_line_count(bufnr) },
+					},
+				}
+			end
 
+			-- Format bottom-up so a formatter changing line counts cannot shift later ranges.
+			for i = #hunks, 1, -1 do
+				local hunk = hunks[i]
+				if hunk.type ~= "delete" then
+					local start = math.max(1, hunk.added.start)
+					local last = start + hunk.added.count
+					local last_line = vim.api.nvim_buf_get_lines(bufnr, last - 2, last - 1, false)[1] or ""
+					conform.format({
+						bufnr = bufnr,
+						async = false,
+						lsp_format = "fallback",
+						timeout_ms = 500,
+						range = {
+							start = { start, 0 },
+							["end"] = { last - 1, #last_line },
+						},
+					})
+				end
+			end
+		end
+
+		conform.setup({
+			format_on_save = false,
 			notify_on_error = false,
 			default_format_opts = {
 				lsp_format = "fallback",
@@ -56,6 +90,14 @@ return { -- Autoformat
 			},
 		})
 
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			callback = function(args)
+				if vim.g.disable_autoformat or vim.b[args.buf].disable_autoformat then
+					return
+				end
+				format_git_hunks(args.buf)
+			end,
+		})
 
 		vim.api.nvim_create_user_command("ToggleBufferFormat", function(args)
 			if vim.b.disable_autoformat then
