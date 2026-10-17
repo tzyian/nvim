@@ -91,12 +91,8 @@ return {
 
 		return {
 			-- Index
-			{ "<leader>hd", "<cmd>DiffviewOpen<cr>",                     desc = "Diff index (repo)" },
-			{ "<leader>hD", function() diff_buffers(nil) end,            desc = "Diff index (buffers)" },
-
-			-- Last commit
-			{ "<leader>hl", "<cmd>DiffviewOpen HEAD~1..HEAD<cr>",        desc = "Diff last commit (repo)" },
-			{ "<leader>hL", function() diff_buffers("HEAD~1..HEAD") end, desc = "Diff last commit (buffers)" },
+			{ "<leader>hd", "<cmd>DiffviewOpen<cr>",          desc = "Diff index (repo)" },
+			{ "<leader>hD", function() diff_buffers(nil) end, desc = "Diff index (buffers)" },
 
 			--- Master
 			{
@@ -112,12 +108,12 @@ return {
 
 			-- Branches
 			{
-				"<leader>hf",
+				"<leader>hb",
 				function() open_revision_picker("git_branches") end,
 				desc = "Diff branch (repo)",
 			},
 			{
-				"<leader>hF",
+				"<leader>hB",
 				function() open_revision_picker("git_branches", get_buffers()) end,
 				desc = "Diff branch (buffers)",
 			},

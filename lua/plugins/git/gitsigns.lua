@@ -69,7 +69,7 @@ return {
 			map("n", "<leader>hP", gs.preview_hunk, { desc = "Preview git hunk inline" })
 			map("n", "<leader>hp", gs.preview_hunk_inline, { desc = "Preview git hunk" })
 
-			map("n", "<leader>hb", function()
+			map("n", "<leader>hl", function()
 				gs.blame_line({ full = true })
 			end, { desc = "git blame line" })
 
