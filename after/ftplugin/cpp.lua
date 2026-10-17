@@ -1,5 +1,4 @@
 local bufnr = vim.api.nvim_get_current_buf()
-local opts = { noremap = true, silent = true, buffer = bufnr }
 
 vim.keymap.set('n', '<space>cB', function()
   local save_pos = vim.fn.getpos('.')
@@ -11,4 +10,4 @@ vim.keymap.set('n', '<space>cB', function()
   -- Restore cursor position and clear search highlight
   vim.fn.setpos('.', save_pos)
   vim.cmd('noh')
-end, { desc = "Square to curly" }, opts)
+end, { desc = "Square to curly", buffer = bufnr, noremap = true, silent = true })

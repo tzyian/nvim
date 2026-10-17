@@ -56,17 +56,6 @@ return {
 			desc = "Add line to quickfix"
 		},
 
-		{
-			"<leader>qq",
-			function()
-				if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
-					vim.cmd.cclose()
-				else
-					vim.cmd.copen()
-				end
-			end,
-			desc = "Toggle quickfix"
-		},
 
 		{
 			"<leader>qc",

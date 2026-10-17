@@ -2,19 +2,22 @@
 local function ai_whichkey()
   ---@type table<string, string|table>
   local objects = {
+    ["$"] = "Entire line",
     a = "Argument",
+    b = "Bracket",
     c = "Class",
     d = "Digit(s)",
+    D = "Diagnostic",
     e = "Word in CamelCase & snake_case",
     f = "Function call",
     F = "Function",
     g = "Entire file",
+    H = "Start of line",
     i = "Indent",
+    L = "End of line",
     o = "Block, conditional, loop",
     q = "Quote",
     t = "Tag",
-    u = "Use/call function & method",
-    U = "Use/call without dot in name",
   }
 
   local ret = { mode = { "o", "x" } }

@@ -165,8 +165,8 @@ return {
 							)
 						end
 
-						vim.keymap.set("n", "<leader>cl", toggle_codelens, { desc = "Toggle Code Lens" })
-						vim.keymap.set("n", "<leader>cR", vim.lsp.codelens.run, { desc = "Code Lens Run" })
+						vim.keymap.set("n", "<leader>cl", toggle_codelens, { desc = "Toggle Code Lens", buffer = bufnr })
+						vim.keymap.set("n", "<leader>cR", vim.lsp.codelens.run, { desc = "Code Lens Run", buffer = bufnr })
 					end
 				end,
 			})
