@@ -46,5 +46,33 @@ return {
 			"<cmd>Trouble todo<cr>",
 			desc = "Todo Comments (Trouble)",
 		},
+		{
+			"<leader>qa",
+			function()
+				vim.fn.setqflist({
+					{ filename = vim.fn.expand("%:p"), lnum = vim.fn.line("."), text = vim.fn.getline(".") }
+				}, "a")
+			end,
+			desc = "Add line to quickfix"
+		},
+
+		{
+			"<leader>qq",
+			function()
+				if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
+					vim.cmd.cclose()
+				else
+					vim.cmd.copen()
+				end
+			end,
+			desc = "Toggle quickfix"
+		},
+
+		{
+			"<leader>qc",
+			function() vim.fn.setqflist({}, "r") end,
+			desc = "Clear quickfix"
+		}
 	},
+
 }
