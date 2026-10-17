@@ -1,6 +1,7 @@
 return {
-	"mrjones2014/smart-splits.nvim",
+	"smart-splits-nvim/smart-splits.nvim",
 	event = "VeryLazy",
+	tag = "v2.1.1-final",
 	init = function()
 		-- tmux versions < 3.2 do not set env.TERM_PROGRAM, breaking tmux smart-splits
 		if vim.env.TMUX then
