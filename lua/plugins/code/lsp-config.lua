@@ -123,7 +123,7 @@ return {
 					-- Tinymist: allow labels to work in multi-file setups
 					local name = vim.fs.basename(vim.api.nvim_buf_get_name(args.buf))
 					if client and client.name == "tinymist" then
-						function pinBuffer()
+						local function pinBuffer()
 							client:exec_cmd({
 								title = "pin",
 								command = "tinymist.pinMain",
@@ -131,7 +131,7 @@ return {
 							}, { bufnr = bufnr })
 						end
 
-						function unpinBuffer()
+						local function unpinBuffer()
 							client:exec_cmd({
 								title = "unpin",
 								command = "tinymist.pinMain",
