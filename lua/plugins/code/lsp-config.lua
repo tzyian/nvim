@@ -105,8 +105,7 @@ return {
 				callback = function(args)
 					local bufnr = args.buf
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					-- Using inc-rename
-					-- vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
+					vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
 					vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Kind" })
 
