@@ -15,6 +15,12 @@ return {
 		vim.keymap.set("n", "<C-Down>", builtin.resize_down, { silent = true })
 		vim.keymap.set("n", "<C-Up>", builtin.resize_up, { silent = true })
 		vim.keymap.set("n", "<C-Right>", builtin.resize_right, { silent = true })
+
+		vim.keymap.set("n", "<M-S-Left>", builtin.resize_left, { silent = true })
+		vim.keymap.set("n", "<M-S-Down>", builtin.resize_down, { silent = true })
+		vim.keymap.set("n", "<M-S-Up>", builtin.resize_up, { silent = true })
+		vim.keymap.set("n", "<M-S-Right>", builtin.resize_right, { silent = true })
+
 		-- moving between splits
 		vim.keymap.set("n", "<C-h>", builtin.move_cursor_left)
 		vim.keymap.set("n", "<C-j>", builtin.move_cursor_down)
