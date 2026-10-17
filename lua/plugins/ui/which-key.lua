@@ -23,7 +23,6 @@ return {
 			{ "<leader>ht", group = "Git Toggles" },
 			{ "<leader>l",  group = "FileType" },
 			{ "<leader>m",  group = "Misc Config" },
-			{ "<leader>n",  "<cmd>NvimTreeToggle<CR>", desc = "Open file tree" },
 			{ "<leader>p",  group = "Preview / UI" },
 			{ "<leader>q",  group = "Diagnostics" },
 			{ "<leader>r",  group = "SnipRun",         mode = { "n", "v" } },
