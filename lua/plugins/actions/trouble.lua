@@ -46,10 +46,5 @@ return {
 			"<cmd>Trouble todo<cr>",
 			desc = "Todo Comments (Trouble)",
 		},
-		{
-			"<leader>ft",
-			"<cmd>TodoTelescope<cr>",
-			desc = "Todo Telescope (Trouble)",
-		},
 	},
 }

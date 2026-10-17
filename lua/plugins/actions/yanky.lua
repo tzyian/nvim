@@ -2,9 +2,9 @@ return {
   "gbprod/yanky.nvim",
   event = "VeryLazy",
   keys = {
-    { "[y",         "<Plug>(YankyPreviousEntry)" },
-    { "]y",         "<Plug>(YankyNextEntry)" },
-    { "<leader>fy", "<cmd>YankyRingHistory<cr>", desc = "YankyRingHistory" },
+    { "[y", "<Plug>(YankyPreviousEntry)" },
+    { "]y", "<Plug>(YankyNextEntry)" },
+    -- { "<leader>fy", "<cmd>YankyRingHistory<cr>", desc = "YankyRingHistory" },
   },
   opts = {
     highlight = {

@@ -1,6 +1,6 @@
 return {
 	"sindrets/diffview.nvim",
-	command = { "DiffviewOpen", "DiffviewFileHistory" },
+	cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles", "DiffviewRefresh", "DiffviewFileHistory" },
 	opts = {
 		keymaps = {
 			view = {
@@ -26,22 +26,26 @@ return {
 		end
 
 		local function open_revision_picker(picker, files)
-			local actions = require("telescope.actions")
-			local action_state = require("telescope.actions.state")
-			require("telescope.builtin")[picker]({
-				attach_mappings = function(bufnr)
-					actions.select_default:replace(function()
-						local selection = action_state.get_selected_entry()
-						actions.close(bufnr)
-						if not selection then return end
-						local revision = selection.value or selection.name
-						if not revision then
-							vim.notify("Could not read selected Git revision", vim.log.levels.ERROR)
+			local picker_fn = (picker == "git_branches") and Snacks.picker.git_branches or Snacks.picker.git_log
+			picker_fn({
+				confirm = function(p, item)
+					p:close()
+					local selected = p:selected()
+					if #selected == 2 then
+						local r1 = selected[1].commit or selected[1].branch
+						local r2 = selected[2].commit or selected[2].branch
+						if r1 and r2 then
+							open_diff(r2 .. ".." .. r1, files)
 							return
 						end
-						open_diff(revision, files)
-					end)
-					return true
+					end
+					if not item then return end
+					local revision = item.branch or item.commit
+					if not revision then
+						vim.notify("Could not read selected Git revision", vim.log.levels.ERROR)
+						return
+					end
+					open_diff(revision, files)
 				end,
 			})
 		end
