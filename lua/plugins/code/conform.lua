@@ -24,7 +24,12 @@ return { -- Autoformat
 		local gitsigns = require("gitsigns")
 
 		-- source: https://github.com/stevearc/conform.nvim/issues/92
+		local global_format = { "lua" }
 		local function format_git_hunks(bufnr)
+			if vim.tbl_contains(global_format, vim.bo.filetype) then
+				conform.format({ lsp_fallback = true, timeout_ms = 500 })
+				return
+			end
 			local hunks = gitsigns.get_hunks(bufnr)
 			if not hunks then
 				local status = vim.b[bufnr].gitsigns_status_dict
