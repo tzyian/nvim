@@ -15,22 +15,18 @@ return {
 		spec = {
 			{ "<leader>b",  group = "Buffer" },
 			{ "<leader>c",  group = "Code",            mode = { "n", "v" } },
-			{ "<leader>ct", group = "Toggle format" },
 			{ "<leader>d",  group = "Debug" },
 			{ "<leader>f",  group = "Find" },
 			{ "<leader>g",  group = "GoTo" },
 			{ "<leader>h",  group = "Git Hunk",        mode = { "n", "v" } },
-			{ "<leader>ht", group = "Git Toggles" },
-			{ "<leader>l",  group = "FileType" },
+			-- { "<leader>ht", group = "Git Toggles" },
 			{ "<leader>m",  group = "Misc Config" },
 			{ "<leader>p",  group = "Preview / UI" },
 			{ "<leader>q",  group = "Diagnostics" },
 			{ "<leader>r",  group = "SnipRun",         mode = { "n", "v" } },
 			{ "<leader>s",  group = "Session" },
-			{ "<leader>S",  group = "sshfs" },
 			{ "<leader>t",  group = "Terminal" },
 			{ "<leader>z",  group = "Leet" },
-			{ "<leader>fl", group = "Lsp" },
 			{ "<leader>fh", group = "Git" },
 
 			-- =============================================
