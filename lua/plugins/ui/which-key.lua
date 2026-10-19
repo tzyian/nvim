@@ -14,16 +14,16 @@ return {
 		delay = 0,
 		spec = {
 			{ "<leader>b",  group = "Buffer" },
-			{ "<leader>c",  group = "Code",            mode = { "n", "v" } },
+			{ "<leader>c",  group = "Code",        mode = { "n", "v" } },
 			{ "<leader>d",  group = "Debug" },
 			{ "<leader>f",  group = "Find" },
 			{ "<leader>g",  group = "GoTo" },
-			{ "<leader>h",  group = "Git Hunk",        mode = { "n", "v" } },
+			{ "<leader>h",  group = "Git Hunk",    mode = { "n", "v" } },
 			-- { "<leader>ht", group = "Git Toggles" },
 			{ "<leader>m",  group = "Misc Config" },
 			{ "<leader>p",  group = "Preview / UI" },
 			{ "<leader>q",  group = "Diagnostics" },
-			{ "<leader>r",  group = "SnipRun",         mode = { "n", "v" } },
+			{ "<leader>r",  group = "SnipRun",     mode = { "n", "v" } },
 			{ "<leader>s",  group = "Session" },
 			{ "<leader>t",  group = "Terminal" },
 			{ "<leader>z",  group = "Leet" },
@@ -124,21 +124,21 @@ return {
 					return active and { icon = " ", color = "green" } or { icon = " ", color = "yellow" }
 				end,
 			},
-			{
-				"<leader>htl",
-				function()
-					local gs = require("gitsigns")
-					gs.toggle_numhl() -- highlight numbers
-					gs.toggle_linehl() -- highlight lines
-					gs.toggle_deleted() -- show deleted lines
-					gs.toggle_word_diff()
-				end,
-				desc = "Toggle Git Show Changes",
-				icon = function()
-					local active = package.loaded.gitsigns and require("gitsigns.config").config.show_deleted
-					return active and { icon = " ", color = "green" } or { icon = " ", color = "yellow" }
-				end,
-			},
+			-- {
+			-- 	"<leader>htl",
+			-- 	function()
+			-- 		local gs = require("gitsigns")
+			-- 		gs.toggle_numhl() -- highlight numbers
+			-- 		gs.toggle_linehl() -- highlight lines
+			-- 		gs.toggle_deleted() -- show deleted lines
+			-- 		gs.toggle_word_diff()
+			-- 	end,
+			-- 	desc = "Toggle Git Show Changes",
+			-- 	icon = function()
+			-- 		local active = package.loaded.gitsigns and require("gitsigns.config").config.show_deleted
+			-- 		return active and { icon = " ", color = "green" } or { icon = " ", color = "yellow" }
+			-- 	end,
+			-- },
 			-- =============================================
 			-- PREVIEW & UI TOGGLES (<leader>p*)
 			-- =============================================
